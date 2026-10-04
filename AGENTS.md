@@ -36,7 +36,19 @@ No test framework, naming convention, runner, or coverage threshold is configure
 
 ## Commit & Pull Request Guidelines
 
-History contains only `Initial commit`; no recurring convention is established. Follow `ABOUT.md`: make granular Conventional Commits with Brazilian Portuguese descriptions. Use the structure `<type>: <description>`. Include the mandatory footer `LLM-Model: model-name (Provider)`, identifying the actual model used.
+Follow `ABOUT.md`: make granular Conventional Commits with Brazilian Portuguese descriptions. Use the structure `<type>: <description>`.
+
+Every commit message must include the footer `LLM-Model: model-name (Provider)`, separated from the description by a blank line. Identify the full model actually used in the current session, including its version and variant, and preserve the model and provider capitalization. Do not automatically convert model names to lowercase or use only a generic model family.
+
+Examples:
+
+- `LLM-Model: GPT-6.1-Sol (OpenAI)`
+- `LLM-Model: GPT-4.1 (OpenAI)`
+- `LLM-Model: Claude-Opus-4 (Anthropic)`
+- `LLM-Model: Gemini-2.5-Pro (Google)`
+- `LLM-Model: Nova-Pro (Amazon)`
+
+The repository history uses `LLM-Model: GPT-6.1-Sol (OpenAI)` for that model. Before each commit, verify the actual model used in the current session and the applicable footer format. Do not assume a previous session's model is still in use or invent an identifier if it is unavailable.
 
 Use feature branches and pull requests targeting `main`. Update `README.md` to reflect the delivered state. PR descriptions should explain purpose, changes, and validation; link relevant issues and include screenshots for UI changes when applicable.
 

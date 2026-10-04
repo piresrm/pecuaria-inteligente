@@ -115,7 +115,7 @@ A arquitetura, as tecnologias, as dependências e as fontes de dados ainda serã
 
 A viabilidade da plataforma depende da disponibilidade, do histórico, da qualidade e das permissões de uso das fontes. A frequência de atualização será definida por fonte e não pressupõe cotações em tempo real.
 
-Os próximos passos são documentar os requisitos da v0.1, definir a arquitetura, preparar dados fictícios de cria e recria em Goiás e implementar o fluxo de consulta. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
+Os [requisitos da v0.1](docs/superpowers/specs/2026-10-04-requisitos-v0.1-design.md) estão consolidados para revisão em `docs/superpowers/specs/`. Incluem os oito perfis de reposição, as dez regiões de planejamento do IMB, a visão estadual demonstrativa, o suporte a conexões rurais lentas e os critérios de segurança. Os próximos passos são revisar essa especificação, definir a arquitetura, preparar dados fictícios de cria e recria em Goiás e implementar o fluxo de consulta. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
 
 ## Créditos e licença
 
