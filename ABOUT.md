@@ -33,10 +33,10 @@ O GitHub será utilizado como repositório central de código, documentação e 
 
 - Commits granulares, agrupando apenas arquivos relacionados a uma mesma mudança.
 - Toda mensagem de commit deve incluir obrigatoriamente, no rodapé, a linha `LLM-Model: nome-do-modelo (Provedor)`. Exemplos:
-  - `LLM-Model: gpt-4.1 (OpenAI)`
-  - `LLM-Model: claude-opus-4 (Anthropic)`
-  - `LLM-Model: gemini-2.5-pro (Google)`
-  - `LLM-Model: nova-pro (Amazon)`
+  - `LLM-Model: GPT-4.1 (OpenAI)`
+  - `LLM-Model: Claude-Opus-4 (Anthropic)`
+  - `LLM-Model: Gemini-2.5-Pro (Google)`
+  - `LLM-Model: Nova-Pro (Amazon)`
 - Todo desenvolvimento em *feature branches*, com *pull requests* para o branch `main`, a fim de enriquecer o histórico do projeto. Todo PR deve garantir que o `README.md` esteja atualizado e reflita o estado atual do projeto.
 - Adotar TDD com o ciclo Red-Green-Refactor.
 - Seguir as [recomendações de segurança do GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/best-practices-for-repositories#secure-your-repository).
