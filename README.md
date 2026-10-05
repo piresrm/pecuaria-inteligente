@@ -100,7 +100,7 @@ A visão de longo prazo continua abrangendo toda a cadeia pecuária brasileira. 
 
 O projeto está em fase de concepção e documentação. Este README descreve a visão do produto e o *roadmap* proposto; as funcionalidades apresentadas ainda não constituem uma aplicação implementada neste repositório.
 
-A arquitetura, as tecnologias, as dependências e as fontes de dados ainda serão selecionadas. Não há, neste momento, procedimento de instalação, execução local ou exemplos de API. Essas instruções serão acrescentadas conforme a implementação avance.
+A arquitetura da v0.1 foi definida e aprovada. As tecnologias, as dependências e as fontes de dados reais ainda serão selecionadas; a v0.1 utilizará apenas dados demonstrativos. Não há, neste momento, procedimento de instalação, execução local ou exemplos de API. Essas instruções serão acrescentadas conforme a implementação avance.
 
 ## Qualidade e critérios de sucesso
 
@@ -115,7 +115,7 @@ A arquitetura, as tecnologias, as dependências e as fontes de dados ainda serã
 
 A viabilidade da plataforma depende da disponibilidade, do histórico, da qualidade e das permissões de uso das fontes. A frequência de atualização será definida por fonte e não pressupõe cotações em tempo real.
 
-Os [requisitos da v0.1](docs/superpowers/specs/2026-10-04-requisitos-v0.1-design.md) estão consolidados para revisão em `docs/superpowers/specs/`. Incluem os oito perfis de reposição, as dez regiões de planejamento do IMB, a visão estadual demonstrativa, o suporte a conexões rurais lentas e os critérios de segurança. Os próximos passos são revisar essa especificação, definir a arquitetura, preparar dados fictícios de cria e recria em Goiás e implementar o fluxo de consulta. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
+Os [requisitos da v0.1](docs/superpowers/specs/2026-10-04-requisitos-v0.1-design.md) estão consolidados em `docs/superpowers/specs/`. Incluem os oito perfis de reposição, as dez regiões de planejamento do IMB, a visão estadual demonstrativa, o suporte a conexões rurais lentas e os critérios de segurança. A [arquitetura aprovada](docs/superpowers/specs/2026-10-04-arquitetura-v0.1-design.md) define interface estática com dados obtidos automaticamente por API ligada ao banco, sem recompilar a página ao atualizar preços. Documenta componentes, contratos iniciais, moedas e unidades explícitas, cache, recuperação de falhas, limitação de requisições e orçamento inicial de desempenho, incluindo rotação da tela. Os próximos passos são selecionar tecnologias, preparar dados fictícios de cria e recria em Goiás e elaborar o plano de implementação. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
 
 ## Créditos e licença
 
