@@ -1,7 +1,7 @@
 # Tecnologias e implantação — v0.1 e v0.2
 
 Data: 06/10/2026.  
-Estado: registro das decisões de conversa, das recomendações técnicas e dos achados de documentação oficial. A seleção de tecnologias está parcialmente concluída; este documento não representa implementação nem aprovação de todas as recomendações.
+Estado: registro das decisões de conversa, das escolhas adotadas por delegação técnica e dos achados de documentação oficial. A seleção de tecnologias está parcialmente concluída; este documento não representa implementação nem aprovação das alternativas ainda candidatas.
 
 ## Objetivo e relação com a documentação
 
@@ -21,10 +21,14 @@ A v0.1 implementará a consulta demonstrativa de reposição em Goiás. A v0.2 p
 | Execução acadêmica | Definida pelo autor | Local, via Docker Compose. |
 | Coordenação local | Aprovada em conversa | Uma única instância da API, com um único processo. Cota por IP e limite de consultas simultâneas ao banco controlados em memória. |
 | Armazenamento compartilhado de coordenação | Adiado pelo autor | Avaliar Valkey ou Redis em versões futuras, antes de adotar múltiplas instâncias. Nenhum dos dois integra a entrega local da v0.1/v0.2. |
-| Banco | Aprovado pelo autor | PostgreSQL no Docker Compose para a v0.1/v0.2, com persistência em volume. Versão, acesso aos dados e migrações ainda serão definidos. |
+| Banco | Aprovado pelo autor | PostgreSQL no Docker Compose para a v0.1/v0.2, com persistência em volume. |
+| Versão e imagem do banco | Adotadas por delegação técnica | PostgreSQL 18.6, imagem oficial `postgres:18.6-bookworm`; revalidar correções disponíveis antes da implementação e fixar a imagem por resumo criptográfico. |
+| Acesso aos dados | Adotado por delegação técnica | Drizzle ORM `0.45.3` com o *driver* `pg` `8.23.1`, encapsulados no repositório do servidor. |
+| Migrações | Adotadas por delegação técnica | Drizzle Kit `0.31.11`: esquema em TypeScript, geração de SQL revisado e versionado, aplicação separada da API. |
+| Publicação dos dados | Mecanismo adotado por delegação técnica | Fotografias imutáveis identificadas por versão e troca transacional da referência publicada. Detalhamento físico e testes ficam para o plano. |
 | Implantação futura | Intenção do autor | Experimentar Vercel antes da v1.0. Compatibilidade documentada; configuração e viabilidade operacional ainda serão verificadas. |
 | Aritmética decimal | Candidata | `decimal.js` foi sugerida. Biblioteca, precisão e modo de arredondamento ainda precisam ser definidos. |
-| Demais ferramentas e versões | Pendentes | Validação de contratos, acesso ao banco, gráfico, persistência no navegador, testes, auditoria, formatação e ambiente reproduzível. |
+| Demais ferramentas e versões | Pendentes | Validação de contratos, gráfico, persistência no navegador, testes, auditoria, formatação e ambiente reproduzível. |
 
 ## Fundamento de TypeScript, React, Tailwind CSS e Vite
 
@@ -51,7 +55,7 @@ Fontes: [TypeScript — tipos removidos na compilação](https://www.typescriptl
 
 ### PostgreSQL — aprovado para execução local
 
-O autor escolheu PostgreSQL no Docker Compose. Os fundamentos abaixo registram a justificativa da escolha; versão, modelo físico, acesso aos dados e migrações permanecem pendentes.
+O autor escolheu PostgreSQL no Docker Compose e delegou a seleção das opções técnicas que dispensam sua avaliação. Foram adotados a versão, o acesso aos dados, as migrações e o mecanismo de publicação descritos abaixo. O detalhamento do modelo físico depende das definições restantes dos dados demonstrativos.
 
 Perfis, regiões, semanas, preços e versões têm estrutura estável. A arquitetura exige referências válidas, unicidade, valores positivos e publicação transacional. PostgreSQL permite expressar integridade referencial por chaves estrangeiras, unicidade por `UNIQUE` e restrições de valores por `CHECK`, reduzindo a lógica de integridade que a aplicação precisa manter.
 
@@ -62,6 +66,58 @@ O tipo `NUMERIC` permite armazenamento decimal. A precisão, a escala e a rejei�
 A escolha se fundamenta na adequação às regras documentadas. Não foi realizada uma medição comparativa de desempenho entre os bancos, nem demonstrada uma necessidade de capacidade que favoreça um deles.
 
 Fontes: [PostgreSQL — restrições](https://www.postgresql.org/docs/current/ddl-constraints.html) e [tipos numéricos](https://www.postgresql.org/docs/current/datatype-numeric.html).
+
+### Versão, imagem e persistência adotadas
+
+Adotar PostgreSQL 18.6, versão estável corrente na documentação consultada em 06/10/2026. A série 18 tem suporte previsto até novembro de 2030; a série 19 ainda está em *beta*. PostgreSQL 17 permanece válido, mas não há restrição documentada deste projeto que justifique iniciar numa série anterior. Essa escolha é uma avaliação de adequação, não um resultado de desempenho.
+
+Usar a imagem oficial `postgres:18.6-bookworm`. A base Debian foi escolhida para manter um ambiente convencional de administração e diagnóstico; o tamanho da imagem do banco não participa do orçamento transferido ao navegador. Antes de criar o Compose, conferir novas correções da série 18 e fixar a imagem adotada por resumo criptográfico. Atualizações serão explícitas e verificadas, sem depender de `latest`.
+
+Na imagem da série 18, montar o volume nomeado em `/var/lib/postgresql`; o diretório de dados padrão é `/var/lib/postgresql/18/docker`. Scripts em `/docker-entrypoint-initdb.d` executam apenas na inicialização de um volume vazio: não serão o mecanismo de evolução do esquema. Mudanças de versão principal exigem procedimento próprio de atualização do banco.
+
+Fontes: [política de versões do PostgreSQL](https://www.postgresql.org/support/versioning/) e [imagem oficial e caminhos de persistência](https://hub.docker.com/_/postgres).
+
+### Acesso aos dados e alternativas avaliadas
+
+| Opção | Adequação ao projeto | Resultado |
+| --- | --- | --- |
+| Drizzle ORM, `pg` e Drizzle Kit | Esquema em TypeScript, inferência de tipos nas consultas, acesso a SQL e migrações SQL revisáveis. Permite expressar as restrições relacionais exigidas. | Adotada. |
+| `pg` e `node-pg-migrate` | SQL explícito e migrações independentes; requer manter manualmente a correspondência entre consultas, resultados e tipos TypeScript. | Alternativa válida, sem a inferência do esquema oferecida pela escolha adotada. |
+| Prisma ORM | Alternativa válida com esquema e cliente próprios, consultas tipadas e ferramentas de migração. | Não adotada: o fluxo adicional não apresenta vantagem necessária para as duas operações públicas e a preparação demonstrativa deste MVP. |
+
+A preferência por Drizzle é uma avaliação técnica para este escopo. Não foi realizada comparação de desempenho, tamanho de instalação ou produtividade entre essas alternativas.
+
+Adotar as versões estáveis publicadas consultadas em 06/10/2026: `drizzle-orm` `0.45.3`, `pg` `8.23.1` e `drizzle-kit` `0.31.11`. O guia atual de início do Drizzle instala pacotes com `@rc`; seus exemplos não serão copiados sem conferir a compatibilidade com a linha estável. Fixar versões exatas e versionar o arquivo de resolução de dependências quando os manifestos forem introduzidos. A versão compatível de `@types/pg` será fixada junto ao ambiente TypeScript.
+
+O repositório do servidor encapsulará Drizzle, SQL e o conjunto reutilizável de conexões de `pg`. Consultas serão parametrizadas; SQL personalizado seguirá a mesma regra. Esquemas do banco e clientes de conexão não integrarão a compilação da interface. Tipos inferidos auxiliam o desenvolvimento, mas não validam dados durante a execução nem substituem os contratos HTTP.
+
+Preservar `NUMERIC` em modo textual no Drizzle, sem convertê-lo para `number`. Usar `DATE` em modo textual para a semana e `TIMESTAMPTZ(3)` para instantes, com serialização UTC conforme a arquitetura. No modelo físico, definir precisão, escala e restrições de valores finitos; a validação de entrada deverá rejeitar excesso de escala antes de o banco arredondá-lo. Consultas SQL personalizadas também deverão respeitar esses mapeamentos.
+
+Fontes: [integração Drizzle e PostgreSQL](https://orm.drizzle.team/docs/get-started/postgresql-new), [restrições e índices](https://orm.drizzle.team/docs/indexes-constraints), [SQL parametrizado](https://orm.drizzle.team/docs/sql), [tipos de `pg`](https://node-postgres.com/features/types), [representação numérica no Drizzle 0.45.3](https://github.com/drizzle-team/drizzle-orm/blob/0.45.3/drizzle-orm/src/pg-core/columns/numeric.ts), [datas civis nessa versão](https://github.com/drizzle-team/drizzle-orm/blob/0.45.3/drizzle-orm/src/pg-core/columns/date.ts), [tipos numéricos do PostgreSQL](https://www.postgresql.org/docs/18/datatype-numeric.html), [tipos temporais](https://www.postgresql.org/docs/18/datatype-datetime.html), [node-pg-migrate](https://github.com/salsita/node-pg-migrate/releases/tag/v9.0.0) e [recursos relacionais do Prisma](https://www.prisma.io/docs/orm/v7/reference/database-features).
+
+As versões foram conferidas também nos metadados públicos dos pacotes: [Drizzle ORM](https://registry.npmjs.org/drizzle-orm/0.45.3), [Drizzle Kit](https://registry.npmjs.org/drizzle-kit/0.31.11) e [`pg`](https://registry.npmjs.org/pg/8.23.1). São referências da pesquisa, não dependências instaladas ou uma validação integrada do ambiente.
+
+### Fluxo de migrações adotado
+
+Declarar o esquema físico em TypeScript, gerar migrações com `drizzle-kit generate`, revisar o SQL e versionar os arquivos e metadados gerados. Aplicar as migrações com `drizzle-kit migrate` numa operação única e separada da API, antes de disponibilizar a consulta. O plano definirá diretórios, configuração e comandos completos; esses comandos ainda não estão disponíveis no repositório.
+
+A API usará credenciais de leitura; migrações e publicação terão permissões próprias. A aplicação pública não alterará o esquema ao iniciar. O fluxo reproduzível usará arquivos de migração, preservando o histórico das mudanças. Uma migração já aplicada não será reescrita: correções entrarão numa nova migração.
+
+A geração automática não dispensa revisão de chaves estrangeiras compostas, verificações, índices e eventuais operações SQL personalizadas. A preparação demonstrativa será uma operação separada das migrações de estrutura. Os testes de integração deverão aplicar o histórico numa base vazia, reaplicá-lo sem repetir alterações e verificar atualização de uma base na versão anterior; usar PostgreSQL da mesma série da entrega, em vez de substituir suas regras por outro banco.
+
+Fontes: [fluxos de migração do Drizzle](https://orm.drizzle.team/docs/migrations), [geração](https://orm.drizzle.team/docs/drizzle-kit-generate) e [aplicação](https://orm.drizzle.team/docs/drizzle-kit-migrate).
+
+### Mecanismo de publicação adotado
+
+Representar cada fotografia por uma versão própria, com cadastros e preços associados à mesma versão. A identidade de uma cotação incluirá versão, perfil, região e semana; as referências aos cadastros também incluirão a versão. A referência da publicação atual ficará numa linha única do banco, criada pela migração antes da primeira publicação.
+
+Preparar e validar o conjunto demonstrativo fora da consulta pública. Para publicá-lo, usar uma transação com Drizzle: bloquear a linha da referência atual com `SELECT ... FOR UPDATE`, gravar a nova fotografia completa, registrar seu identificador e instante de publicação e atualizar a referência. Uma falha desfará a publicação inteira. O bloqueio serializa publicações concorrentes; os identificadores não dependerão do relógio do navegador. Fotografias publicadas não serão modificadas; correções produzirão nova versão.
+
+No resumo, ler a referência publicada antes de selecionar o conteúdo em *cache*. Ao detectar mudança, invalidar a entrada anterior e carregar o resumo da versão escolhida. Essa leitura de metadados também passará pelo controle de admissão ao banco. Depois de selecionar uma versão, todas as consultas daquela resposta usarão seu identificador, inclusive se houver publicação concorrente. Históricos solicitados continuarão vinculados à versão recebida pelo cliente. O TTL permanecerá uma proteção adicional, conforme a arquitetura.
+
+O plano detalhará tabelas, índices, proteção de imutabilidade, precisão decimal e retenção de versões. Esses detalhes serão conferidos com os dados demonstrativos e os testes de consistência já exigidos na [arquitetura](2026-10-04-arquitetura-v0.1-design.md#modelo-de-dados-e-publicação). Esta definição não escolhe um serviço de coordenação distribuída nem encerra as verificações necessárias para múltiplas instâncias.
+
+Fontes: [transações no Drizzle](https://orm.drizzle.team/docs/transactions), [bloqueio de linhas no PostgreSQL](https://www.postgresql.org/docs/18/explicit-locking.html#LOCKING-ROWS) e [isolamento transacional](https://www.postgresql.org/docs/18/transaction-iso.html).
 
 ### MongoDB — alternativa avaliada
 
@@ -79,7 +135,7 @@ Fontes: [MongoDB — validação e índices únicos](https://www.mongodb.com/doc
 
 ## Implantação local e compatibilidade futura com Vercel
 
-No Compose, preparar serviços para servir a interface compilada, executar a API e manter PostgreSQL com volume persistente. A preparação e publicação demonstrativa será uma operação separada da consulta pública. Os detalhes de imagens, inicialização, verificações de disponibilidade, rede, HTTPS local e comandos ainda serão definidos no plano.
+No Compose, preparar serviços para servir a interface compilada, executar a API e manter PostgreSQL com volume persistente. A preparação e publicação demonstrativa será uma operação separada da consulta pública. A imagem do banco foi definida nesta etapa; as demais imagens, a inicialização, as verificações de disponibilidade, a rede, o HTTPS local e os comandos ainda serão definidos no plano.
 
 Expor interface e API pela mesma origem, com encaminhamento de `/api/`, preserva a recomendação da arquitetura. Foi aprovada uma única instância da API, com um único processo atendendo às consultas na entrega local. A cota por IP e o limite global de consultas simultâneas ao banco serão controlados em memória nesse processo. Essa decisão orientará a configuração do Compose e os testes. Um contêiner com vários processos ou várias réplicas exigirá os controles distribuídos descritos abaixo antes de sua adoção.
 
@@ -105,11 +161,11 @@ Os limites globais e os cenários obrigatórios de teste estão na [política de
 
 Esses exemplos usam os valores iniciais já propostos na arquitetura. O limite de 120 requisições por minuto é uma taxa de reposição contínua, não uma janela fixa; a capacidade de 30 permissões também faz parte da política.
 
-### Mecanismos a selecionar
+### Mecanismos antes de ampliar a implantação
 
 Uma entrada única pode controlar as cotas por IP; alternativamente, as instâncias podem usar contadores compartilhados com operações atômicas. O limite global de operações no banco precisa de um mecanismo equivalente de admissão e liberação, inclusive após cancelamento ou falha de processo. Não basta configurar um conjunto de conexões de tamanho 20 em cada instância.
 
-Para a versão dos dados, usar uma referência publicada no banco e chaves de *cache* por versão. Selecionar também um mecanismo de invalidação ou verificação que alcance todas as instâncias, incluindo a comunicação entre a preparação dos dados e a API. O TTL de 60 segundos é uma proteção adicional, não substitui por si só a invalidação exigida após publicação.
+A publicação e a seleção de versões na entrega local seguem o [mecanismo adotado](#mecanismo-de-publicação-adotado). Antes de ampliar a implantação, verificar seu comportamento entre instâncias e o custo da leitura da referência publicada. Qualquer substituição dessa leitura por notificações ou outro mecanismo deverá preservar a invalidação e a consistência exigidas na arquitetura, inclusive após falhas de comunicação.
 
 O autor decidiu deixar Valkey ou Redis para versões futuras. Ambos são candidatos à coordenação compartilhada, e a escolha entre eles permanece pendente. A entrega local da v0.1/v0.2 usará controles em memória no único processo da API. Os limites por IP e de concorrência continuam obrigatórios nessa entrega; o adiamento se aplica ao armazenamento compartilhado. Antes de ampliar para múltiplas instâncias, selecionar e testar o mecanismo distribuído conforme a hospedagem. Implementações locais e distribuídas poderão ter a mesma interface, com regras e contratos preservados.
 
@@ -121,7 +177,7 @@ Executar na infraestrutura de destino os cenários de limitação, falhas e cons
 
 ## Definições restantes antes do plano de implementação
 
-1. Definir a versão de PostgreSQL, a biblioteca de acesso aos dados, as migrações, o modelo físico e o mecanismo de publicação transacional.
+1. Detalhar o modelo físico com Drizzle e as migrações: tabelas, índices, precisão/escala, proteção de imutabilidade e retenção de versões, após fixar os dados demonstrativos. Versão do PostgreSQL, acesso, ferramenta de migrações e mecanismo de publicação já foram adotados.
 2. Formalizar os esquemas das respostas e escolher validação, aritmética decimal, persistência no navegador e gráfico.
 3. Selecionar testes, auditoria de dependências, regras do Semgrep e integração contínua; TDD já está estabelecido.
 4. Fixar versões, gerenciador de pacotes, diretórios, formatação, análise estática, configuração do Compose e comandos reproduzíveis.
@@ -129,4 +185,4 @@ Executar na infraestrutura de destino os cenários de limitação, falhas e cons
 6. Definir apresentação visual e navegadores suportados, preservando estados de consulta, acessibilidade e rotação de tela já exigidos.
 7. Medir a representação persistida do resumo e dos oito históricos para definir o orçamento de armazenamento, incluindo margem e troca segura de versões, antes de fechar essa configuração no plano.
 
-As escolhas pendentes devem ser revisadas e registradas antes de serem tratadas como aprovadas. A implementação e as medições produzirão evidências próprias; este registro preserva a pesquisa e suas implicações.
+As escolhas técnicas registradas como adotadas foram resolvidas sob a delegação do autor. Decisões de produto e escolhas ainda pendentes devem ser revisadas e registradas antes de serem tratadas como aprovadas. A implementação e as medições produzirão evidências próprias; este registro preserva a pesquisa e suas implicações.
