@@ -25,7 +25,7 @@ A v0.1 implementará a consulta demonstrativa de reposição em Goiás. A v0.2 p
 | Versão e imagem do banco | Adotadas por delegação técnica | PostgreSQL 18.6, imagem oficial `postgres:18.6-bookworm`; revalidar correções disponíveis antes da implementação e fixar a imagem por resumo criptográfico. |
 | Acesso aos dados | Adotado por delegação técnica | Drizzle ORM `0.45.3` com o *driver* `pg` `8.23.1`, encapsulados no repositório do servidor. |
 | Migrações | Adotadas por delegação técnica | Drizzle Kit `0.31.11`: esquema em TypeScript, geração de SQL revisado e versionado, aplicação separada da API. |
-| Publicação dos dados | Mecanismo adotado por delegação técnica | Fotografias imutáveis identificadas por versão e troca transacional da referência publicada. Detalhamento físico e testes ficam para o plano. |
+| Publicação dos dados | Mecanismo adotado por delegação técnica | Fotografias imutáveis identificadas por versão e troca transacional da referência publicada. Modelo físico definido em documento próprio; implementação e testes ficam para o plano. |
 | Implantação futura | Intenção do autor | Experimentar Vercel antes da v1.0. Compatibilidade documentada; configuração e viabilidade operacional ainda serão verificadas. |
 | Contratos e validação | Adotados por delegação técnica | JSON Schema Draft 7 com TypeBox `1.3.36`, `@fastify/type-provider-typebox` `6.1.0`, Ajv `8.20.0` e `ajv-formats` `3.0.1`. Validadores do navegador gerados na compilação. |
 | Aritmética decimal | Adotada por delegação técnica | `big.js` `7.0.1`; entradas textuais, somas exatas, 40 casas para divisões e desempate para longe de zero na apresentação. |
@@ -125,11 +125,11 @@ No plano, formalizar os esquemas e exemplos completos, os detalhes do armazename
 
 ### PostgreSQL — aprovado para execução local
 
-O autor escolheu PostgreSQL no Docker Compose e delegou a seleção das opções técnicas que dispensam sua avaliação. Foram adotados a versão, o acesso aos dados, as migrações e o mecanismo de publicação descritos abaixo. O detalhamento do modelo físico depende das definições restantes dos dados demonstrativos.
+O autor escolheu PostgreSQL no Docker Compose e delegou a seleção das opções técnicas que dispensam sua avaliação. Foram adotados a versão, o acesso aos dados, as migrações e o mecanismo de publicação descritos abaixo. A base demonstrativa foi fixada, e o [modelo físico](2026-10-07-modelo-fisico-postgresql-v0.1-design.md) define tabelas, restrições, índices, precisão, imutabilidade e retenção.
 
 Perfis, regiões, semanas, preços e versões têm estrutura estável. A arquitetura exige referências válidas, unicidade, valores positivos e publicação transacional. PostgreSQL permite expressar integridade referencial por chaves estrangeiras, unicidade por `UNIQUE` e restrições de valores por `CHECK`, reduzindo a lógica de integridade que a aplicação precisa manter.
 
-Uma cotação poderá ser impedida pelo próprio banco de referenciar um perfil ou uma região inexistente. A modelagem deverá impedir também referências entre versões incompatíveis. A unicidade será definida dentro da versão ou do conjunto publicado, conforme o modelo final; preservar versões anteriores não autoriza duplicatas dentro de uma mesma versão.
+Uma cotação poderá ser impedida pelo próprio banco de referenciar um perfil ou uma região inexistente. A modelagem deverá impedir também referências entre versões incompatíveis. A unicidade incluirá versão, perfil, região e semana, conforme o modelo físico; preservar versões anteriores não autoriza duplicatas dentro de uma mesma versão.
 
 O tipo `NUMERIC` permite armazenamento decimal. A precisão, a escala e a rejeição de valores especiais precisarão ser configuradas para preservar os requisitos. O contrato HTTP continuará usando cadeias decimais, e os cálculos do navegador continuarão exigindo uma biblioteca decimal.
 
@@ -161,7 +161,7 @@ Adotar as versões estáveis publicadas consultadas em 06/10/2026: `drizzle-orm`
 
 O repositório do servidor encapsulará Drizzle, SQL e o conjunto reutilizável de conexões de `pg`. Consultas serão parametrizadas; SQL personalizado seguirá a mesma regra. Esquemas do banco e clientes de conexão não integrarão a compilação da interface. Tipos inferidos auxiliam o desenvolvimento, mas não validam dados durante a execução nem substituem os contratos HTTP.
 
-Preservar `NUMERIC` em modo textual no Drizzle, sem convertê-lo para `number`. Usar `DATE` em modo textual para a semana e `TIMESTAMPTZ(3)` para instantes, com serialização UTC conforme a arquitetura. No modelo físico, definir precisão, escala e restrições de valores finitos; a validação de entrada deverá rejeitar excesso de escala antes de o banco arredondá-lo. Consultas SQL personalizadas também deverão respeitar esses mapeamentos.
+Preservar `NUMERIC` em modo textual no Drizzle, sem convertê-lo para `number`. Usar `DATE` em modo textual para a semana e `TIMESTAMPTZ(3)` para instantes, com serialização UTC conforme a arquitetura. Precisão, escala e restrições de valores finitos estão no modelo físico; a validação de entrada deverá rejeitar excesso de escala antes de o banco arredondá-lo. Consultas SQL personalizadas também deverão respeitar esses mapeamentos.
 
 Fontes: [integração Drizzle e PostgreSQL](https://orm.drizzle.team/docs/get-started/postgresql-new), [restrições e índices](https://orm.drizzle.team/docs/indexes-constraints), [SQL parametrizado](https://orm.drizzle.team/docs/sql), [tipos de `pg`](https://node-postgres.com/features/types), [representação numérica no Drizzle 0.45.3](https://github.com/drizzle-team/drizzle-orm/blob/0.45.3/drizzle-orm/src/pg-core/columns/numeric.ts), [datas civis nessa versão](https://github.com/drizzle-team/drizzle-orm/blob/0.45.3/drizzle-orm/src/pg-core/columns/date.ts), [tipos numéricos do PostgreSQL](https://www.postgresql.org/docs/18/datatype-numeric.html), [tipos temporais](https://www.postgresql.org/docs/18/datatype-datetime.html), [node-pg-migrate](https://github.com/salsita/node-pg-migrate/releases/tag/v9.0.0) e [recursos relacionais do Prisma](https://www.prisma.io/docs/orm/v7/reference/database-features).
 
@@ -185,7 +185,7 @@ Preparar e validar o conjunto demonstrativo fora da consulta pública. Para publ
 
 No resumo, ler a referência publicada antes de selecionar o conteúdo em *cache*. Ao detectar mudança, invalidar a entrada anterior e carregar o resumo da versão escolhida. Essa leitura de metadados também passará pelo controle de admissão ao banco. Depois de selecionar uma versão, todas as consultas daquela resposta usarão seu identificador, inclusive se houver publicação concorrente. Históricos solicitados continuarão vinculados à versão recebida pelo cliente. O TTL permanecerá uma proteção adicional, conforme a arquitetura.
 
-O plano detalhará tabelas, índices, proteção de imutabilidade, precisão decimal e retenção de versões. Esses detalhes serão conferidos com os dados demonstrativos e os testes de consistência já exigidos na [arquitetura](2026-10-04-arquitetura-v0.1-design.md#modelo-de-dados-e-publicação). Esta definição não escolhe um serviço de coordenação distribuída nem encerra as verificações necessárias para múltiplas instâncias.
+Tabelas, índices, precisão decimal, proteção de imutabilidade e retenção estão no [modelo físico do PostgreSQL](2026-10-07-modelo-fisico-postgresql-v0.1-design.md). O plano transformará essas definições em esquema, migrações e testes de consistência exigidos na [arquitetura](2026-10-04-arquitetura-v0.1-design.md#modelo-de-dados-e-publicação). Esta definição não escolhe um serviço de coordenação distribuída nem encerra as verificações necessárias para múltiplas instâncias.
 
 Fontes: [transações no Drizzle](https://orm.drizzle.team/docs/transactions), [bloqueio de linhas no PostgreSQL](https://www.postgresql.org/docs/18/explicit-locking.html#LOCKING-ROWS) e [isolamento transacional](https://www.postgresql.org/docs/18/transaction-iso.html).
 
@@ -422,13 +422,16 @@ O autor solicitou pesquisa pública e montagem da base fixa. O conjunto `go-repo
 
 Os preços são fictícios, preservando a natureza demonstrativa da v0.1/v0.2. A pesquisa pública não antecipa a integração de séries reais nem configura autorização de uso para a v0.3.
 
+## Modelo físico definido
+
+O [modelo físico do PostgreSQL](2026-10-07-modelo-fisico-postgresql-v0.1-design.md) concentra as sete tabelas, chaves compostas por versão, índices, precisão e escala, publicação transacional, proteção por permissões e gatilhos, retenção integral durante v0.1/v0.2 e responsabilidades das migrações. A definição foi adotada sob a delegação técnica do autor; esquema, migrações e testes serão construídos no plano de implementação.
+
 ## Definições restantes antes do plano de implementação
 
-1. Detalhar o modelo físico com Drizzle e as migrações: tabelas, índices, precisão/escala, proteção de imutabilidade e retenção de versões, usando os dados demonstrativos fixados. Versão do PostgreSQL, acesso, ferramenta de migrações e mecanismo de publicação já foram adotados.
-2. Formalizar os esquemas completos e exemplos das respostas com TypeBox, os limites de entrada e os detalhes do armazenamento com IndexedDB. Validação, aritmética decimal, persistência e gráfico já foram adotados; verificar suas configurações nos testes e medições da implementação.
-3. Detalhar a configuração das ferramentas de teste, auditoria e integração contínua adotadas; fixar os arquivos e a revisão das regras comunitárias do Semgrep e seus testes. TDD e Semgrep foram confirmados pelo autor; as configurações executáveis serão criadas com a implementação.
-4. Formalizar os arquivos do ambiente e os comandos completos no plano: manifestos, compilação, geração de validadores, formatação, verificações estáticas, Compose, segredos e confiança HTTPS local. Versões de referência, imagens, diretórios e convenções já foram adotados; instalar e verificar a combinação na implementação.
-5. Definir apresentação visual e navegadores suportados, preservando estados de consulta, acessibilidade e rotação de tela já exigidos.
-6. Medir a representação persistida do resumo e dos oito históricos para definir o orçamento de armazenamento, incluindo margem e troca segura de versões, antes de fechar essa configuração no plano.
+1. Formalizar os esquemas completos e exemplos das respostas com TypeBox, os limites de entrada e os detalhes do armazenamento com IndexedDB. Validação, aritmética decimal, persistência e gráfico já foram adotados; verificar suas configurações nos testes e medições da implementação.
+2. Detalhar a configuração das ferramentas de teste, auditoria e integração contínua adotadas; fixar os arquivos e a revisão das regras comunitárias do Semgrep e seus testes. TDD e Semgrep foram confirmados pelo autor; as configurações executáveis serão criadas com a implementação.
+3. Formalizar os arquivos do ambiente e os comandos completos no plano: manifestos, compilação, geração de validadores, formatação, verificações estáticas, Compose, segredos e confiança HTTPS local. Versões de referência, imagens, diretórios e convenções já foram adotados; instalar e verificar a combinação na implementação.
+4. Definir apresentação visual e navegadores suportados, preservando estados de consulta, acessibilidade e rotação de tela já exigidos.
+5. Medir a representação persistida do resumo e dos oito históricos para definir o orçamento de armazenamento, incluindo margem e troca segura de versões, antes de fechar essa configuração no plano.
 
 As escolhas técnicas registradas como adotadas foram resolvidas sob a delegação do autor. Decisões de produto e escolhas ainda pendentes devem ser revisadas e registradas antes de serem tratadas como aprovadas. A implementação e as medições produzirão evidências próprias; este registro preserva a pesquisa e suas implicações.
