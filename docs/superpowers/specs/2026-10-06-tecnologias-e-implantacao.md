@@ -428,16 +428,20 @@ O [modelo físico do PostgreSQL](2026-10-07-modelo-fisico-postgresql-v0.1-design
 
 ## Contratos e armazenamento definidos
 
-Os [contratos da API e do IndexedDB](2026-10-07-contratos-api-e-indexeddb-v0.1-design.md) fixam campos, limites, exemplos completos, validação estrutural e semântica, protocolo condicional, chaves locais, confirmação atômica e concorrência entre abas. Os esquemas JSON Schema são referência verificável para as declarações futuras em TypeBox. O orçamento real de armazenamento permanece pendente de medição; rotas, validadores e persistência ainda serão implementados.
+Os [contratos da API e do IndexedDB](2026-10-07-contratos-api-e-indexeddb-v0.1-design.md) fixam campos, limites, exemplos completos, validação estrutural e semântica, protocolo condicional, chaves locais, confirmação atômica e concorrência entre abas. Os esquemas JSON Schema são referência verificável para as declarações futuras em TypeBox. O orçamento local adotado é de 10.240 KiB (10 MiB), com contabilidade conservadora e troca segura; a medição no Chrome e a dispensa de medições adicionais estão na [definição de apresentação e armazenamento](2026-10-07-apresentacao-e-armazenamento-v0.1-design.md). Rotas, validadores e persistência ainda serão implementados.
 
 ## Testes, auditoria e CI definidos
 
 A [configuração de qualidade](2026-10-07-testes-auditoria-e-ci-v0.1-design.md) concentra projetos de teste, cenários, isolamento, prazos, comandos previstos, auditoria, seleção Semgrep com revisão/hashes e casos positivos/negativos, fluxo GitHub Actions e evidências. A definição está concluída; a aplicação, as suítes e o fluxo CI ainda serão implementados. As referências Semgrep foram verificadas em ambiente temporário, com os limites registrados no documento.
 
-## Definições restantes antes do plano de implementação
+## Apresentação, navegadores e armazenamento definidos
 
-1. Formalizar os arquivos do ambiente e os comandos completos no plano: manifestos, compilação, geração de validadores, formatação, verificações estáticas, Compose, segredos e confiança HTTPS local. Versões de referência, imagens, diretórios e convenções já foram adotados; instalar e verificar a combinação na implementação.
-2. Definir apresentação visual e navegadores suportados, preservando estados de consulta, acessibilidade e rotação de tela já exigidos.
-3. Medir a representação persistida do resumo e dos oito históricos para definir o orçamento de armazenamento, incluindo margem e troca segura de versões, antes de fechar essa configuração no plano.
+A [definição aprovada](2026-10-07-apresentacao-e-armazenamento-v0.1-design.md) adota painel com indicadores em destaque, verde profundo e tons de terra, faixa com gado no pasto no computador e boi no curral no celular, sobreposição e degradê. Imagens terão variantes de dimensão, carregamento responsivo e formatos comprimidos. Chrome, Edge, Firefox e Safari compõem a matriz de suporte.
 
-As escolhas técnicas registradas como adotadas foram resolvidas sob a delegação do autor. Decisões de produto e escolhas ainda pendentes devem ser revisadas e registradas antes de serem tratadas como aprovadas. A implementação e as medições produzirão evidências próprias; este registro preserva a pesquisa e suas implicações.
+O armazenamento local terá orçamento total de 10.240 KiB (10 MiB), incluindo coexistência durante a troca. O autor dispensou medições adicionais nos demais navegadores; a evidência obtida no Chrome está registrada, sem alegar validação de toda a matriz. Permanecem tratamento de quota, preservação da consulta e confirmação atômica.
+
+## Próxima etapa: plano de implementação
+
+As decisões necessárias ao plano estão concluídas. Formalizar os arquivos e comandos completos: manifestos, compilação, geração de validadores, formatação, verificações estáticas, Compose, segredos e confiança HTTPS local. Versões, imagens, diretórios e convenções já foram adotados; instalar e verificar a combinação durante a implementação, mantendo os limites de desempenho e os testes aprovados.
+
+As escolhas técnicas foram resolvidas sob a delegação do autor, e as decisões de apresentação e orçamento foram aprovadas em conversa. Os documentos registram definições e evidências parciais; aplicação, imagens finais e medições de desempenho ainda não foram implementadas.
