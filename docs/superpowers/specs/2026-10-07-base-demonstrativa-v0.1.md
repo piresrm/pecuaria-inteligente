@@ -34,6 +34,27 @@ O [indicador do bezerro do CEPEA/ESALQ](https://cepea.org.br/br/indicador/bezerr
 
 A consulta pública da Scot não estabelece autorização para coleta periódica ou republicação de séries históricas. A pesquisa desta entrega registra parâmetros e referências, sem incorporar observações comerciais na tabela de preços demonstrativos.
 
+### Conferência da ordem de grandeza dos preços
+
+Em 07/10/2026, a pedido do autor, foram comparados os extremos efetivos do CSV com as referências por cabeça de Goiás da [tabela Scot de 06/10/2026](https://www.scotconsultoria.com.br/cotacoes/reposicao/). A comparação é nominal e serve à avaliação da escala dos valores. Não harmoniza condições comerciais das fontes nem valida preços por região ou data do histórico fictício.
+
+| Perfil | Faixa fictícia do CSV, R$/cabeça | Referência pública de Goiás, R$/cabeça |
+| --- | ---: | ---: |
+| Bezerro/Macho/Nelore | 2.950,00 a 3.700,00 | 3.738,73 |
+| Bezerro/Macho/Mestiço | 2.838,41 a 3.148,00 | 3.145,56 |
+| Bezerra/Fêmea/Nelore | 2.538,72 a 2.822,31 | 2.888,68 |
+| Bezerra/Fêmea/Mestiça | 2.139,03 a 2.396,62 | 2.455,38 |
+| Garrote/Macho/Nelore | 4.039,34 a 4.400,93 | 4.385,50 |
+| Garrote/Macho/Mestiço | 3.439,65 a 3.775,24 | 3.727,00 |
+| Novilha/Fêmea/Nelore | 3.139,96 a 3.449,55 | 3.436,65 |
+| Novilha/Fêmea/Mestiça | 2.690,27 a 2.973,86 | 2.921,15 |
+
+Os extremos fictícios ficam entre 21,1% abaixo e 1,8% acima das referências individuais usadas nessa comparação. Esse desvio é uma descrição calculada da base, não uma faixa de mercado estabelecida ou um limite estatístico. A tabela pública é posterior em seis dias ao fim da janela demonstrativa.
+
+Como conferência adicional dentro da janela, a [publicação Scot de 18/05/2026](https://www.scotconsultoria.com.br/imprimir/carne/10146) informa, para Goiás na semana de 08 a 14/05/2026, bezerro Nelore de ano a R$ 3.475,60, garrote a R$ 3.965,10, bezerra de ano a R$ 2.528,40 e novilha a R$ 2.998,80. Esses pontos também sustentam a escala de alguns milhares de reais para os perfis, sem demonstrar que toda a trajetória fictícia ou seus extremos ocorreram no mercado.
+
+**Conclusão técnica:** os preços são plausíveis em ordem de grandeza para a demonstração acadêmica. Manter o conjunto e seu identificador, sem alterar CSV, receita, cenários ou resumos SHA-256. Os pontos reais acima permanecem apenas nesta comparação documental e não integram o conjunto de preços demonstrativos.
+
 ### Regiões e municípios
 
 Adotar a classificação da publicação [Regiões de Planejamento do Estado de Goiás — 2018, do IMB](https://goias.gov.br/imb/regioes-de-planejamento-do-estado-de-goias-2018/), publicada em 13/04/2018. A [planilha oficial](https://goias.gov.br/imb/wp-content/uploads/sites/29/2018/04/regplan2018-69c.xls) contém as listas municipais na coluna A da Tabela 01 de cada região, nas dez folhas terminadas em `3`.
