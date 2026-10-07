@@ -416,14 +416,19 @@ Não é necessário compartilhar todo o conteúdo em memória nem fazer todas as
 
 Executar na infraestrutura de destino os cenários de limitação, falhas e consistência de versões definidos na arquitetura, distribuindo as chamadas entre pelo menos duas instâncias. Repetir as medições do [orçamento de desempenho](2026-10-04-arquitetura-v0.1-design.md#orçamento-de-desempenho-proposto). Execução local em uma instância não comprova comportamento distribuído.
 
+## Base demonstrativa definida
+
+O autor solicitou pesquisa pública e montagem da base fixa. O conjunto `go-reposicao-demo-2026-10-07-r1` foi preparado em `data/demonstrativa/v0.1/`, com os oito perfis, composição municipal completa e versão territorial do IMB, janela de 12 meses com referência semanal, receita determinística e lacunas controladas. A [documentação da base](2026-10-07-base-demonstrativa-v0.1.md) concentra parâmetros, fontes, arquivos e cenários; este registro mantém as decisões tecnológicas e as pendências.
+
+Os preços são fictícios, preservando a natureza demonstrativa da v0.1/v0.2. A pesquisa pública não antecipa a integração de séries reais nem configura autorização de uso para a v0.3.
+
 ## Definições restantes antes do plano de implementação
 
-1. Detalhar o modelo físico com Drizzle e as migrações: tabelas, índices, precisão/escala, proteção de imutabilidade e retenção de versões, após fixar os dados demonstrativos. Versão do PostgreSQL, acesso, ferramenta de migrações e mecanismo de publicação já foram adotados.
+1. Detalhar o modelo físico com Drizzle e as migrações: tabelas, índices, precisão/escala, proteção de imutabilidade e retenção de versões, usando os dados demonstrativos fixados. Versão do PostgreSQL, acesso, ferramenta de migrações e mecanismo de publicação já foram adotados.
 2. Formalizar os esquemas completos e exemplos das respostas com TypeBox, os limites de entrada e os detalhes do armazenamento com IndexedDB. Validação, aritmética decimal, persistência e gráfico já foram adotados; verificar suas configurações nos testes e medições da implementação.
 3. Detalhar a configuração das ferramentas de teste, auditoria e integração contínua adotadas; fixar os arquivos e a revisão das regras comunitárias do Semgrep e seus testes. TDD e Semgrep foram confirmados pelo autor; as configurações executáveis serão criadas com a implementação.
 4. Formalizar os arquivos do ambiente e os comandos completos no plano: manifestos, compilação, geração de validadores, formatação, verificações estáticas, Compose, segredos e confiança HTTPS local. Versões de referência, imagens, diretórios e convenções já foram adotados; instalar e verificar a combinação na implementação.
-5. Definir idade e peso dos oito perfis, composição municipal e versão territorial, janela de 12 meses, convenção semanal e geração reproduzível de preços e lacunas.
-6. Definir apresentação visual e navegadores suportados, preservando estados de consulta, acessibilidade e rotação de tela já exigidos.
-7. Medir a representação persistida do resumo e dos oito históricos para definir o orçamento de armazenamento, incluindo margem e troca segura de versões, antes de fechar essa configuração no plano.
+5. Definir apresentação visual e navegadores suportados, preservando estados de consulta, acessibilidade e rotação de tela já exigidos.
+6. Medir a representação persistida do resumo e dos oito históricos para definir o orçamento de armazenamento, incluindo margem e troca segura de versões, antes de fechar essa configuração no plano.
 
 As escolhas técnicas registradas como adotadas foram resolvidas sob a delegação do autor. Decisões de produto e escolhas ainda pendentes devem ser revisadas e registradas antes de serem tratadas como aprovadas. A implementação e as medições produzirão evidências próprias; este registro preserva a pesquisa e suas implicações.

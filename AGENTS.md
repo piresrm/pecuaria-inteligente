@@ -6,7 +6,8 @@ Pecuária Inteligente is a Brazilian livestock market intelligence MVP covering 
 
 - `README.md`: product scope, planned features, roadmap, and quality criteria.
 - `ABOUT.md`: academic context, contribution preferences, and delivery checklist.
-- No source directories, tests, assets, dependency manifests, or CI configuration exist yet.
+- `data/demonstrativa/v0.1/`: fixed CSV/JSON demonstration data, provenance, generation recipe, expected scenarios, and SHA-256 checksums.
+- No application source directories, test suites, dependency manifests, or CI configuration exist yet.
 
 Define requirements and architecture before selecting technologies. Document new module locations in `README.md`. Keep initial work focused on market monitoring; individual herd management is outside the initial scope. Do not version `PROMPTS.md`.
 

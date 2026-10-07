@@ -1,0 +1,1598 @@
+[
+  {
+    "id": "metropolitana-goiania",
+    "ordem": 1,
+    "codigoImb": "001",
+    "nome": "Região Metropolitana de Goiânia",
+    "nomeFonteImb": "Região Metropolitana de Goiânia",
+    "versaoTerritorial": "imb-regplan-2018",
+    "referenciaTerritorialId": "imb-regplan-2018",
+    "folhaFonteImb": "Reg_Metrop 3",
+    "municipios": [
+      {
+        "codigoIbge": "5200050",
+        "nome": "Abadia de Goiás",
+        "nomeFonte": "Abadia de Goiás",
+        "linhaFonte": 7
+      },
+      {
+        "codigoIbge": "5201405",
+        "nome": "Aparecida de Goiânia",
+        "nomeFonte": "Aparecida de Goiânia",
+        "linhaFonte": 8
+      },
+      {
+        "codigoIbge": "5201801",
+        "nome": "Aragoiânia",
+        "nomeFonte": "Aragoiânia",
+        "linhaFonte": 9
+      },
+      {
+        "codigoIbge": "5203302",
+        "nome": "Bela Vista de Goiás",
+        "nomeFonte": "Bela Vista de Goiás",
+        "linhaFonte": 10
+      },
+      {
+        "codigoIbge": "5203559",
+        "nome": "Bonfinópolis",
+        "nomeFonte": "Bonfinópolis",
+        "linhaFonte": 11
+      },
+      {
+        "codigoIbge": "5203609",
+        "nome": "Brazabrantes",
+        "nomeFonte": "Brazabrantes",
+        "linhaFonte": 12
+      },
+      {
+        "codigoIbge": "5204557",
+        "nome": "Caldazinha",
+        "nomeFonte": "Caldazinha",
+        "linhaFonte": 13
+      },
+      {
+        "codigoIbge": "5205208",
+        "nome": "Caturaí",
+        "nomeFonte": "Caturaí",
+        "linhaFonte": 14
+      },
+      {
+        "codigoIbge": "5208400",
+        "nome": "Goianápolis",
+        "nomeFonte": "Goianápolis",
+        "linhaFonte": 15
+      },
+      {
+        "codigoIbge": "5208707",
+        "nome": "Goiânia",
+        "nomeFonte": "Goiânia",
+        "linhaFonte": 16
+      },
+      {
+        "codigoIbge": "5208806",
+        "nome": "Goianira",
+        "nomeFonte": "Goianira",
+        "linhaFonte": 17
+      },
+      {
+        "codigoIbge": "5209200",
+        "nome": "Guapó",
+        "nomeFonte": "Guapó",
+        "linhaFonte": 18
+      },
+      {
+        "codigoIbge": "5209705",
+        "nome": "Hidrolândia",
+        "nomeFonte": "Hidrolândia",
+        "linhaFonte": 19
+      },
+      {
+        "codigoIbge": "5210000",
+        "nome": "Inhumas",
+        "nomeFonte": "Inhumas",
+        "linhaFonte": 20
+      },
+      {
+        "codigoIbge": "5214507",
+        "nome": "Nerópolis",
+        "nomeFonte": "Nerópolis",
+        "linhaFonte": 21
+      },
+      {
+        "codigoIbge": "5215009",
+        "nome": "Nova Veneza",
+        "nomeFonte": "Nova Veneza",
+        "linhaFonte": 22
+      },
+      {
+        "codigoIbge": "5219738",
+        "nome": "Santo Antônio de Goiás",
+        "nomeFonte": "Santo Antônio de Goiás",
+        "linhaFonte": 23
+      },
+      {
+        "codigoIbge": "5220454",
+        "nome": "Senador Canedo",
+        "nomeFonte": "Senador Canedo",
+        "linhaFonte": 24
+      },
+      {
+        "codigoIbge": "5221197",
+        "nome": "Terezópolis de Goiás",
+        "nomeFonte": "Terezópolis de Goiás",
+        "linhaFonte": 25
+      },
+      {
+        "codigoIbge": "5221403",
+        "nome": "Trindade",
+        "nomeFonte": "Trindade",
+        "linhaFonte": 26
+      }
+    ]
+  },
+  {
+    "id": "centro-goiano",
+    "ordem": 2,
+    "codigoImb": "002",
+    "nome": "Região Centro Goiano (Eixo BR-153)",
+    "nomeFonteImb": "Região Centro Goiano (Eixo BR-153)",
+    "versaoTerritorial": "imb-regplan-2018",
+    "referenciaTerritorialId": "imb-regplan-2018",
+    "folhaFonteImb": "Reg_Centro 3",
+    "municipios": [
+      {
+        "codigoIbge": "5201108",
+        "nome": "Anápolis",
+        "nomeFonte": "Anápolis",
+        "linhaFonte": 7
+      },
+      {
+        "codigoIbge": "5203203",
+        "nome": "Barro Alto",
+        "nomeFonte": "Barro Alto",
+        "linhaFonte": 8
+      },
+      {
+        "codigoIbge": "5204854",
+        "nome": "Campo Limpo de Goiás",
+        "nomeFonte": "Campo Limpo de Goiás",
+        "linhaFonte": 9
+      },
+      {
+        "codigoIbge": "5205000",
+        "nome": "Carmo do Rio Verde",
+        "nomeFonte": "Carmo do Rio Verde",
+        "linhaFonte": 10
+      },
+      {
+        "codigoIbge": "5205406",
+        "nome": "Ceres",
+        "nomeFonte": "Ceres",
+        "linhaFonte": 11
+      },
+      {
+        "codigoIbge": "5206800",
+        "nome": "Damolândia",
+        "nomeFonte": "Damolândia",
+        "linhaFonte": 12
+      },
+      {
+        "codigoIbge": "5208608",
+        "nome": "Goianésia",
+        "nomeFonte": "Goianésia",
+        "linhaFonte": 13
+      },
+      {
+        "codigoIbge": "5209457",
+        "nome": "Guarinos",
+        "nomeFonte": "Guarinos",
+        "linhaFonte": 14
+      },
+      {
+        "codigoIbge": "5209804",
+        "nome": "Hidrolina",
+        "nomeFonte": "Hidrolina",
+        "linhaFonte": 15
+      },
+      {
+        "codigoIbge": "5210158",
+        "nome": "Ipiranga de Goiás",
+        "nomeFonte": "Ipiranga de Goiás",
+        "linhaFonte": 16
+      },
+      {
+        "codigoIbge": "5210901",
+        "nome": "Itapaci",
+        "nomeFonte": "Itapaci",
+        "linhaFonte": 17
+      },
+      {
+        "codigoIbge": "5211800",
+        "nome": "Jaraguá",
+        "nomeFonte": "Jaraguá",
+        "linhaFonte": 18
+      },
+      {
+        "codigoIbge": "5212055",
+        "nome": "Jesúpolis",
+        "nomeFonte": "Jesúpolis",
+        "linhaFonte": 19
+      },
+      {
+        "codigoIbge": "5213855",
+        "nome": "Morro Agudo de Goiás",
+        "nomeFonte": "Morro Agudo de Goiás",
+        "linhaFonte": 20
+      },
+      {
+        "codigoIbge": "5214705",
+        "nome": "Nova América",
+        "nomeFonte": "Nova América",
+        "linhaFonte": 21
+      },
+      {
+        "codigoIbge": "5214861",
+        "nome": "Nova Glória",
+        "nomeFonte": "Nova Glória",
+        "linhaFonte": 22
+      },
+      {
+        "codigoIbge": "5215405",
+        "nome": "Ouro Verde de Goiás",
+        "nomeFonte": "Ouro Verde de Goiás",
+        "linhaFonte": 23
+      },
+      {
+        "codigoIbge": "5216809",
+        "nome": "Petrolina de Goiás",
+        "nomeFonte": "Petrolina de Goiás",
+        "linhaFonte": 24
+      },
+      {
+        "codigoIbge": "5216908",
+        "nome": "Pilar de Goiás",
+        "nomeFonte": "Pilar de Goiás",
+        "linhaFonte": 25
+      },
+      {
+        "codigoIbge": "5218607",
+        "nome": "Rialma",
+        "nomeFonte": "Rialma",
+        "linhaFonte": 26
+      },
+      {
+        "codigoIbge": "5218706",
+        "nome": "Rianápolis",
+        "nomeFonte": "Rianápolis",
+        "linhaFonte": 27
+      },
+      {
+        "codigoIbge": "5218904",
+        "nome": "Rubiataba",
+        "nomeFonte": "Rubiataba",
+        "linhaFonte": 28
+      },
+      {
+        "codigoIbge": "5219357",
+        "nome": "Santa Isabel",
+        "nomeFonte": "Santa Isabel",
+        "linhaFonte": 29
+      },
+      {
+        "codigoIbge": "5219456",
+        "nome": "Santa Rita do Novo Destino",
+        "nomeFonte": "Santa Rita do Novo Destino",
+        "linhaFonte": 30
+      },
+      {
+        "codigoIbge": "5219506",
+        "nome": "Santa Rosa de Goiás",
+        "nomeFonte": "Santa Rosa de Goiás",
+        "linhaFonte": 31
+      },
+      {
+        "codigoIbge": "5219902",
+        "nome": "São Francisco de Goiás",
+        "nomeFonte": "São Francisco de Goiás",
+        "linhaFonte": 32
+      },
+      {
+        "codigoIbge": "5220157",
+        "nome": "São Luiz do Norte",
+        "nomeFonte": "São Luiz do Norte",
+        "linhaFonte": 33
+      },
+      {
+        "codigoIbge": "5220280",
+        "nome": "São Patrício",
+        "nomeFonte": "São Patrício",
+        "linhaFonte": 34
+      },
+      {
+        "codigoIbge": "5221007",
+        "nome": "Taquaral de Goiás",
+        "nomeFonte": "Taquaral de Goiás",
+        "linhaFonte": 35
+      },
+      {
+        "codigoIbge": "5221700",
+        "nome": "Uruana",
+        "nomeFonte": "Uruana",
+        "linhaFonte": 36
+      },
+      {
+        "codigoIbge": "5222302",
+        "nome": "Vila Propício",
+        "nomeFonte": "Vila Propício",
+        "linhaFonte": 37
+      }
+    ]
+  },
+  {
+    "id": "norte-goiano",
+    "ordem": 3,
+    "codigoImb": "003",
+    "nome": "Região Norte Goiano",
+    "nomeFonteImb": "Região Norte Goiano",
+    "versaoTerritorial": "imb-regplan-2018",
+    "referenciaTerritorialId": "imb-regplan-2018",
+    "folhaFonteImb": "Reg_Norte 3",
+    "municipios": [
+      {
+        "codigoIbge": "5200555",
+        "nome": "Alto Horizonte",
+        "nomeFonte": "Alto Horizonte",
+        "linhaFonte": 7
+      },
+      {
+        "codigoIbge": "5200829",
+        "nome": "Amaralina",
+        "nomeFonte": "Amaralina",
+        "linhaFonte": 8
+      },
+      {
+        "codigoIbge": "5203575",
+        "nome": "Bonópolis",
+        "nomeFonte": "Bonópolis",
+        "linhaFonte": 9
+      },
+      {
+        "codigoIbge": "5204656",
+        "nome": "Campinaçu",
+        "nomeFonte": "Campinaçu",
+        "linhaFonte": 10
+      },
+      {
+        "codigoIbge": "5204706",
+        "nome": "Campinorte",
+        "nomeFonte": "Campinorte",
+        "linhaFonte": 11
+      },
+      {
+        "codigoIbge": "5204953",
+        "nome": "Campos Verdes",
+        "nomeFonte": "Campos Verdes",
+        "linhaFonte": 12
+      },
+      {
+        "codigoIbge": "5206404",
+        "nome": "Crixás",
+        "nomeFonte": "Crixás",
+        "linhaFonte": 13
+      },
+      {
+        "codigoIbge": "5207501",
+        "nome": "Estrela do Norte",
+        "nomeFonte": "Estrela do Norte",
+        "linhaFonte": 14
+      },
+      {
+        "codigoIbge": "5208103",
+        "nome": "Formoso",
+        "nomeFonte": "Formoso",
+        "linhaFonte": 15
+      },
+      {
+        "codigoIbge": "5212808",
+        "nome": "Mara Rosa",
+        "nomeFonte": "Mara Rosa",
+        "linhaFonte": 16
+      },
+      {
+        "codigoIbge": "5213087",
+        "nome": "Minaçu",
+        "nomeFonte": "Minaçu",
+        "linhaFonte": 17
+      },
+      {
+        "codigoIbge": "5213772",
+        "nome": "Montividiu do Norte",
+        "nomeFonte": "Montividiu do Norte",
+        "linhaFonte": 18
+      },
+      {
+        "codigoIbge": "5214002",
+        "nome": "Mozarlândia",
+        "nomeFonte": "Mozarlândia",
+        "linhaFonte": 19
+      },
+      {
+        "codigoIbge": "5214051",
+        "nome": "Mundo Novo",
+        "nomeFonte": "Mundo Novo",
+        "linhaFonte": 20
+      },
+      {
+        "codigoIbge": "5214101",
+        "nome": "Mutunópolis",
+        "nomeFonte": "Mutunópolis",
+        "linhaFonte": 21
+      },
+      {
+        "codigoIbge": "5214606",
+        "nome": "Niquelândia",
+        "nomeFonte": "Niquelândia",
+        "linhaFonte": 22
+      },
+      {
+        "codigoIbge": "5214838",
+        "nome": "Nova Crixás",
+        "nomeFonte": "Nova Crixás",
+        "linhaFonte": 23
+      },
+      {
+        "codigoIbge": "5214879",
+        "nome": "Nova Iguaçu de Goiás",
+        "nomeFonte": "Nova Iguaçu de Goiás",
+        "linhaFonte": 24
+      },
+      {
+        "codigoIbge": "5215256",
+        "nome": "Novo Planalto",
+        "nomeFonte": "Novo Planalto",
+        "linhaFonte": 25
+      },
+      {
+        "codigoIbge": "5218003",
+        "nome": "Porangatu",
+        "nomeFonte": "Porangatu",
+        "linhaFonte": 26
+      },
+      {
+        "codigoIbge": "5219605",
+        "nome": "Santa Tereza de Goiás",
+        "nomeFonte": "Santa Tereza de Goiás",
+        "linhaFonte": 27
+      },
+      {
+        "codigoIbge": "5219704",
+        "nome": "Santa Terezinha de Goiás",
+        "nomeFonte": "Santa Terezinha de Goiás",
+        "linhaFonte": 28
+      },
+      {
+        "codigoIbge": "5220207",
+        "nome": "São Miguel do Araguaia",
+        "nomeFonte": "São Miguel do Araguaia",
+        "linhaFonte": 29
+      },
+      {
+        "codigoIbge": "5221452",
+        "nome": "Trombas",
+        "nomeFonte": "Trombas",
+        "linhaFonte": 30
+      },
+      {
+        "codigoIbge": "5221577",
+        "nome": "Uirapuru",
+        "nomeFonte": "Uirapuru",
+        "linhaFonte": 31
+      },
+      {
+        "codigoIbge": "5221601",
+        "nome": "Uruaçu",
+        "nomeFonte": "Uruaçu",
+        "linhaFonte": 32
+      }
+    ]
+  },
+  {
+    "id": "nordeste-goiano",
+    "ordem": 4,
+    "codigoImb": "004",
+    "nome": "Região Nordeste Goiano",
+    "nomeFonteImb": "Região Nordeste Goiano",
+    "versaoTerritorial": "imb-regplan-2018",
+    "referenciaTerritorialId": "imb-regplan-2018",
+    "folhaFonteImb": "Reg_Nordeste 3",
+    "municipios": [
+      {
+        "codigoIbge": "5200605",
+        "nome": "Alto Paraíso de Goiás",
+        "nomeFonte": "Alto Paraíso de Goiás",
+        "linhaFonte": 7
+      },
+      {
+        "codigoIbge": "5200803",
+        "nome": "Alvorada do Norte",
+        "nomeFonte": "Alvorada do Norte",
+        "linhaFonte": 8
+      },
+      {
+        "codigoIbge": "5203962",
+        "nome": "Buritinópolis",
+        "nomeFonte": "Buritinópolis",
+        "linhaFonte": 9
+      },
+      {
+        "codigoIbge": "5204904",
+        "nome": "Campos Belos",
+        "nomeFonte": "Campos Belos",
+        "linhaFonte": 10
+      },
+      {
+        "codigoIbge": "5205307",
+        "nome": "Cavalcante",
+        "nomeFonte": "Cavalcante",
+        "linhaFonte": 11
+      },
+      {
+        "codigoIbge": "5205521",
+        "nome": "Colinas do Sul",
+        "nomeFonte": "Colinas do Sul",
+        "linhaFonte": 12
+      },
+      {
+        "codigoIbge": "5206701",
+        "nome": "Damianópolis",
+        "nomeFonte": "Damianópolis",
+        "linhaFonte": 13
+      },
+      {
+        "codigoIbge": "5208301",
+        "nome": "Divinópolis de Goiás",
+        "nomeFonte": "Divinópolis de Goiás",
+        "linhaFonte": 14
+      },
+      {
+        "codigoIbge": "5207907",
+        "nome": "Flores de Goiás",
+        "nomeFonte": "Flores de Goiás",
+        "linhaFonte": 15
+      },
+      {
+        "codigoIbge": "5209408",
+        "nome": "Guarani de Goiás",
+        "nomeFonte": "Guarani de Goiás",
+        "linhaFonte": 16
+      },
+      {
+        "codigoIbge": "5209903",
+        "nome": "Iaciara",
+        "nomeFonte": "Iaciara",
+        "linhaFonte": 17
+      },
+      {
+        "codigoIbge": "5212709",
+        "nome": "Mambaí",
+        "nomeFonte": "Mambaí",
+        "linhaFonte": 18
+      },
+      {
+        "codigoIbge": "5213509",
+        "nome": "Monte Alegre de Goiás",
+        "nomeFonte": "Monte Alegre de Goiás",
+        "linhaFonte": 19
+      },
+      {
+        "codigoIbge": "5214903",
+        "nome": "Nova Roma",
+        "nomeFonte": "Nova Roma",
+        "linhaFonte": 20
+      },
+      {
+        "codigoIbge": "5218300",
+        "nome": "Posse",
+        "nomeFonte": "Posse",
+        "linhaFonte": 21
+      },
+      {
+        "codigoIbge": "5219803",
+        "nome": "São Domingos",
+        "nomeFonte": "São Domingos",
+        "linhaFonte": 22
+      },
+      {
+        "codigoIbge": "5220009",
+        "nome": "São João d'Aliança",
+        "nomeFonte": "São João d'Aliança",
+        "linhaFonte": 23
+      },
+      {
+        "codigoIbge": "5220686",
+        "nome": "Simolândia",
+        "nomeFonte": "Simolândia",
+        "linhaFonte": 24
+      },
+      {
+        "codigoIbge": "5220702",
+        "nome": "Sítio d'Abadia",
+        "nomeFonte": "Sítio d'Abadia",
+        "linhaFonte": 25
+      },
+      {
+        "codigoIbge": "5221080",
+        "nome": "Teresina de Goiás",
+        "nomeFonte": "Teresina de Goiás",
+        "linhaFonte": 26
+      }
+    ]
+  },
+  {
+    "id": "entorno-df",
+    "ordem": 5,
+    "codigoImb": "005",
+    "nome": "Região Entorno do Distrito Federal",
+    "nomeFonteImb": "Região Entorno do Distrito Federal",
+    "versaoTerritorial": "imb-regplan-2018",
+    "referenciaTerritorialId": "imb-regplan-2018",
+    "folhaFonteImb": "Reg_Entorno_DF 3",
+    "municipios": [
+      {
+        "codigoIbge": "5200100",
+        "nome": "Abadiânia",
+        "nomeFonte": "Abadiânia",
+        "linhaFonte": 7
+      },
+      {
+        "codigoIbge": "5200175",
+        "nome": "Água Fria de Goiás",
+        "nomeFonte": "Água Fria de Goiás",
+        "linhaFonte": 8
+      },
+      {
+        "codigoIbge": "5200258",
+        "nome": "Águas Lindas de Goiás",
+        "nomeFonte": "Águas Lindas de Goiás",
+        "linhaFonte": 9
+      },
+      {
+        "codigoIbge": "5200308",
+        "nome": "Alexânia",
+        "nomeFonte": "Alexânia",
+        "linhaFonte": 10
+      },
+      {
+        "codigoIbge": "5204003",
+        "nome": "Cabeceiras",
+        "nomeFonte": "Cabeceiras",
+        "linhaFonte": 11
+      },
+      {
+        "codigoIbge": "5205497",
+        "nome": "Cidade Ocidental",
+        "nomeFonte": "Cidade Ocidental",
+        "linhaFonte": 12
+      },
+      {
+        "codigoIbge": "5205513",
+        "nome": "Cocalzinho de Goiás",
+        "nomeFonte": "Cocalzinho de Goiás",
+        "linhaFonte": 13
+      },
+      {
+        "codigoIbge": "5205802",
+        "nome": "Corumbá de Goiás",
+        "nomeFonte": "Corumbá de Goiás",
+        "linhaFonte": 14
+      },
+      {
+        "codigoIbge": "5206206",
+        "nome": "Cristalina",
+        "nomeFonte": "Cristalina",
+        "linhaFonte": 15
+      },
+      {
+        "codigoIbge": "5208004",
+        "nome": "Formosa",
+        "nomeFonte": "Formosa",
+        "linhaFonte": 16
+      },
+      {
+        "codigoIbge": "5212501",
+        "nome": "Luziânia",
+        "nomeFonte": "Luziânia",
+        "linhaFonte": 17
+      },
+      {
+        "codigoIbge": "5213053",
+        "nome": "Mimoso de Goiás",
+        "nomeFonte": "Mimoso de Goiás",
+        "linhaFonte": 18
+      },
+      {
+        "codigoIbge": "5215231",
+        "nome": "Novo Gama",
+        "nomeFonte": "Novo Gama",
+        "linhaFonte": 19
+      },
+      {
+        "codigoIbge": "5215603",
+        "nome": "Padre Bernardo",
+        "nomeFonte": "Padre Bernardo",
+        "linhaFonte": 20
+      },
+      {
+        "codigoIbge": "5217302",
+        "nome": "Pirenópolis",
+        "nomeFonte": "Pirenópolis",
+        "linhaFonte": 21
+      },
+      {
+        "codigoIbge": "5217609",
+        "nome": "Planaltina",
+        "nomeFonte": "Planaltina",
+        "linhaFonte": 22
+      },
+      {
+        "codigoIbge": "5219753",
+        "nome": "Santo Antônio do Descoberto",
+        "nomeFonte": "Santo Antônio do Descoberto",
+        "linhaFonte": 23
+      },
+      {
+        "codigoIbge": "5221858",
+        "nome": "Valparaíso de Goiás",
+        "nomeFonte": "Valparaíso de Goiás",
+        "linhaFonte": 24
+      },
+      {
+        "codigoIbge": "5222203",
+        "nome": "Vila Boa",
+        "nomeFonte": "Vila Boa",
+        "linhaFonte": 25
+      }
+    ]
+  },
+  {
+    "id": "sudeste-goiano",
+    "ordem": 6,
+    "codigoImb": "006",
+    "nome": "Região Sudeste Goiano (Estrada-de-Ferro)",
+    "nomeFonteImb": "Região Sudeste Goiano (Estrada de Ferro)",
+    "versaoTerritorial": "imb-regplan-2018",
+    "referenciaTerritorialId": "imb-regplan-2018",
+    "folhaFonteImb": "Reg_Sudeste 3",
+    "municipios": [
+      {
+        "codigoIbge": "5201207",
+        "nome": "Anhanguera",
+        "nomeFonte": "Anhanguera",
+        "linhaFonte": 7
+      },
+      {
+        "codigoIbge": "5204805",
+        "nome": "Campo Alegre de Goiás",
+        "nomeFonte": "Campo Alegre de Goiás",
+        "linhaFonte": 8
+      },
+      {
+        "codigoIbge": "5205109",
+        "nome": "Catalão",
+        "nomeFonte": "Catalão",
+        "linhaFonte": 9
+      },
+      {
+        "codigoIbge": "5205901",
+        "nome": "Corumbaíba",
+        "nomeFonte": "Corumbaíba",
+        "linhaFonte": 10
+      },
+      {
+        "codigoIbge": "5206305",
+        "nome": "Cristianópolis",
+        "nomeFonte": "Cristianópolis",
+        "linhaFonte": 11
+      },
+      {
+        "codigoIbge": "5206602",
+        "nome": "Cumari",
+        "nomeFonte": "Cumari",
+        "linhaFonte": 12
+      },
+      {
+        "codigoIbge": "5206909",
+        "nome": "Davinópolis",
+        "nomeFonte": "Davinópolis",
+        "linhaFonte": 13
+      },
+      {
+        "codigoIbge": "5208152",
+        "nome": "Gameleira de Goiás",
+        "nomeFonte": "Gameleira de Goiás",
+        "linhaFonte": 14
+      },
+      {
+        "codigoIbge": "5208509",
+        "nome": "Goiandira",
+        "nomeFonte": "Goiandira",
+        "linhaFonte": 15
+      },
+      {
+        "codigoIbge": "5210109",
+        "nome": "Ipameri",
+        "nomeFonte": "Ipameri",
+        "linhaFonte": 16
+      },
+      {
+        "codigoIbge": "5212303",
+        "nome": "Leopoldo de Bulhões",
+        "nomeFonte": "Leopoldo de Bulhões",
+        "linhaFonte": 17
+      },
+      {
+        "codigoIbge": "5214804",
+        "nome": "Nova Aurora",
+        "nomeFonte": "Nova Aurora",
+        "linhaFonte": 18
+      },
+      {
+        "codigoIbge": "5215306",
+        "nome": "Orizona",
+        "nomeFonte": "Orizona",
+        "linhaFonte": 19
+      },
+      {
+        "codigoIbge": "5215504",
+        "nome": "Ouvidor",
+        "nomeFonte": "Ouvidor",
+        "linhaFonte": 20
+      },
+      {
+        "codigoIbge": "5215801",
+        "nome": "Palmelo",
+        "nomeFonte": "Palmelo",
+        "linhaFonte": 21
+      },
+      {
+        "codigoIbge": "5217401",
+        "nome": "Pires do Rio",
+        "nomeFonte": "Pires do Rio",
+        "linhaFonte": 22
+      },
+      {
+        "codigoIbge": "5219209",
+        "nome": "Santa Cruz de Goiás",
+        "nomeFonte": "Santa Cruz de Goiás",
+        "linhaFonte": 23
+      },
+      {
+        "codigoIbge": "5220264",
+        "nome": "São Miguel do Passa Quatro",
+        "nomeFonte": "São Miguel do Passa Quatro",
+        "linhaFonte": 24
+      },
+      {
+        "codigoIbge": "5220603",
+        "nome": "Silvânia",
+        "nomeFonte": "Silvânia",
+        "linhaFonte": 25
+      },
+      {
+        "codigoIbge": "5221304",
+        "nome": "Três Ranchos",
+        "nomeFonte": "Três Ranchos",
+        "linhaFonte": 26
+      },
+      {
+        "codigoIbge": "5221809",
+        "nome": "Urutaí",
+        "nomeFonte": "Urutaí",
+        "linhaFonte": 27
+      },
+      {
+        "codigoIbge": "5222005",
+        "nome": "Vianópolis",
+        "nomeFonte": "Vianópolis",
+        "linhaFonte": 28
+      }
+    ]
+  },
+  {
+    "id": "sul-goiano",
+    "ordem": 7,
+    "codigoImb": "007",
+    "nome": "Região Sul Goiano",
+    "nomeFonteImb": "Região Sul Goiano",
+    "versaoTerritorial": "imb-regplan-2018",
+    "referenciaTerritorialId": "imb-regplan-2018",
+    "folhaFonteImb": "Reg_Sul 3",
+    "municipios": [
+      {
+        "codigoIbge": "5200209",
+        "nome": "Água Limpa",
+        "nomeFonte": "Água Limpa",
+        "linhaFonte": 7
+      },
+      {
+        "codigoIbge": "5200506",
+        "nome": "Aloândia",
+        "nomeFonte": "Aloândia",
+        "linhaFonte": 8
+      },
+      {
+        "codigoIbge": "5203500",
+        "nome": "Bom Jesus de Goiás",
+        "nomeFonte": "Bom Jesus de Goiás",
+        "linhaFonte": 9
+      },
+      {
+        "codigoIbge": "5203906",
+        "nome": "Buriti Alegre",
+        "nomeFonte": "Buriti Alegre",
+        "linhaFonte": 10
+      },
+      {
+        "codigoIbge": "5204250",
+        "nome": "Cachoeira Dourada",
+        "nomeFonte": "Cachoeira Dourada",
+        "linhaFonte": 11
+      },
+      {
+        "codigoIbge": "5204508",
+        "nome": "Caldas Novas",
+        "nomeFonte": "Caldas Novas",
+        "linhaFonte": 12
+      },
+      {
+        "codigoIbge": "5205455",
+        "nome": "Cezarina",
+        "nomeFonte": "Cezarina",
+        "linhaFonte": 13
+      },
+      {
+        "codigoIbge": "5206503",
+        "nome": "Cromínia",
+        "nomeFonte": "Cromínia",
+        "linhaFonte": 14
+      },
+      {
+        "codigoIbge": "5207352",
+        "nome": "Edealina",
+        "nomeFonte": "Edealina",
+        "linhaFonte": 15
+      },
+      {
+        "codigoIbge": "5207402",
+        "nome": "Edéia",
+        "nomeFonte": "Edéia",
+        "linhaFonte": 16
+      },
+      {
+        "codigoIbge": "5209101",
+        "nome": "Goiatuba",
+        "nomeFonte": "Goiatuba",
+        "linhaFonte": 17
+      },
+      {
+        "codigoIbge": "5209937",
+        "nome": "Inaciolândia",
+        "nomeFonte": "Inaciolândia",
+        "linhaFonte": 18
+      },
+      {
+        "codigoIbge": "5209952",
+        "nome": "Indiara",
+        "nomeFonte": "Indiara",
+        "linhaFonte": 19
+      },
+      {
+        "codigoIbge": "5211503",
+        "nome": "Itumbiara",
+        "nomeFonte": "Itumbiara",
+        "linhaFonte": 20
+      },
+      {
+        "codigoIbge": "5212105",
+        "nome": "Joviânia",
+        "nomeFonte": "Joviânia",
+        "linhaFonte": 21
+      },
+      {
+        "codigoIbge": "5212600",
+        "nome": "Mairipotaba",
+        "nomeFonte": "Mairipotaba",
+        "linhaFonte": 22
+      },
+      {
+        "codigoIbge": "5212907",
+        "nome": "Marzagão",
+        "nomeFonte": "Marzagão",
+        "linhaFonte": 23
+      },
+      {
+        "codigoIbge": "5213806",
+        "nome": "Morrinhos",
+        "nomeFonte": "Morrinhos",
+        "linhaFonte": 24
+      },
+      {
+        "codigoIbge": "5216007",
+        "nome": "Panamá",
+        "nomeFonte": "Panamá",
+        "linhaFonte": 25
+      },
+      {
+        "codigoIbge": "5217104",
+        "nome": "Piracanjuba",
+        "nomeFonte": "Piracanjuba",
+        "linhaFonte": 26
+      },
+      {
+        "codigoIbge": "5217708",
+        "nome": "Pontalina",
+        "nomeFonte": "Pontalina",
+        "linhaFonte": 27
+      },
+      {
+        "codigoIbge": "5218052",
+        "nome": "Porteirão",
+        "nomeFonte": "Porteirão",
+        "linhaFonte": 28
+      },
+      {
+        "codigoIbge": "5218391",
+        "nome": "Professor Jamil",
+        "nomeFonte": "Professor Jamil",
+        "linhaFonte": 29
+      },
+      {
+        "codigoIbge": "5218789",
+        "nome": "Rio Quente",
+        "nomeFonte": "Rio Quente",
+        "linhaFonte": 30
+      },
+      {
+        "codigoIbge": "5221908",
+        "nome": "Varjão",
+        "nomeFonte": "Varjão",
+        "linhaFonte": 31
+      },
+      {
+        "codigoIbge": "5222054",
+        "nome": "Vicentinópolis",
+        "nomeFonte": "Vicentinópolis",
+        "linhaFonte": 32
+      }
+    ]
+  },
+  {
+    "id": "sudoeste-goiano",
+    "ordem": 8,
+    "codigoImb": "008",
+    "nome": "Região Sudoeste Goiano",
+    "nomeFonteImb": "Região Sudoeste Goiano",
+    "versaoTerritorial": "imb-regplan-2018",
+    "referenciaTerritorialId": "imb-regplan-2018",
+    "folhaFonteImb": "Reg_Sudoeste 3",
+    "municipios": [
+      {
+        "codigoIbge": "5200134",
+        "nome": "Acreúna",
+        "nomeFonte": "Acreúna",
+        "linhaFonte": 7
+      },
+      {
+        "codigoIbge": "5201454",
+        "nome": "Aparecida do Rio Doce",
+        "nomeFonte": "Aparecida do Rio Doce",
+        "linhaFonte": 8
+      },
+      {
+        "codigoIbge": "5201504",
+        "nome": "Aporé",
+        "nomeFonte": "Aporé",
+        "linhaFonte": 9
+      },
+      {
+        "codigoIbge": "5204102",
+        "nome": "Cachoeira Alta",
+        "nomeFonte": "Cachoeira Alta",
+        "linhaFonte": 10
+      },
+      {
+        "codigoIbge": "5204300",
+        "nome": "Caçu",
+        "nomeFonte": "Caçu",
+        "linhaFonte": 11
+      },
+      {
+        "codigoIbge": "5205059",
+        "nome": "Castelândia",
+        "nomeFonte": "Castelândia",
+        "linhaFonte": 12
+      },
+      {
+        "codigoIbge": "5205471",
+        "nome": "Chapadão do Céu",
+        "nomeFonte": "Chapadão do Céu",
+        "linhaFonte": 13
+      },
+      {
+        "codigoIbge": "5209150",
+        "nome": "Gouvelândia",
+        "nomeFonte": "Gouvelândia",
+        "linhaFonte": 14
+      },
+      {
+        "codigoIbge": "5210802",
+        "nome": "Itajá",
+        "nomeFonte": "Itajá",
+        "linhaFonte": 15
+      },
+      {
+        "codigoIbge": "5211305",
+        "nome": "Itarumã",
+        "nomeFonte": "Itarumã",
+        "linhaFonte": 16
+      },
+      {
+        "codigoIbge": "5211909",
+        "nome": "Jataí",
+        "nomeFonte": "Jataí",
+        "linhaFonte": 17
+      },
+      {
+        "codigoIbge": "5212253",
+        "nome": "Lagoa Santa",
+        "nomeFonte": "Lagoa Santa",
+        "linhaFonte": 18
+      },
+      {
+        "codigoIbge": "5213004",
+        "nome": "Maurilândia",
+        "nomeFonte": "Maurilândia",
+        "linhaFonte": 19
+      },
+      {
+        "codigoIbge": "5213103",
+        "nome": "Mineiros",
+        "nomeFonte": "Mineiros",
+        "linhaFonte": 20
+      },
+      {
+        "codigoIbge": "5213756",
+        "nome": "Montividiu",
+        "nomeFonte": "Montividiu",
+        "linhaFonte": 21
+      },
+      {
+        "codigoIbge": "5216304",
+        "nome": "Paranaiguara",
+        "nomeFonte": "Paranaiguara",
+        "linhaFonte": 22
+      },
+      {
+        "codigoIbge": "5216452",
+        "nome": "Perolândia",
+        "nomeFonte": "Perolândia",
+        "linhaFonte": 23
+      },
+      {
+        "codigoIbge": "5218102",
+        "nome": "Portelândia",
+        "nomeFonte": "Portelândia",
+        "linhaFonte": 24
+      },
+      {
+        "codigoIbge": "5218508",
+        "nome": "Quirinópolis",
+        "nomeFonte": "Quirinópolis",
+        "linhaFonte": 25
+      },
+      {
+        "codigoIbge": "5218805",
+        "nome": "Rio Verde",
+        "nomeFonte": "Rio Verde",
+        "linhaFonte": 26
+      },
+      {
+        "codigoIbge": "5219308",
+        "nome": "Santa Helena de Goiás",
+        "nomeFonte": "Santa Helena de Goiás",
+        "linhaFonte": 27
+      },
+      {
+        "codigoIbge": "5219407",
+        "nome": "Santa Rita do Araguaia",
+        "nomeFonte": "Santa Rita do Araguaia",
+        "linhaFonte": 28
+      },
+      {
+        "codigoIbge": "5219712",
+        "nome": "Santo Antônio da Barra",
+        "nomeFonte": "Santo Antônio da Barra",
+        "linhaFonte": 29
+      },
+      {
+        "codigoIbge": "5220405",
+        "nome": "São Simão",
+        "nomeFonte": "São Simão",
+        "linhaFonte": 30
+      },
+      {
+        "codigoIbge": "5220504",
+        "nome": "Serranópolis",
+        "nomeFonte": "Serranópolis",
+        "linhaFonte": 31
+      },
+      {
+        "codigoIbge": "5221551",
+        "nome": "Turvelândia",
+        "nomeFonte": "Turvelândia",
+        "linhaFonte": 32
+      }
+    ]
+  },
+  {
+    "id": "oeste-goiano",
+    "ordem": 9,
+    "codigoImb": "009",
+    "nome": "Região Oeste Goiano (Eixo GO-060)",
+    "nomeFonteImb": "Região Oeste Goiano (Eixo GO-060)",
+    "versaoTerritorial": "imb-regplan-2018",
+    "referenciaTerritorialId": "imb-regplan-2018",
+    "folhaFonteImb": "Reg_Oeste 3",
+    "municipios": [
+      {
+        "codigoIbge": "5200159",
+        "nome": "Adelândia",
+        "nomeFonte": "Adelândia",
+        "linhaFonte": 7
+      },
+      {
+        "codigoIbge": "5200852",
+        "nome": "Americano do Brasil",
+        "nomeFonte": "Americano do Brasil",
+        "linhaFonte": 8
+      },
+      {
+        "codigoIbge": "5200902",
+        "nome": "Amorinópolis",
+        "nomeFonte": "Amorinópolis",
+        "linhaFonte": 9
+      },
+      {
+        "codigoIbge": "5201306",
+        "nome": "Anicuns",
+        "nomeFonte": "Anicuns",
+        "linhaFonte": 10
+      },
+      {
+        "codigoIbge": "5201702",
+        "nome": "Aragarças",
+        "nomeFonte": "Aragarças",
+        "linhaFonte": 11
+      },
+      {
+        "codigoIbge": "5202353",
+        "nome": "Arenópolis",
+        "nomeFonte": "Arenópolis",
+        "linhaFonte": 12
+      },
+      {
+        "codigoIbge": "5202601",
+        "nome": "Aurilândia",
+        "nomeFonte": "Aurilândia",
+        "linhaFonte": 13
+      },
+      {
+        "codigoIbge": "5202809",
+        "nome": "Avelinópolis",
+        "nomeFonte": "Avelinópolis",
+        "linhaFonte": 14
+      },
+      {
+        "codigoIbge": "5203104",
+        "nome": "Baliza",
+        "nomeFonte": "Baliza",
+        "linhaFonte": 15
+      },
+      {
+        "codigoIbge": "5203401",
+        "nome": "Bom Jardim de Goiás",
+        "nomeFonte": "Bom Jardim de Goiás",
+        "linhaFonte": 16
+      },
+      {
+        "codigoIbge": "5203807",
+        "nome": "Britânia",
+        "nomeFonte": "Britânia",
+        "linhaFonte": 17
+      },
+      {
+        "codigoIbge": "5203939",
+        "nome": "Buriti de Goiás",
+        "nomeFonte": "Buriti de Goiás",
+        "linhaFonte": 18
+      },
+      {
+        "codigoIbge": "5204201",
+        "nome": "Cachoeira de Goiás",
+        "nomeFonte": "Cachoeira de Goiás",
+        "linhaFonte": 19
+      },
+      {
+        "codigoIbge": "5204409",
+        "nome": "Caiapônia",
+        "nomeFonte": "Caiapônia",
+        "linhaFonte": 20
+      },
+      {
+        "codigoIbge": "5204607",
+        "nome": "Campestre de Goiás",
+        "nomeFonte": "Campestre de Goiás",
+        "linhaFonte": 21
+      },
+      {
+        "codigoIbge": "5205703",
+        "nome": "Córrego do Ouro",
+        "nomeFonte": "Córrego do Ouro",
+        "linhaFonte": 22
+      },
+      {
+        "codigoIbge": "5207105",
+        "nome": "Diorama",
+        "nomeFonte": "Diorama",
+        "linhaFonte": 23
+      },
+      {
+        "codigoIbge": "5207253",
+        "nome": "Doverlândia",
+        "nomeFonte": "Doverlândia",
+        "linhaFonte": 24
+      },
+      {
+        "codigoIbge": "5207600",
+        "nome": "Fazenda Nova",
+        "nomeFonte": "Fazenda Nova",
+        "linhaFonte": 25
+      },
+      {
+        "codigoIbge": "5207808",
+        "nome": "Firminópolis",
+        "nomeFonte": "Firminópolis",
+        "linhaFonte": 26
+      },
+      {
+        "codigoIbge": "5210208",
+        "nome": "Iporá",
+        "nomeFonte": "Iporá",
+        "linhaFonte": 27
+      },
+      {
+        "codigoIbge": "5210307",
+        "nome": "Israelândia",
+        "nomeFonte": "Israelândia",
+        "linhaFonte": 28
+      },
+      {
+        "codigoIbge": "5211008",
+        "nome": "Itapirapuã",
+        "nomeFonte": "Itapirapuã",
+        "linhaFonte": 29
+      },
+      {
+        "codigoIbge": "5211602",
+        "nome": "Ivolândia",
+        "nomeFonte": "Ivolândia",
+        "linhaFonte": 30
+      },
+      {
+        "codigoIbge": "5211701",
+        "nome": "Jandaia",
+        "nomeFonte": "Jandaia",
+        "linhaFonte": 31
+      },
+      {
+        "codigoIbge": "5212006",
+        "nome": "Jaupaci",
+        "nomeFonte": "Jaupaci",
+        "linhaFonte": 32
+      },
+      {
+        "codigoIbge": "5212204",
+        "nome": "Jussara",
+        "nomeFonte": "Jussara",
+        "linhaFonte": 33
+      },
+      {
+        "codigoIbge": "5213400",
+        "nome": "Moiporá",
+        "nomeFonte": "Moiporá",
+        "linhaFonte": 34
+      },
+      {
+        "codigoIbge": "5213707",
+        "nome": "Montes Claros de Goiás",
+        "nomeFonte": "Montes Claros de Goiás",
+        "linhaFonte": 35
+      },
+      {
+        "codigoIbge": "5213905",
+        "nome": "Mossâmedes",
+        "nomeFonte": "Mossâmedes",
+        "linhaFonte": 36
+      },
+      {
+        "codigoIbge": "5214408",
+        "nome": "Nazário",
+        "nomeFonte": "Nazário",
+        "linhaFonte": 37
+      },
+      {
+        "codigoIbge": "5215207",
+        "nome": "Novo Brasil",
+        "nomeFonte": "Novo Brasil",
+        "linhaFonte": 38
+      },
+      {
+        "codigoIbge": "5215652",
+        "nome": "Palestina de Goiás",
+        "nomeFonte": "Palestina de Goiás",
+        "linhaFonte": 39
+      },
+      {
+        "codigoIbge": "5215702",
+        "nome": "Palmeiras de Goiás",
+        "nomeFonte": "Palmeiras de Goiás",
+        "linhaFonte": 40
+      },
+      {
+        "codigoIbge": "5215900",
+        "nome": "Palminópolis",
+        "nomeFonte": "Palminópolis",
+        "linhaFonte": 41
+      },
+      {
+        "codigoIbge": "5216403",
+        "nome": "Paraúna",
+        "nomeFonte": "Paraúna",
+        "linhaFonte": 42
+      },
+      {
+        "codigoIbge": "5217203",
+        "nome": "Piranhas",
+        "nomeFonte": "Piranhas",
+        "linhaFonte": 43
+      },
+      {
+        "codigoIbge": "5219001",
+        "nome": "Sanclerlândia",
+        "nomeFonte": "Sanclerlândia",
+        "linhaFonte": 44
+      },
+      {
+        "codigoIbge": "5219100",
+        "nome": "Santa Bárbara de Goiás",
+        "nomeFonte": "Santa Bárbara de Goiás",
+        "linhaFonte": 45
+      },
+      {
+        "codigoIbge": "5219258",
+        "nome": "Santa Fé de Goiás",
+        "nomeFonte": "Santa Fé de Goiás",
+        "linhaFonte": 46
+      },
+      {
+        "codigoIbge": "5220058",
+        "nome": "São João da Paraúna",
+        "nomeFonte": "São João da Paraúna",
+        "linhaFonte": 47
+      },
+      {
+        "codigoIbge": "5220108",
+        "nome": "São Luís de Montes Belos",
+        "nomeFonte": "São Luis de Montes Belos",
+        "linhaFonte": 48
+      },
+      {
+        "codigoIbge": "5221502",
+        "nome": "Turvânia",
+        "nomeFonte": "Turvânia",
+        "linhaFonte": 49
+      }
+    ]
+  },
+  {
+    "id": "noroeste-goiano",
+    "ordem": 10,
+    "codigoImb": "010",
+    "nome": "Região Noroeste Goiano (Estrada do Boi)",
+    "nomeFonteImb": "Região Noroeste Goiano (Estrada do Boi)",
+    "versaoTerritorial": "imb-regplan-2018",
+    "referenciaTerritorialId": "imb-regplan-2018",
+    "folhaFonteImb": "Reg_Noroeste 3",
+    "municipios": [
+      {
+        "codigoIbge": "5201603",
+        "nome": "Araçu",
+        "nomeFonte": "Araçu",
+        "linhaFonte": 7
+      },
+      {
+        "codigoIbge": "5202155",
+        "nome": "Araguapaz",
+        "nomeFonte": "Araguapaz",
+        "linhaFonte": 8
+      },
+      {
+        "codigoIbge": "5202502",
+        "nome": "Aruanã",
+        "nomeFonte": "Aruanã",
+        "linhaFonte": 9
+      },
+      {
+        "codigoIbge": "5207535",
+        "nome": "Faina",
+        "nomeFonte": "Faina",
+        "linhaFonte": 10
+      },
+      {
+        "codigoIbge": "5208905",
+        "nome": "Goiás",
+        "nomeFonte": "Goiás",
+        "linhaFonte": 11
+      },
+      {
+        "codigoIbge": "5209291",
+        "nome": "Guaraíta",
+        "nomeFonte": "Guaraíta",
+        "linhaFonte": 12
+      },
+      {
+        "codigoIbge": "5209606",
+        "nome": "Heitoraí",
+        "nomeFonte": "Heitoraí",
+        "linhaFonte": 13
+      },
+      {
+        "codigoIbge": "5210406",
+        "nome": "Itaberaí",
+        "nomeFonte": "Itaberaí",
+        "linhaFonte": 14
+      },
+      {
+        "codigoIbge": "5210562",
+        "nome": "Itaguari",
+        "nomeFonte": "Itaguari",
+        "linhaFonte": 15
+      },
+      {
+        "codigoIbge": "5210604",
+        "nome": "Itaguaru",
+        "nomeFonte": "Itaguaru",
+        "linhaFonte": 16
+      },
+      {
+        "codigoIbge": "5211206",
+        "nome": "Itapuranga",
+        "nomeFonte": "Itapuranga",
+        "linhaFonte": 17
+      },
+      {
+        "codigoIbge": "5211404",
+        "nome": "Itauçu",
+        "nomeFonte": "Itauçu",
+        "linhaFonte": 18
+      },
+      {
+        "codigoIbge": "5212956",
+        "nome": "Matrinchã",
+        "nomeFonte": "Matrinchã",
+        "linhaFonte": 19
+      }
+    ]
+  }
+]

@@ -1,0 +1,131 @@
+{
+  "versaoCenarios": "1",
+  "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+  "casos": [
+    {
+      "id": "CA03",
+      "tipo": "entrada isolada para futuro teste de domínio; não é um nono perfil",
+      "entrada": {
+        "preco": "3000.00",
+        "moeda": "BRL",
+        "unidadePreco": "cabeca",
+        "pesoReferencia": "200.00",
+        "unidadePeso": "kg"
+      },
+      "esperado": {
+        "precoPorKgPesoVivo": "15.00"
+      }
+    },
+    {
+      "id": "CA04",
+      "perfilId": "bezerro-macho-nelore",
+      "semana": "2026-09-28",
+      "esperado": {
+        "cobertura": 8,
+        "totalRegioes": 10,
+        "somaPrecos": "26950.00",
+        "mediaEstadual": "3368.75"
+      }
+    },
+    {
+      "id": "CA05",
+      "semana": "2026-02-02",
+      "esperado": {
+        "registros": 0,
+        "mediaEstadual": null
+      }
+    },
+    {
+      "id": "CA06",
+      "perfilId": "bezerro-macho-nelore",
+      "regiaoId": "sudoeste-goiano",
+      "anterior": "2026-09-21",
+      "atual": "2026-09-28",
+      "esperado": {
+        "precoAnterior": "3000.00",
+        "precoAtual": "3150.00",
+        "variacaoAbsoluta": "150.00",
+        "variacaoPercentual": "5.0"
+      }
+    },
+    {
+      "id": "CA07-semana-ausente",
+      "perfilId": "bezerro-macho-nelore",
+      "regiaoId": "metropolitana-goiania",
+      "anterior": "2026-06-01",
+      "atual": "2026-06-08",
+      "esperado": {
+        "variacaoSemanal": null,
+        "motivo": "dados insuficientes"
+      }
+    },
+    {
+      "id": "CA07-periodo-unico",
+      "perfilId": "bezerro-macho-nelore",
+      "regiaoId": "sudoeste-goiano",
+      "inicio": "2026-09-28",
+      "fim": "2026-09-28",
+      "esperado": {
+        "variacaoPeriodo": null,
+        "motivo": "dados insuficientes"
+      }
+    },
+    {
+      "id": "CA08",
+      "perfilId": "bezerro-macho-nelore",
+      "anterior": "2026-09-21",
+      "atual": "2026-09-28",
+      "esperado": {
+        "coberturaAnterior": 8,
+        "coberturaAtual": 8,
+        "mediaAnterior": "3218.75",
+        "mediaAtual": "3368.75",
+        "variacaoAbsoluta": "150.00",
+        "variacaoPercentual": "4.7",
+        "regioesAnteriores": [
+          "metropolitana-goiania",
+          "centro-goiano",
+          "norte-goiano",
+          "nordeste-goiano",
+          "entorno-df",
+          "sudeste-goiano",
+          "sul-goiano",
+          "sudoeste-goiano"
+        ],
+        "regioesAtuais": [
+          "norte-goiano",
+          "nordeste-goiano",
+          "entorno-df",
+          "sudeste-goiano",
+          "sul-goiano",
+          "sudoeste-goiano",
+          "oeste-goiano",
+          "noroeste-goiano"
+        ],
+        "composicaoAlterada": true
+      }
+    },
+    {
+      "id": "RN07-limite-inferior",
+      "perfilId": "bezerro-macho-nelore",
+      "regiaoId": "sudoeste-goiano",
+      "anterior": "2025-09-29",
+      "atual": "2025-10-06",
+      "esperado": {
+        "ambasReferenciasPresentes": true
+      }
+    },
+    {
+      "id": "lacuna-consecutiva",
+      "perfilId": "bezerra-femea-nelore",
+      "regiaoId": "nordeste-goiano",
+      "semanas": [
+        "2025-11-03",
+        "2025-11-10"
+      ],
+      "esperado": {
+        "registros": 0
+      }
+    }
+  ]
+}

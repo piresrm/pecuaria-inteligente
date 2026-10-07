@@ -110,7 +110,17 @@ O desenvolvimento seguirá TDD. Foram adotados Vitest para domínio e API, React
 
 A execução da v0.1 e da entrega acadêmica v0.2 será local, via Docker Compose, com uma única instância e um único processo da API. Caddy servirá a interface e encaminhará `/api/` pela mesma origem HTTPS, com certificado emitido por uma autoridade local. Os controles por IP e de concorrência serão mantidos em memória; Valkey ou Redis serão avaliados em versões futuras, antes de ampliar para múltiplas instâncias.
 
-A aplicação, os testes e as configurações de execução e integração contínua ainda não foram implementados. As versões de referência, imagens e módulos planejados estão no registro de tecnologias; a instalação integrada e as configurações ainda serão verificadas na implementação. A v0.1 utilizará apenas dados demonstrativos, e as fontes reais serão avaliadas posteriormente. Não há, neste momento, procedimento de instalação, execução local ou exemplos de API. Essas instruções serão acrescentadas conforme a implementação avance.
+A base demonstrativa fixa foi preparada em `data/demonstrativa/v0.1/`: oito perfis, dez regiões do IMB, 246 municípios e 4.146 preços fictícios, com lacunas controladas. O histórico cobre outubro de 2025 a setembro de 2026, além da semana anterior para comparação. Fontes públicas fundamentam os parâmetros e o território; os preços são demonstrativos. A [documentação da base](docs/superpowers/specs/2026-10-07-base-demonstrativa-v0.1.md) registra pesquisa, condições comerciais, reprodução e verificação.
+
+A aplicação, os testes e as configurações de execução e integração contínua ainda não foram implementados. As versões de referência, imagens e módulos planejados estão no registro de tecnologias; a instalação integrada e as configurações ainda serão verificadas na implementação. A v0.1 utilizará apenas dados demonstrativos; a validação para importação de cotações reais será realizada posteriormente. Não há, neste momento, procedimento de instalação, execução local ou exemplos de API. Essas instruções serão acrescentadas conforme a implementação avance.
+
+### Dados disponíveis
+
+Os arquivos CSV e JSON da base fixa estão em [`data/demonstrativa/v0.1/`](data/demonstrativa/v0.1/). Para conferir sua integridade com GNU Coreutils, na raiz do repositório:
+
+```bash
+(cd data/demonstrativa/v0.1 && sha256sum --check SHA256SUMS)
+```
 
 ### Organização planejada para a implementação
 
@@ -144,8 +154,9 @@ A documentação da v0.1 está em `docs/superpowers/specs/`:
 - [Requisitos](docs/superpowers/specs/2026-10-04-requisitos-v0.1-design.md): escopo, regras de negócio e critérios de aceitação.
 - [Arquitetura aprovada](docs/superpowers/specs/2026-10-04-arquitetura-v0.1-design.md): componentes, contratos e políticas de consistência, recuperação, segurança e desempenho.
 - [Tecnologias e implantação](docs/superpowers/specs/2026-10-06-tecnologias-e-implantacao.md): escolhas aprovadas, justificativas, alternativas avaliadas, considerações sobre Vercel e lista centralizada de decisões pendentes.
+- [Base demonstrativa fixa](docs/superpowers/specs/2026-10-07-base-demonstrativa-v0.1.md): pesquisa pública, perfis, território, arquivos de dados, receita e cenários verificáveis.
 
-Os próximos passos são fixar o conjunto demonstrativo de cria e recria em Goiás, detalhar o modelo físico e os contratos e elaborar o plano de implementação, conforme as pendências do registro. A seleção principal do ambiente e das ferramentas foi concluída; sua instalação e verificação integrada ocorrerão na implementação. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
+Os próximos passos são detalhar o modelo físico e os contratos a partir da base fixa e elaborar o plano de implementação, conforme as pendências do registro. A seleção principal do ambiente e das ferramentas foi concluída; sua instalação e verificação integrada ocorrerão na implementação. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
 
 ## Créditos e licença
 
