@@ -27,8 +27,11 @@ A v0.1 implementará a consulta demonstrativa de reposição em Goiás. A v0.2 p
 | Migrações | Adotadas por delegação técnica | Drizzle Kit `0.31.11`: esquema em TypeScript, geração de SQL revisado e versionado, aplicação separada da API. |
 | Publicação dos dados | Mecanismo adotado por delegação técnica | Fotografias imutáveis identificadas por versão e troca transacional da referência publicada. Detalhamento físico e testes ficam para o plano. |
 | Implantação futura | Intenção do autor | Experimentar Vercel antes da v1.0. Compatibilidade documentada; configuração e viabilidade operacional ainda serão verificadas. |
-| Aritmética decimal | Candidata | `decimal.js` foi sugerida. Biblioteca, precisão e modo de arredondamento ainda precisam ser definidos. |
-| Demais ferramentas e versões | Pendentes | Validação de contratos, gráfico, persistência no navegador, testes, auditoria, formatação e ambiente reproduzível. |
+| Contratos e validação | Adotados por delegação técnica | JSON Schema Draft 7 com TypeBox `1.3.36`, `@fastify/type-provider-typebox` `6.1.0`, Ajv `8.20.0` e `ajv-formats` `3.0.1`. Validadores do navegador gerados na compilação. |
+| Aritmética decimal | Adotada por delegação técnica | `big.js` `7.0.1`; entradas textuais, somas exatas, 40 casas para divisões e desempate para longe de zero na apresentação. |
+| Persistência no navegador | Adotada por delegação técnica | IndexedDB com `idb` `8.0.4`, confirmação transacional da consulta salva. Orçamento de armazenamento ainda depende de medição. |
+| Gráfico | Adotado por delegação técnica | Chart.js `4.5.1`, importação seletiva e carregamento separado da interface essencial; conformidade com 60 KiB ainda será medida. |
+| Demais ferramentas e versões | Pendentes | Testes, auditoria, formatação, ambiente reproduzível e versões restantes da aplicação. |
 
 ## Fundamento de TypeScript, React, Tailwind CSS e Vite
 
@@ -50,6 +53,62 @@ Vite compila os arquivos estáticos da interface. Tailwind CSS, integrado à com
 - Preservar preços e pesos como cadeias decimais nos contratos. Usar aritmética decimal nos cálculos, com precisão definida e arredondamento de apresentação verificado por testes. TypeScript não muda a representação numérica do JavaScript.
 
 Fontes: [TypeScript — tipos removidos na compilação](https://www.typescriptlang.org/docs/handbook/2/basic-types.html#erased-types), [React com Vite](https://react.dev/learn/build-a-react-app-from-scratch), [React — carregamento adiado](https://react.dev/reference/react/lazy), [Vite — implantação estática](https://vite.dev/guide/static-deploy.html), [Tailwind com Vite](https://tailwindcss.com/docs/installation/using-vite), [compatibilidade do Tailwind](https://tailwindcss.com/docs/compatibility), [Fastify — validação e serialização](https://fastify.dev/docs/latest/Reference/Validation-and-Serialization/), [Fastify — integração entre esquemas e tipos](https://fastify.dev/docs/latest/Reference/Type-Providers/), [decimal.js](https://mikemcl.github.io/decimal.js/) e [FastAPI](https://fastapi.tiangolo.com/features/).
+
+## Contratos, cálculos e recursos do navegador
+
+As escolhas desta seção foram adotadas sob a delegação técnica do autor, preservando os contratos, as regras e os orçamentos aprovados. A pesquisa comparou possibilidades; ainda não houve instalação nem medição integrada da aplicação.
+
+### Contratos e validação adotados
+
+Adotar JSON Schema Draft 7 declarado com TypeBox, com tipos inferidos e integração por `@fastify/type-provider-typebox` na linha compatível com Fastify 5. O pacote escolhido é `typebox`, da série 1, conforme a integração atual; exemplos antigos com `@sinclair/typebox` não serão misturados. Compartilhar as definições dos campos; a API e os validadores do navegador usarão os mesmos esquemas HTTP, e a preparação demonstrativa usará essas definições em seu esquema de entrada. O esquema físico de Drizzle permanece separado.
+
+Usar Ajv com `ajv-formats` para validar durante a execução. Configurar `coerceTypes: false`, `useDefaults: false`, `removeAdditional: false` e `allErrors: false`; os esquemas dos parâmetros de consulta e dos objetos de dados rejeitarão propriedades extras. Não modificar dados recebidos para fazê-los passar na validação. Formatos de datas serão conferidos junto ao perfil exato já exigido no [contrato da arquitetura](2026-10-04-arquitetura-v0.1-design.md#modelo-de-dados-e-publicação). Conferências de referências, unicidade e compatibilidade de versões ficam em validação semântica explícita, além do esquema estrutural.
+
+Gerar validadores ESM com o modo *standalone* do Ajv durante a compilação, incluindo somente as funções e os auxiliares necessários no navegador. O compilador e o construtor de esquemas não serão carregados para compilar contratos durante a navegação. O código gerado ainda pode depender de auxiliares do Ajv e de formatos; seu tamanho real integra o orçamento da interface essencial. A API validará as respostas antes da serialização e de armazená-las em *cache*: o serializador do Fastify não substitui essa validação. O navegador validará respostas e dados recuperados antes de usá-los.
+
+Alternativas avaliadas: Zod oferece validação e inferência de tipos, com variante Mini; Valibot oferece composição modular. Ambas são válidas. TypeBox e Ajv foram escolhidos pela integração com o JSON Schema usado pelo Fastify e pela possibilidade de pré-compilar os validadores. Não foi demonstrada superioridade de desempenho ou tamanho sobre essas alternativas.
+
+Fontes: [TypeBox](https://github.com/sinclairzx81/typebox), [integração com Fastify](https://github.com/fastify/fastify-type-provider-typebox/blob/v6.1.0/README.md), [validação e serialização](https://fastify.dev/docs/latest/Reference/Validation-and-Serialization/), [opções do Ajv](https://ajv.js.org/options.html), [validadores pré-compilados](https://ajv.js.org/standalone.html), [formatos](https://ajv.js.org/packages/ajv-formats.html), [Zod](https://zod.dev/) e [Valibot](https://valibot.dev/guides/comparison/).
+
+### Aritmética e arredondamento adotados
+
+Adotar `big.js` em um módulo de domínio independente da interface. A candidata anterior, `decimal.js`, permanece válida, mas oferece operações além das fórmulas desta entrega e configura precisão em dígitos significativos para as operações. `big.js` atende à aritmética básica e mantém soma, subtração e multiplicação exatas; sua precisão de divisão é expressa em casas decimais. Inteiros escalados exigiriam tratamento adicional de médias, conversões e razões.
+
+Usar um construtor dedicado com `strict: true`, `DP: 40` e `RM: Big.roundHalfUp`. Preços, pesos e constantes entrarão como texto, evitando conversão intermediária para `number`. Não reduzir valores armazenados às casas de apresentação durante os cálculos. Divisões com expansão infinita precisam de precisão finita: 40 casas são o parâmetro inicial de cálculo, a verificar contra os limites dos dados e casos de fronteira; isso não significa arredondar indicadores intermediários para duas ou uma casa.
+
+Na apresentação, adotar arredondamento ao valor mais próximo, com empate para longe de zero, mantendo as casas exigidas por RN11. Por exemplo, `1.005` vira `1.01` e `-1.005` vira `-1.01` ao apresentar duas casas. Esse desempate foi definido como escolha técnica para o conjunto demonstrativo; não é uma regra de uma fonte comercial. Os testes deverão cobrir esses empates, sinais, divisões periódicas e os critérios CA03–CA08, verificando a estabilidade da apresentação com precisão maior.
+
+Fontes: [API de big.js](https://mikemcl.github.io/big.js/), [comparação de bibliotecas pelo mantenedor](https://github.com/MikeMcl/big.js/wiki) e [API de decimal.js](https://mikemcl.github.io/decimal.js/).
+
+### Persistência adotada
+
+Adotar IndexedDB com `idb`, que oferece uma interface baseada em promessas e tipos TypeScript. A necessidade principal é confirmar dados e referência da consulta salva numa transação. IndexedDB nativo atende à mesma capacidade com mais controle manual; Dexie é uma alternativa válida com recursos de consulta adicionais. `localStorage` tem operações síncronas e não oferece transação envolvendo vários registros; não foi escolhido para persistir resumo e históricos.
+
+Separar resumo, históricos e metadados em armazenamentos de objetos, com chaves que incluam versão do contrato, versão dos dados e perfil quando aplicável. Preparar os dados completos e validados antes de abrir a transação de escrita. Confirmar os registros necessários e a referência da consulta salva juntos e aguardar `tx.done`; não aguardar rede durante a transação. A remoção da versão anterior ocorrerá somente depois dessa confirmação, conforme a [política de persistência da arquitetura](2026-10-04-arquitetura-v0.1-design.md#navegador).
+
+Falhas de abertura, quota ou transação manterão a consulta disponível em memória e preservarão a última consulta salva válida. A versão do esquema IndexedDB será distinta de `schemaVersion` e `versaoDados`. Mudanças desse esquema precisarão de migração que preserve dados compatíveis, sem recriar destrutivamente a base como solução automática.
+
+O armazenamento pode ser removido pelo navegador; persistência local não é garantia de retenção nem funcionamento offline completo. O orçamento continua pendente da medição obrigatória do resumo e dos oito históricos, com metadados, índices e espaço de troca entre versões. Registrar também navegador e método de medição; tamanho de JSON ou quota declarada, isoladamente, não demonstram a ocupação efetiva.
+
+Fontes: [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB), [idb e duração de transações](https://github.com/jakearchibald/idb), [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API), [quotas e remoção pelo navegador](https://developer.mozilla.org/en-US/docs/Web/API/Storage_API/Storage_quotas_and_eviction_criteria) e [Dexie](https://dexie.org/docs/Tutorial/Hello-World).
+
+### Gráfico adotado
+
+Adotar Chart.js com integração direta num componente React e importação dinâmica. Registrar apenas o controlador e os elementos de linha, escalas de categorias e linear e os recursos efetivamente usados. As semanas serão rótulos civis ordenados, sem adaptador de datas. O módulo será carregado conforme a [sequência aprovada](2026-10-04-arquitetura-v0.1-design.md#carregamento-progressivo-e-recuperação), utilizando o histórico já disponível.
+
+Representar todas as semanas do recorte e usar `null` onde faltar preço, com `spanGaps: false` e `tension: 0`; omitir semanas ausentes do eixo poderia ocultar lacunas. Converter valores para números somente na projeção visual exigida pelo gráfico, sem reutilizá-los em cálculos financeiros. Rótulos e valores detalhados consultarão a série decimal original. A tabela acessível continuará sendo a representação textual completa; o desenho em `canvas` não oferece essa leitura sozinho.
+
+Usar contêiner responsivo, atualizar e destruir a instância nos momentos corretos e desativar animações nessa entrega. A rotação reorganizará o gráfico sem nova consulta de dados. Essa configuração é técnica; cores, tipografia e composição da página continuam na etapa de apresentação visual.
+
+Recharts foi avaliado pela integração declarativa com React; uPlot, pelo foco em séries temporais; SVG próprio dispensaria uma biblioteca de gráficos, mas exigiria implementar escalas, eixos, interação e adaptação. Chart.js foi escolhido pelo conjunto documentado de configuração, lacunas e importação seletiva. Medir todo o módulo adicional, incluindo integração e dependências, contra 60 KiB comprimidos. Se falhar, reduzir o módulo ou reavaliar a escolha, registrando a evidência antes de alterar o orçamento.
+
+Fontes: [integração seletiva do Chart.js](https://www.chartjs.org/docs/latest/getting-started/integration.html), [linhas e lacunas](https://www.chartjs.org/docs/latest/charts/line.html), [acessibilidade](https://www.chartjs.org/docs/latest/general/accessibility.html), [adaptação ao contêiner](https://www.chartjs.org/docs/latest/configuration/responsive.html), [atualização](https://www.chartjs.org/docs/latest/developers/updates.html), [ciclo de vida](https://www.chartjs.org/docs/latest/api/classes/Chart.html), [Recharts](https://recharts.github.io/en-US/guide/getting-started/) e [uPlot](https://github.com/leeoniya/uPlot).
+
+### Versões e verificação desta seleção
+
+As versões estáveis foram conferidas em 06/10/2026 nos metadados públicos do npm: [TypeBox 1.3.36](https://registry.npmjs.org/typebox/1.3.36), [integração Fastify 6.1.0](https://registry.npmjs.org/@fastify%2Ftype-provider-typebox/6.1.0), [Ajv 8.20.0](https://registry.npmjs.org/ajv/8.20.0), [ajv-formats 3.0.1](https://registry.npmjs.org/ajv-formats/3.0.1), [big.js 7.0.1](https://registry.npmjs.org/big.js/7.0.1), [idb 8.0.4](https://registry.npmjs.org/idb/8.0.4) e [Chart.js 4.5.1](https://registry.npmjs.org/chart.js/4.5.1). Fixar essas versões e o arquivo de resolução de dependências ao introduzir os manifestos. Tipagens auxiliares e versões restantes serão conferidas junto ao ambiente.
+
+No plano, formalizar os esquemas e exemplos completos, os detalhes do armazenamento e os testes de contrato, precisão e recuperação. A seleção das ferramentas foi concluída; a conformidade da aplicação dependerá das medições e dos testes previstos na arquitetura. Publicidade de tamanho de uma biblioteca ou de um exemplo não substitui essas medições.
 
 ## Banco: escolha aprovada e alternativa avaliada
 
@@ -178,7 +237,7 @@ Executar na infraestrutura de destino os cenários de limitação, falhas e cons
 ## Definições restantes antes do plano de implementação
 
 1. Detalhar o modelo físico com Drizzle e as migrações: tabelas, índices, precisão/escala, proteção de imutabilidade e retenção de versões, após fixar os dados demonstrativos. Versão do PostgreSQL, acesso, ferramenta de migrações e mecanismo de publicação já foram adotados.
-2. Formalizar os esquemas das respostas e escolher validação, aritmética decimal, persistência no navegador e gráfico.
+2. Formalizar os esquemas completos e exemplos das respostas com TypeBox, os limites de entrada e os detalhes do armazenamento com IndexedDB. Validação, aritmética decimal, persistência e gráfico já foram adotados; verificar suas configurações nos testes e medições da implementação.
 3. Selecionar testes, auditoria de dependências, regras do Semgrep e integração contínua; TDD já está estabelecido.
 4. Fixar versões, gerenciador de pacotes, diretórios, formatação, análise estática, configuração do Compose e comandos reproduzíveis.
 5. Definir idade e peso dos oito perfis, composição municipal e versão territorial, janela de 12 meses, convenção semanal e geração reproduzível de preços e lacunas.
