@@ -100,7 +100,7 @@ A visão de longo prazo continua abrangendo toda a cadeia pecuária brasileira. 
 
 O projeto está em fase de concepção e documentação. Este README descreve a visão do produto e o *roadmap* proposto; as funcionalidades apresentadas ainda não constituem uma aplicação implementada neste repositório.
 
-A arquitetura da v0.1 foi definida e aprovada. TypeScript, React, Tailwind CSS, Vite e Fastify em Node.js foram escolhidos em conversa.
+A arquitetura da v0.1 foi definida e aprovada. TypeScript, React, Tailwind CSS, Vite e Fastify em Node.js foram escolhidos em conversa. O ambiente adotado usa Node.js 24 LTS, TypeScript 6.0.3 e npm com espaços de trabalho; Prettier e ESLint farão as verificações de formatação e código.
 
 O banco escolhido é PostgreSQL 18.6, com persistência em volume no Docker Compose. O acesso aos dados usará Drizzle ORM com o *driver* `pg`; as migrações serão geradas, revisadas e versionadas com Drizzle Kit.
 
@@ -108,9 +108,23 @@ Os contratos usarão TypeBox e Ajv, e os cálculos usarão `big.js`. A persistê
 
 O desenvolvimento seguirá TDD. Foram adotados Vitest para domínio e API, React Testing Library para componentes e Playwright para a consulta completa. Os testes de integração usarão PostgreSQL real com Testcontainers. npm organizará as dependências; GitHub Actions executará as verificações, incluindo auditoria com `npm audit` e análise obrigatória com Semgrep Community Edition.
 
-A execução da v0.1 e da entrega acadêmica v0.2 será local, via Docker Compose, com uma única instância e um único processo da API. Os controles por IP e de concorrência serão mantidos em memória; Valkey ou Redis serão avaliados em versões futuras, antes de ampliar para múltiplas instâncias.
+A execução da v0.1 e da entrega acadêmica v0.2 será local, via Docker Compose, com uma única instância e um único processo da API. Caddy servirá a interface e encaminhará `/api/` pela mesma origem HTTPS, com certificado emitido por uma autoridade local. Os controles por IP e de concorrência serão mantidos em memória; Valkey ou Redis serão avaliados em versões futuras, antes de ampliar para múltiplas instâncias.
 
-A aplicação, os testes e as configurações de execução e integração contínua ainda não foram implementados. As demais dependências continuam em definição. A v0.1 utilizará apenas dados demonstrativos, e as fontes reais serão avaliadas posteriormente. Não há, neste momento, procedimento de instalação, execução local ou exemplos de API. Essas instruções serão acrescentadas conforme a implementação avance.
+A aplicação, os testes e as configurações de execução e integração contínua ainda não foram implementados. As versões de referência, imagens e módulos planejados estão no registro de tecnologias; a instalação integrada e as configurações ainda serão verificadas na implementação. A v0.1 utilizará apenas dados demonstrativos, e as fontes reais serão avaliadas posteriormente. Não há, neste momento, procedimento de instalação, execução local ou exemplos de API. Essas instruções serão acrescentadas conforme a implementação avance.
+
+### Organização planejada para a implementação
+
+Os diretórios abaixo ainda não existem; registram a organização adotada para o plano de implementação.
+
+| Local | Responsabilidade |
+| --- | --- |
+| `apps/web/` | Interface React, consultas, persistência no navegador e gráfico. |
+| `apps/api/` | API Fastify, repositório PostgreSQL e operações demonstrativas autorizadas. |
+| `packages/contracts/` | Contratos, tipos e geração dos validadores compartilhados. |
+| `packages/domain/` | Filtros e cálculos independentes da interface e do servidor. |
+| `tests/e2e/` | Verificação da consulta completa com Playwright. |
+| `infra/` e `compose.yaml` | Imagens, entrada HTTPS e configuração local dos serviços. |
+| `.github/workflows/` | Testes, compilação e verificações de qualidade e segurança. |
 
 ## Qualidade e critérios de sucesso
 
@@ -131,7 +145,7 @@ A documentação da v0.1 está em `docs/superpowers/specs/`:
 - [Arquitetura aprovada](docs/superpowers/specs/2026-10-04-arquitetura-v0.1-design.md): componentes, contratos e políticas de consistência, recuperação, segurança e desempenho.
 - [Tecnologias e implantação](docs/superpowers/specs/2026-10-06-tecnologias-e-implantacao.md): escolhas aprovadas, justificativas, alternativas avaliadas, considerações sobre Vercel e lista centralizada de decisões pendentes.
 
-Os próximos passos são concluir a seleção das dependências e a preparação dos dados fictícios de cria e recria em Goiás, conforme as pendências do registro, e elaborar o plano de implementação. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
+Os próximos passos são fixar o conjunto demonstrativo de cria e recria em Goiás, detalhar o modelo físico e os contratos e elaborar o plano de implementação, conforme as pendências do registro. A seleção principal do ambiente e das ferramentas foi concluída; sua instalação e verificação integrada ocorrerão na implementação. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
 
 ## Créditos e licença
 

@@ -1,6 +1,6 @@
 # Tecnologias e implantação — v0.1 e v0.2
 
-Data: 06/10/2026. Atualização de testes e segurança: 07/10/2026.  
+Data: 06/10/2026. Atualização de testes, segurança e ambiente: 07/10/2026.  
 Estado: registro das decisões de conversa, das escolhas adotadas por delegação técnica e dos achados de documentação oficial. A seleção de tecnologias está parcialmente concluída; este documento não representa implementação nem aprovação das alternativas ainda candidatas.
 
 ## Objetivo e relação com a documentação
@@ -38,7 +38,11 @@ A v0.1 implementará a consulta demonstrativa de reposição em Goiás. A v0.2 p
 | Auditoria de dependências | Adotada por delegação técnica | `npm audit`, incluindo dependências de desenvolvimento e transitivas; relatório completo e bloqueio inicial em severidade alta ou crítica. |
 | Análise de segurança do código | Confirmada pelo autor; execução adotada por delegação técnica | Semgrep Community Edition obrigatório, com regras locais de segurança para a aplicação e configurações analisáveis, revisão fixada e resultados tratados. |
 | Integração contínua | Adotada por delegação técnica | GitHub Actions para testes, compilação, análise de tipos, auditoria e Semgrep; configuração executável na implementação. |
-| Demais ferramentas e versões | Pendentes | Formatação, demais verificações estáticas, ambiente reproduzível e versões compatíveis das ferramentas e da aplicação. |
+| Ambiente Node.js | Adotado por delegação técnica | Node.js `24.21.0` LTS e npm `11.19.0`, com TypeScript `6.0.3`, compatível com a análise de código escolhida. |
+| Organização dos módulos | Adotada por delegação técnica | Espaços de trabalho em `apps/web`, `apps/api`, `packages/contracts` e `packages/domain`; preparação demonstrativa no servidor. |
+| Formatação e análise de código | Adotadas por delegação técnica | Prettier e ESLint com `typescript-eslint`, regras React e análise de tipos pelo compilador. |
+| Entrada local e HTTPS | Adotados por delegação técnica | Caddy `2.11.7`: interface compilada e encaminhamento de `/api/` pela mesma origem, com autoridade certificadora local. |
+| Versões e imagens | Referências adotadas por delegação técnica | Versões diretas e resumos criptográficos registrados abaixo; instalação integrada e validação operacional ainda não executadas. |
 
 ## Fundamento de TypeScript, React, Tailwind CSS e Vite
 
@@ -266,13 +270,113 @@ A auditoria acompanhará as alterações de dependências e será refeita antes 
 
 Usar ambiente Linux com Docker disponível, versões fixadas das ferramentas, imagens por resumo criptográfico e ações por identificador completo de revisão. Dar ao *token* apenas as permissões necessárias, começando por `contents: read`; os testes usarão dados e credenciais descartáveis. Executar código de propostas pelo evento `pull_request`, sem segredos de implantação. Publicação e implantação não serão ações automáticas deste fluxo acadêmico.
 
-Guardar cobertura, relatórios de segurança e evidências de falhas dos testes de navegador como artefatos da execução, vinculados à revisão analisada. O plano definirá duração de retenção, tempos máximos e comandos locais equivalentes. Também fixará versões compatíveis de Vitest, Vite, Node.js, ferramentas de teste, npm e Semgrep; não instalar simplesmente as versões mais recentes sem verificar a combinação.
+Guardar cobertura, relatórios de segurança e evidências de falhas dos testes de navegador como artefatos da execução, vinculados à revisão analisada. O plano definirá duração de retenção, tempos máximos e comandos locais equivalentes. As versões de referência estão no [ambiente reproduzível](#ambiente-reproduzível-módulos-e-convenções); confirmar a instalação integrada e não atualizar isoladamente sem conferir a combinação.
 
 Fontes: [testes Node.js com GitHub Actions](https://docs.github.com/en/actions/tutorials/build-and-test-code/nodejs), [Playwright em integração contínua](https://playwright.dev/docs/ci), [uso seguro de ações](https://docs.github.com/en/actions/reference/security/secure-use) e [artefatos de execução](https://docs.github.com/en/actions/how-tos/writing-workflows/choosing-what-your-workflow-does/storing-and-sharing-data-from-a-workflow).
 
+## Ambiente reproduzível, módulos e convenções
+
+Estas escolhas completam a seleção do ambiente e das ferramentas para o plano. Foram verificadas em 07/10/2026 nos metadados dos mantenedores e registros oficiais. A compatibilidade conferida é a declarada por essas fontes; ainda será necessário instalar, compilar, executar os testes e medir a aplicação antes de considerar o ambiente validado.
+
+### Versões adotadas
+
+Adotar Node.js `24.21.0`, da linha LTS, e npm `11.19.0`, distribuído nessa versão do Node.js. Node.js 26 ainda está na fase *Current* nesta pesquisa. A linha 24 atende às exigências declaradas de Vite, Vitest, ESLint e jsdom; usar tipagens da linha 24 para não pressupor APIs de outra versão do servidor.
+
+Adotar TypeScript `6.0.3`. O registro apresenta TypeScript `7.0.2` como mais recente, mas `typescript-eslint` `8.71.1` declara suporte a TypeScript `>=4.8.4 <6.1.0`. Escolher 6.0.3 preserva a compatibilidade declarada da análise de código. Não contornar conflitos com `--force` ou `--legacy-peer-deps`; reavaliar a combinação numa atualização acompanhada dos testes.
+
+| Uso | Dependências diretas e versões adotadas |
+| --- | --- |
+| Linguagem | [typescript `6.0.3`](https://registry.npmjs.org/typescript/6.0.3). |
+| Interface React | [react `19.3.0`](https://registry.npmjs.org/react/19.3.0), [react-dom `19.3.0`](https://registry.npmjs.org/react-dom/19.3.0), [@types/react `19.3.0`](https://registry.npmjs.org/@types%2Freact/19.3.0) e [@types/react-dom `19.3.0`](https://registry.npmjs.org/@types%2Freact-dom/19.3.0). |
+| Compilação da interface | [vite `8.3.3`](https://registry.npmjs.org/vite/8.3.3) e [@vitejs/plugin-react `6.1.2`](https://registry.npmjs.org/@vitejs%2Fplugin-react/6.1.2). |
+| Estilos | [tailwindcss `4.3.3`](https://registry.npmjs.org/tailwindcss/4.3.3) e [@tailwindcss/vite `4.3.3`](https://registry.npmjs.org/@tailwindcss%2Fvite/4.3.3). |
+| API | [fastify `5.12.5`](https://registry.npmjs.org/fastify/5.12.5), [@types/node `24.19.1`](https://registry.npmjs.org/@types%2Fnode/24.19.1) e [@types/pg `8.23.1`](https://registry.npmjs.org/@types%2Fpg/8.23.1). |
+| Tipagem decimal | [@types/big.js `7.0.0`](https://registry.npmjs.org/@types%2Fbig.js/7.0.0). |
+| Executor e cobertura | [vitest `5.0.3`](https://registry.npmjs.org/vitest/5.0.3) e [@vitest/coverage-v8 `5.0.3`](https://registry.npmjs.org/@vitest%2Fcoverage-v8/5.0.3). |
+| Componentes e interações | [@testing-library/react `16.3.3`](https://registry.npmjs.org/@testing-library%2Freact/16.3.3), [@testing-library/dom `10.4.2`](https://registry.npmjs.org/@testing-library%2Fdom/10.4.2), [@testing-library/user-event `14.6.7`](https://registry.npmjs.org/@testing-library%2Fuser-event/14.6.7), [@testing-library/jest-dom `7.0.1`](https://registry.npmjs.org/@testing-library%2Fjest-dom/7.0.1) e [jsdom `30.1.2`](https://registry.npmjs.org/jsdom/30.1.2). |
+| Navegador e acessibilidade | [@playwright/test `1.63.0`](https://registry.npmjs.org/@playwright%2Ftest/1.63.0) e [@axe-core/playwright `4.13.0`](https://registry.npmjs.org/@axe-core%2Fplaywright/4.13.0). |
+| Banco de integração | [@testcontainers/postgresql `12.2.0`](https://registry.npmjs.org/@testcontainers%2Fpostgresql/12.2.0). |
+| Análise de código | [eslint `10.12.0`](https://registry.npmjs.org/eslint/10.12.0), [@eslint/js `10.0.1`](https://registry.npmjs.org/@eslint%2Fjs/10.0.1), [typescript-eslint `8.71.1`](https://registry.npmjs.org/typescript-eslint/8.71.1), [globals `17.13.0`](https://registry.npmjs.org/globals/17.13.0), [eslint-plugin-react-hooks `7.1.1`](https://registry.npmjs.org/eslint-plugin-react-hooks/7.1.1) e [eslint-plugin-react-refresh `0.5.7`](https://registry.npmjs.org/eslint-plugin-react-refresh/0.5.7). |
+| Formatação | [prettier `3.9.9`](https://registry.npmjs.org/prettier/3.9.9) e [eslint-config-prettier `10.1.8`](https://registry.npmjs.org/eslint-config-prettier/10.1.8). |
+| Desenvolvimento | [tsx `4.23.15`](https://registry.npmjs.org/tsx/4.23.15) e [concurrently `10.0.5`](https://registry.npmjs.org/concurrently/10.0.5), somente para executar e acompanhar processos de desenvolvimento. |
+
+As versões já adotadas de contratos, aritmética, persistência, gráfico e banco permanecem no [estado das escolhas](#estado-das-escolhas). Conferidas novamente as declarações de TypeBox, sua integração Fastify, Drizzle e `pg`; o provedor TypeBox da série 6 atende a Fastify 5. Dependências opcionais de outros bancos, compiladores ou ambientes de teste não serão instaladas apenas por aparecerem nos metadados.
+
+Fixar versões diretas sem faixas e registrar as transitivas no `package-lock.json`. Declarar as versões de Node.js e npm nos manifestos, registrar Node.js em `.node-version` e conferir o executor na instalação e na integração contínua. Instalar os navegadores correspondentes à versão fixada de Playwright. Atualizações exigirão revisão do arquivo de dependências, auditoria e verificações; versões pesquisadas não são garantia de ausência de vulnerabilidades.
+
+Fontes adicionais: [índice oficial do Node.js, incluindo npm](https://nodejs.org/dist/index.json), [linhas e suporte do Node.js](https://nodejs.org/en/about/previous-releases), [Vite](https://vite.dev/guide/), [Vitest](https://vitest.dev/guide/), [integração Fastify/TypeBox](https://github.com/fastify/fastify-type-provider-typebox/blob/v6.1.0/README.md) e [dependências suportadas por typescript-eslint](https://typescript-eslint.io/users/dependency-versions/).
+
+### Estrutura e fronteiras adotadas
+
+Adotar quatro espaços de trabalho privados com nomes `@pecuaria/web`, `@pecuaria/api`, `@pecuaria/contracts` e `@pecuaria/domain`. npm e comandos explícitos de compilação atenderão à estrutura inicial.
+| Local planejado | Responsabilidade e dependências permitidas |
+| --- | --- |
+| `apps/web/` | React, cliente de consulta, IndexedDB e gráfico. Consome contratos próprios do navegador e domínio; não importa código ou configuração do servidor. |
+| `apps/api/` | Fastify, consultas e controles em memória. Consome contratos e repositório PostgreSQL; credenciais e permissões de escrita ficam nas operações autorizadas do servidor. |
+| `apps/api/src/db/` e `apps/api/drizzle/` | Esquema físico, repositório, conexões e migrações SQL com seus metadados. |
+| `apps/api/src/demo/` | Geração, validação e publicação demonstrativa por comando separado; sem rota pública de escrita. |
+| `packages/contracts/` | Esquemas TypeBox, tipos e geração de validadores Ajv. Exportações separadas para servidor, tipos e validadores pré-compilados do navegador. |
+| `packages/domain/` | Filtros e cálculos puros com `big.js`, independentes de React, rede, armazenamento e API. Pode consumir somente tipos dos contratos. |
+| `tests/e2e/` | Testes Playwright e dados auxiliares de cenários completos. Testes unitários ficam junto aos módulos; integrações da API ficam em `apps/api/tests/`. |
+| `infra/` | Dockerfiles, Caddyfile e arquivos auxiliares. `compose.yaml` fica na raiz; configurações de desenvolvimento e testes terão complementos explícitos. |
+| `.github/workflows/` | Verificações adotadas; sem implantação automática. |
+
+Usar ESM com `type: "module"`. Os pacotes compartilhados terão exportações explícitas de código e tipos compilados; gerar validadores antes de compilar a interface. A compilação executará a ordem de dependências, em vez de presumir que uma execução genérica em todos os espaços de trabalho encontra essa ordem. O navegador importará apenas tipos e validadores necessários; a exportação dos esquemas TypeBox do servidor não será incluída implicitamente na interface.
+
+A API e os pacotes compartilhados serão compilados com TypeScript e resolução `NodeNext`; a interface usará Vite, resolução `bundler` e JSX de React. Declarar destino de linguagem e bibliotecas de cada ambiente no plano, compatíveis com Node.js 24 e com a matriz de navegadores. O processo da API executará JavaScript compilado com Node.js; `tsx` e `concurrently` ficam no desenvolvimento. Nenhum comando de desenvolvimento será usado como servidor da entrega acadêmica.
+
+### Convenções e verificações adotadas
+
+Adotar `strict: true`, `noUncheckedIndexedAccess` e `exactOptionalPropertyTypes`, mantendo a validação durante a execução já definida. A análise de tipos terá comando próprio e abrangerá os módulos e testes TypeScript. Usar arquivos `.ts` e `.tsx`, testes `.test.ts`/`.test.tsx` junto ao comportamento e `.spec.ts` para testes de ponta a ponta.
+
+Adotar Prettier com dois espaços, ponto e vírgula, aspas simples, largura de referência de 100 colunas, fim de linha LF e `proseWrap: preserve`. Preservar as quebras Markdown intencionais de dois espaços e as convenções de idioma e itálico da documentação. Não aplicar mudanças gerais de formatação aos documentos existentes nesta etapa. Configurar `.editorconfig`, `.gitignore` e `.dockerignore` antes dos arquivos de implementação; excluir credenciais, dependências instaladas, resultados e certificados privados.
+
+Adotar ESLint com configuração `eslint.config.mjs`, `@eslint/js` recomendado e `typescript-eslint` `recommendedTypeChecked` com `projectService`, além das regras recomendadas de React Hooks e da configuração Vite de React Refresh. Separar globais de Node.js e navegador e impedir importações de módulos do servidor pela interface. Usar `eslint-config-prettier` para retirar conflitos de estilo; Prettier terá sua própria verificação. Biome foi considerado como ferramenta unificada; ESLint foi escolhido pelas regras com informação de tipos e pelas integrações React adotadas.
+
+Fontes: [verificação estrita](https://www.typescriptlang.org/tsconfig/strict.html), [índices potencialmente ausentes](https://www.typescriptlang.org/tsconfig/noUncheckedIndexedAccess.html), [propriedades opcionais](https://www.typescriptlang.org/tsconfig/exactOptionalPropertyTypes.html), [resolução por ambiente](https://www.typescriptlang.org/tsconfig/moduleResolution.html), [análise com tipos](https://typescript-eslint.io/getting-started/typed-linting/), [configurações recomendadas](https://typescript-eslint.io/users/configs/), [Prettier e análise de código](https://prettier.io/docs/integrating-with-linters), [React Hooks](https://react.dev/reference/eslint-plugin-react-hooks) e [React Refresh](https://github.com/ArnaudBarre/eslint-plugin-react-refresh) e [Biome](https://biomejs.dev/).
+
+### Imagens e ferramentas de contêiner adotadas
+
+Adotar Docker Engine `29.8.2` e Docker Compose `5.6.0` como referências para qualificar o ambiente local Linux. Registrar as versões efetivamente usadas na execução; uma combinação diferente precisará das mesmas verificações. A escolha não instala nem modifica Docker no computador do autor. Usar o comando `docker compose`.
+
+As tags e os resumos abaixo foram conferidos nos metadados públicos do Docker Hub. São resumos dos índices de imagens; permitem selecionar a variante da arquitetura da máquina sem trocar a referência fixada. As quatro imagens consultadas têm variantes Linux `amd64` e `arm64`; isso não demonstra que a aplicação inteira já foi validada nas duas arquiteturas.
+
+| Uso | Imagem e resumo adotados |
+| --- | --- |
+| Node.js para compilação e API | `node:24.21.0-bookworm-slim@sha256:d6aa754f16b3197301076f047b5def2f02ea1dbbc2ca920407d46d7ec7f87b20` |
+| PostgreSQL | `postgres:18.6-bookworm@sha256:afc7e2d441324c0388fa80c3d24f733b4194a4eb7f47dd8ee2b08eb1a24a647c` |
+| Entrada HTTPS e arquivos da interface | `caddy:2.11.7-alpine@sha256:d8542f48d34a9cf4e4c11a478865229840e87e4c96ea3f439101f31a5d35f75f` |
+| Análise Semgrep | `semgrep/semgrep:1.179.0@sha256:93963d9295a366f59e4850127b1550400ee7b388f04fe144e4a1f6325d96e01b` |
+
+Usar compilação em estágios: instalar com npm e compilar no estágio de preparação; levar apenas os arquivos estáticos à imagem Caddy e o JavaScript compilado e dependências necessárias à imagem da API. A API usará usuário sem privilégios, um processo Node.js e encerramento que libere conexões. Migrações e preparação demonstrativa usarão estágio ou imagem de operações separado, com as ferramentas e permissões necessárias. Não levar Drizzle Kit, testes ou executores de desenvolvimento à imagem de consulta apenas para aplicar migrações ao iniciar.
+
+Fontes: [Docker Engine 29.8.2](https://docs.docker.com/engine/release-notes/29/#2982), [Docker Compose 5.6.0](https://github.com/docker/compose/releases/tag/v5.6.0), [Node.js no Docker Hub](https://hub.docker.com/v2/repositories/library/node/tags/24.21.0-bookworm-slim), [PostgreSQL](https://hub.docker.com/v2/repositories/library/postgres/tags/18.6-bookworm), [Caddy](https://hub.docker.com/v2/repositories/library/caddy/tags/2.11.7-alpine), [Semgrep](https://hub.docker.com/v2/repositories/semgrep/semgrep/tags/1.179.0), [compilação em estágios](https://docs.docker.com/build/building/multi-stage/) e [orientações da imagem Node.js](https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md).
+
+### Serviços, HTTPS e inicialização local adotados
+
+Adotar Caddy como entrada única da execução acadêmica. Ele servirá a interface compilada e encaminhará `/api/` ao Fastify, preservando o caminho e sem adicionar armazenamento compartilhado de respostas da API. Usar compressão gzip e conferir cabeçalhos, validade HTTP, `ETag`, respostas `304` e cotas através da entrada real. HTML será revalidado e recursos identificados por conteúdo terão a validade longa prevista na arquitetura. Caddy foi escolhido por reunir arquivos estáticos, encaminhamento, compressão e HTTPS local no mesmo serviço.
+
+A origem padrão será `https://localhost`, com HTTP redirecionado para HTTPS. Caddy usará `tls internal` e volumes próprios para sua configuração e autoridade certificadora local. Instalar o certificado público dessa autoridade no armazenamento de confiança do sistema e do navegador usado; o contêiner não torna esse certificado confiável automaticamente no computador. Documentar instalação e remoção na implementação, sem versionar chaves privadas. Os testes completos também deverão confiar nessa autoridade; desativar a verificação de TLS não comprova o critério de HTTPS.
+
+Expor por padrão somente as portas da entrada em `127.0.0.1`. API e PostgreSQL ficarão nas redes do Compose, sem portas publicadas no computador; a porta administrativa de Caddy também não será publicada. A API confiará apenas na origem do Caddy identificada na configuração da rede para interpretar IP encaminhado. Conferir a normalização e a rejeição de cabeçalhos forjados conforme a política aprovada. Não ativar registro de acesso com IP ou outros dados pessoais na entrada; a aplicação manterá as métricas agregadas previstas na arquitetura.
+
+O fluxo inicial será: PostgreSQL disponível, migrações concluídas, preparação inicial concluída, API pronta e entrada disponível. Usar `healthcheck`, `service_healthy` e `service_completed_successfully` nas dependências apropriadas. Migrações e preparação serão serviços de execução única com credenciais próprias. A preparação inicial publicará dados somente quando não houver fotografia publicada; não sobrescreverá nem apagará uma publicação existente. Publicações seguintes terão comando explícito e usarão o mecanismo transacional já adotado.
+
+O teste de prontidão da API deverá verificar acesso de leitura e existência de publicação compatível; `pg_isready` isoladamente não demonstra que esquema e dados estão preparados. Falha de migração ou preparação impedirá disponibilizar a aplicação, e quedas posteriores do banco serão tratadas pela API. O plano definirá verificações internas, tempos máximos, repetição limitada de conexões e comportamento de reinício. A persistência e o diretório do PostgreSQL continuam na [definição adotada do banco](#postgresql--aprovado-para-execução-local).
+
+Guardar senhas em arquivos locais ignorados, montados como segredos apenas nos serviços autorizados; exemplos versionados conterão somente instruções e valores demonstrativos identificados. A aplicação lerá os arquivos explicitamente; a montagem como segredo não faz bibliotecas Node.js lê-los automaticamente. A imagem PostgreSQL poderá usar suas opções `_FILE`. Dados persistentes e material da autoridade local não entrarão no contexto de compilação. Os projetos e volumes de teste permanecerão separados dos usados na consulta acadêmica.
+
+Fontes: [Caddy e HTTPS local](https://caddyserver.com/docs/automatic-https), [autoridade interna](https://caddyserver.com/docs/caddyfile/directives/tls#internal), [serviço de arquivos e SPA](https://caddyserver.com/docs/caddyfile/patterns#single-page-apps-spas), [encaminhamento e cabeçalhos](https://caddyserver.com/docs/caddyfile/directives/reverse_proxy), [compressão](https://caddyserver.com/docs/caddyfile/directives/encode), [registros de acesso](https://caddyserver.com/docs/caddyfile/directives/log), [ordem de inicialização no Compose](https://docs.docker.com/compose/how-tos/startup-order/) e [segredos por serviço](https://docs.docker.com/compose/how-tos/use-secrets/).
+
+### Comandos a disponibilizar na implementação
+
+Estabelecer comandos na raiz para instalar (`npm ci`), desenvolver (`npm run dev`), compilar (`npm run build`), verificar tipos/formatação/código (`npm run check`), testar (`npm test`, `npm run test:integration`, `npm run test:e2e`) e executar auditoria e Semgrep (`npm run security`). A execução acadêmica usará `docker compose up --build`; o fluxo de dependências preparará banco, esquema e dados iniciais antes de expor a consulta.
+
+Esses nomes são o contrato planejado dos comandos, ainda sem manifestos ou arquivos Compose. O plano explicitará geração de validadores, ordem de compilação, processos de desenvolvimento, execução das operações de banco, preparação dos segredos e confiança da autoridade local. Registrar no README somente como procedimentos disponíveis após implementação e verificação. Revalidar correções de segurança das versões escolhidas ao introduzir os arquivos, registrando qualquer atualização e repetindo as verificações de compatibilidade.
+
 ## Implantação local e compatibilidade futura com Vercel
 
-No Compose, preparar serviços para servir a interface compilada, executar a API e manter PostgreSQL com volume persistente. A preparação e publicação demonstrativa será uma operação separada da consulta pública. A imagem do banco foi definida nesta etapa; as demais imagens, a inicialização, as verificações de disponibilidade, a rede, o HTTPS local e os comandos ainda serão definidos no plano.
+No Compose, Caddy servirá a interface compilada e encaminhará as consultas à API Fastify; PostgreSQL manterá os dados em volume persistente. Imagens, HTTPS local e fluxo de inicialização seguem as [escolhas do ambiente reproduzível](#ambiente-reproduzível-módulos-e-convenções). A preparação e publicação demonstrativa será uma operação separada da consulta pública. O plano formalizará os arquivos, credenciais, verificações de disponibilidade e comandos completos; essas configurações ainda não foram implementadas.
 
 Expor interface e API pela mesma origem, com encaminhamento de `/api/`, preserva a recomendação da arquitetura. Foi aprovada uma única instância da API, com um único processo atendendo às consultas na entrega local. A cota por IP e o limite global de consultas simultâneas ao banco serão controlados em memória nesse processo. Essa decisão orientará a configuração do Compose e os testes. Um contêiner com vários processos ou várias réplicas exigirá os controles distribuídos descritos abaixo antes de sua adoção.
 
@@ -317,7 +421,7 @@ Executar na infraestrutura de destino os cenários de limitação, falhas e cons
 1. Detalhar o modelo físico com Drizzle e as migrações: tabelas, índices, precisão/escala, proteção de imutabilidade e retenção de versões, após fixar os dados demonstrativos. Versão do PostgreSQL, acesso, ferramenta de migrações e mecanismo de publicação já foram adotados.
 2. Formalizar os esquemas completos e exemplos das respostas com TypeBox, os limites de entrada e os detalhes do armazenamento com IndexedDB. Validação, aritmética decimal, persistência e gráfico já foram adotados; verificar suas configurações nos testes e medições da implementação.
 3. Detalhar a configuração das ferramentas de teste, auditoria e integração contínua adotadas; fixar os arquivos e a revisão das regras comunitárias do Semgrep e seus testes. TDD e Semgrep foram confirmados pelo autor; as configurações executáveis serão criadas com a implementação.
-4. Fixar versões compatíveis, diretórios, formatação, demais verificações estáticas, configuração do Compose e comandos reproduzíveis. npm com espaços de trabalho já foi adotado.
+4. Formalizar os arquivos do ambiente e os comandos completos no plano: manifestos, compilação, geração de validadores, formatação, verificações estáticas, Compose, segredos e confiança HTTPS local. Versões de referência, imagens, diretórios e convenções já foram adotados; instalar e verificar a combinação na implementação.
 5. Definir idade e peso dos oito perfis, composição municipal e versão territorial, janela de 12 meses, convenção semanal e geração reproduzível de preços e lacunas.
 6. Definir apresentação visual e navegadores suportados, preservando estados de consulta, acessibilidade e rotação de tela já exigidos.
 7. Medir a representação persistida do resumo e dos oito históricos para definir o orçamento de armazenamento, incluindo margem e troca segura de versões, antes de fechar essa configuração no plano.
