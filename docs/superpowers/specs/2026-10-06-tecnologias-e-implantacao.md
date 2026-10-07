@@ -1,6 +1,6 @@
 # Tecnologias e implantação — v0.1 e v0.2
 
-Data: 06/10/2026.  
+Data: 06/10/2026. Atualização de testes e segurança: 07/10/2026.  
 Estado: registro das decisões de conversa, das escolhas adotadas por delegação técnica e dos achados de documentação oficial. A seleção de tecnologias está parcialmente concluída; este documento não representa implementação nem aprovação das alternativas ainda candidatas.
 
 ## Objetivo e relação com a documentação
@@ -31,7 +31,14 @@ A v0.1 implementará a consulta demonstrativa de reposição em Goiás. A v0.2 p
 | Aritmética decimal | Adotada por delegação técnica | `big.js` `7.0.1`; entradas textuais, somas exatas, 40 casas para divisões e desempate para longe de zero na apresentação. |
 | Persistência no navegador | Adotada por delegação técnica | IndexedDB com `idb` `8.0.4`, confirmação transacional da consulta salva. Orçamento de armazenamento ainda depende de medição. |
 | Gráfico | Adotado por delegação técnica | Chart.js `4.5.1`, importação seletiva e carregamento separado da interface essencial; conformidade com 60 KiB ainda será medida. |
-| Demais ferramentas e versões | Pendentes | Testes, auditoria, formatação, ambiente reproduzível e versões restantes da aplicação. |
+| Método de desenvolvimento | Reafirmado pelo autor | TDD: teste que falha pelo comportamento ausente, implementação mínima e refatoração com testes passando. |
+| Testes de domínio, contratos e API | Adotados por delegação técnica | Vitest, cobertura V8 e `fastify.inject()`; integração com PostgreSQL real por Testcontainers. |
+| Testes da interface | Adotados por delegação técnica | React Testing Library com `user-event`, `jest-dom` e jsdom; Playwright para o fluxo completo e `@axe-core/playwright` para verificações automatizáveis de acessibilidade. |
+| Gerenciamento de dependências | Adotado por delegação técnica | npm com espaços de trabalho e um `package-lock.json` na raiz; instalação reproduzível com `npm ci`. |
+| Auditoria de dependências | Adotada por delegação técnica | `npm audit`, incluindo dependências de desenvolvimento e transitivas; relatório completo e bloqueio inicial em severidade alta ou crítica. |
+| Análise de segurança do código | Confirmada pelo autor; execução adotada por delegação técnica | Semgrep Community Edition obrigatório, com regras locais de segurança para a aplicação e configurações analisáveis, revisão fixada e resultados tratados. |
+| Integração contínua | Adotada por delegação técnica | GitHub Actions para testes, compilação, análise de tipos, auditoria e Semgrep; configuração executável na implementação. |
+| Demais ferramentas e versões | Pendentes | Formatação, demais verificações estáticas, ambiente reproduzível e versões compatíveis das ferramentas e da aplicação. |
 
 ## Fundamento de TypeScript, React, Tailwind CSS e Vite
 
@@ -192,6 +199,77 @@ Atlas no plano gratuito foi considerado como opção futura associada a MongoDB.
 
 Fontes: [MongoDB — validação e índices únicos](https://www.mongodb.com/docs/manual/tutorial/unique-indexes-schema-validation/), [transações](https://www.mongodb.com/docs/manual/core/transactions/), [integridade das referências](https://www.mongodb.com/docs/manual/data-modeling/data-consistency/), [configuração de um conjunto com um nó](https://www.mongodb.com/docs/v8.3/tutorial/restore-replica-set-from-backup/) e [limites gratuitos do Atlas](https://www.mongodb.com/docs/atlas/reference/free-shared-limitations/).
 
+## TDD, testes e verificações de segurança
+
+O autor reafirmou TDD e confirmou Semgrep obrigatório. As ferramentas e o fluxo abaixo foram adotados por delegação técnica, com base na documentação oficial consultada em 07/10/2026. Ainda não existem dependências instaladas, testes ou configuração de integração contínua neste repositório. Os comandos citados descrevem o fluxo a implementar.
+
+### Método e ferramentas de teste adotados
+
+Seguir o ciclo estabelecido em [ABOUT.md](../../../ABOUT.md): escrever um teste de comportamento, executá-lo e observar a falha esperada; implementar o mínimo para passar; refatorar mantendo a suíte passando. Falha por erro de configuração não comprova a etapa inicial. Correções começarão por um teste que reproduza o defeito. Os resultados esperados serão derivados das regras e exemplos aprovados, sem repetir a fórmula da implementação para gerar a resposta do teste.
+
+| Camada | Ferramenta e ambiente | Aplicação nesta arquitetura |
+| --- | --- | --- |
+| Domínio e contratos | Vitest no ambiente Node.js | Verificar regras, precisão decimal e validação estrutural e semântica. Conferir equivalência dos validadores pré-compilados e dos usados no servidor. |
+| Componentes React | Vitest, jsdom, React Testing Library, `@testing-library/user-event` e `@testing-library/jest-dom` | Exercitar filtros, estados e resultados por interações e elementos acessíveis ao usuário. |
+| API | Vitest e `fastify.inject()` | Verificar rotas, validação, respostas, cabeçalhos e controles de admissão, sem abrir uma porta em cada teste. |
+| Persistência do servidor | Vitest e `@testcontainers/postgresql` | Executar migrações, consultas e publicação transacional num PostgreSQL isolado, com a mesma imagem fixada para a entrega. |
+| Consulta completa | Playwright Test | Exercitar interface compilada, API e banco; verificar também IndexedDB, recuperação, carregamento progressivo e rotação nos navegadores reais da matriz a definir. |
+| Acessibilidade | `@axe-core/playwright` e verificações de interação | Detectar problemas automatizáveis e verificar teclado e foco; complementar com revisão manual dos critérios aprovados. |
+
+Vitest foi escolhido pela integração com Vite e pelo suporte a TypeScript, ambientes separados, relógios controlados e cobertura. Jest e `node:test` foram considerados; Vitest concentra domínio, API e componentes num executor alinhado à compilação da interface. A transformação de TypeScript nos testes não substitui a análise de tipos, que terá uma verificação própria.
+
+Usar cobertura V8 com `@vitest/coverage-v8` na mesma versão de Vitest, incluindo os módulos de produção relevantes mesmo quando não forem importados pelos testes. O relatório orientará a busca de comportamentos sem verificação. A conclusão dependerá dos critérios de aceitação e cenários obrigatórios da [arquitetura](2026-10-04-arquitetura-v0.1-design.md#verificação-funcional-e-riscos); um percentual global, isoladamente, não comprova correção. Não foi adotado um limiar numérico arbitrário nesta etapa.
+
+React Testing Library foi escolhida pelo foco no uso dos componentes. jsdom atenderá aos testes rápidos de interação; IndexedDB, desenho do gráfico, disposição visual e comportamento efetivo do navegador serão verificados com Playwright. Emulação de DOM não demonstra esses resultados. Usar dados demonstrativos e controlar falhas de rede nos testes específicos de recuperação, mantendo também um fluxo completo com a API e o banco reais.
+
+Testcontainers automatizará a criação e o encerramento do banco de integração, aproveitando Docker já previsto no ambiente. Os testes usarão credenciais e bases descartáveis próprias, sem conectar ao volume da consulta acadêmica. Isolar casos e encerrar conexões e contêineres mesmo após falhas; testes de concorrência e publicação precisarão de conexões reais independentes. A suíte completa com Compose também terá projeto e volumes exclusivos de teste. Esses detalhes serão formalizados no plano.
+
+Playwright será o executor dos testes de ponta a ponta. Os testes de componentes permanecem em Vitest, evitando depender da modalidade experimental de componentes do Playwright. A matriz de navegadores suportados continua pendente; escolher Playwright não aprova automaticamente todos os navegadores que ele consegue executar. Usar Chromium nas medições que exigirem controle de rede e CPU por protocolo de depuração, registrando ambiente e parâmetros; executar as demais verificações nos navegadores da matriz aprovada.
+
+As metas e condições de medição permanecem no [orçamento de desempenho da arquitetura](2026-10-04-arquitetura-v0.1-design.md#orçamento-de-desempenho-proposto). Conferir tamanhos comprimidos na compilação e medir o fluxo na rede e CPU definidas; testes funcionais passando não demonstram esses limites. Relatórios de acessibilidade automatizados também precisarão da revisão manual prevista para a entrega.
+
+Fontes: [Vitest](https://vitest.dev/guide/), [ambientes de teste](https://vitest.dev/guide/environment.html), [cobertura](https://vitest.dev/guide/coverage.html), [verificação de tipos](https://vitest.dev/guide/testing-types.html), [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/), [user-event](https://testing-library.com/docs/user-event/intro/), [jest-dom](https://github.com/testing-library/jest-dom), [testes do Fastify](https://fastify.dev/docs/latest/Guides/Testing/), [PostgreSQL com Testcontainers](https://node.testcontainers.org/modules/postgresql/), [Playwright em integração contínua](https://playwright.dev/docs/ci), [controle de rede](https://playwright.dev/docs/network), [sessão de depuração do Chromium](https://playwright.dev/docs/api/class-cdpsession), [testes de componentes do Playwright](https://playwright.dev/docs/test-components) e [acessibilidade com axe](https://playwright.dev/docs/accessibility-testing).
+
+### Dependências e auditoria adotadas
+
+Adotar npm com espaços de trabalho para a interface, a API e os módulos compartilhados. Um único `package-lock.json` na raiz registrará a resolução de dependências. Essa escolha atende ao ambiente TypeScript comum sem acrescentar outro gerenciador ou orquestrador de compilação. Fixar versões compatíveis e documentar os diretórios e comandos ao introduzir os manifestos; `npm ci` será usado na integração contínua e na instalação reproduzível.
+
+Adotar `npm audit --include=dev --audit-level=high --json`, incluindo dependências diretas, transitivas e de desenvolvimento. Guardar o relatório completo: esse parâmetro altera o código de saída, sem esconder resultados de severidade menor. Falha de acesso à base de alertas impedirá considerar a auditoria concluída. Registrar data, ferramenta, arquivo de dependências analisado e tratamento dos resultados conforme RNF08 dos [requisitos](2026-10-04-requisitos-v0.1-design.md#requisitos-não-funcionais).
+
+O bloqueio inicial abrangerá alertas altos e críticos. Conferir aplicabilidade e corrigir os aplicáveis; uma classificação como não aplicável precisará de evidência específica e revisão, sem remover a dependência do escopo da auditoria para obter sucesso. Avaliar também os demais resultados. Atualizações serão revisadas e acompanhadas pelos testes; não aplicar correções automáticas com mudanças incompatíveis como parte da verificação.
+
+Fontes: [espaços de trabalho do npm](https://docs.npmjs.com/cli/v11/using-npm/workspaces/), [instalação reproduzível](https://docs.npmjs.com/cli/v11/commands/npm-ci/) e [auditoria e códigos de saída](https://docs.npmjs.com/cli/v11/commands/npm-audit/).
+
+### Semgrep obrigatório e execução adotada
+
+Adotar Semgrep Community Edition pela CLI, em contêiner com versão e resumo criptográfico fixados. Executar `semgrep scan` com configuração local, `--error`, `--strict`, `--metrics=off` e `--disable-version-check`, preservando relatório JSON. Esse caminho permite execução sem conta ou serviço pago. O plano definirá os caminhos e o comando completo. Não usar seleção automática de regras remotas a cada execução.
+
+Adotar uma seleção de regras comunitárias de segurança do repositório oficial `semgrep-rules`: JavaScript/TypeScript e Node.js, React, Ajv, Dockerfile, Docker Compose e GitHub Actions, conforme os arquivos introduzidos. Fixar a revisão de origem e versionar os YAML selecionados, seus identificadores e licenças aplicáveis; revisar a compatibilidade antes de incorporá-los. A seleção concreta dos arquivos e eventuais regras próprias ocorrerão junto ao código e às configurações, com casos de teste positivos e negativos. Uma regra destinada a outro ambiente, como Express, não demonstra cobertura de Fastify.
+
+Analisar o código próprio da interface, API, módulos compartilhados e preparação demonstrativa, além das configurações para as quais houver regras. Conferir os arquivos efetivamente analisados e os ignorados; configurar exclusões justificadas para dependências e artefatos gerados, preservando a análise dos esquemas e geradores escritos no projeto. Não excluir os testes próprios por padrão. Falhas de análise, regras inválidas, ausência inesperada de alvos e arquivos relevantes ignorados precisarão de tratamento antes de aceitar o resultado.
+
+Bloquear achados sem tratamento e falhas da execução. `ERROR`, `WARNING` e `INFO` das regras não equivalem automaticamente à classificação de risco alta ou crítica: avaliar contexto e confirmação conforme RNF11 dos [requisitos](2026-10-04-requisitos-v0.1-design.md#requisitos-não-funcionais). Corrigir vulnerabilidades confirmadas altas e críticas. Exceções pontuais, falsos positivos e exclusões terão justificativa revisada e vinculada à regra e ao trecho; preservar sua rastreabilidade. Não neutralizar o código de saída para fazer a verificação passar.
+
+Registrar versão do executor, revisão das regras, escopo, resultados e tratamento por revisão e entrega. A análise comunitária tem limites, inclusive de fluxo entre arquivos; os testes de segurança e a revisão continuam exigidos. A auditoria de pacotes será executada separadamente com npm. Semgrep Supply Chain e a plataforma hospedada foram considerados, mas não integram o fluxo acadêmico adotado.
+
+Fontes: [CLI e códigos de saída](https://docs.semgrep.dev/cli-reference), [regras comunitárias e licenças](https://github.com/semgrep/semgrep-rules), [regras JavaScript](https://github.com/semgrep/semgrep-rules/tree/develop/javascript), [regras TypeScript e React](https://github.com/semgrep/semgrep-rules/tree/develop/typescript), [regras de configurações](https://github.com/semgrep/semgrep-rules/tree/develop/yaml), [exclusões e padrões iniciais](https://docs.semgrep.dev/semgrepignore-v2-reference) e [limites da edição comunitária](https://github.com/semgrep/semgrep/blob/develop/README.md).
+
+### Integração contínua adotada
+
+Adotar GitHub Actions, acompanhando o repositório já hospedado no GitHub. Ao introduzir a implementação, configurar verificações em propostas de alteração, alterações em `main` e execução manual, com estes grupos de trabalho:
+
+1. Instalação reproduzível, análise de tipos, demais verificações estáticas a configurar, testes de domínio e componentes com cobertura e compilação.
+2. Testes de integração com PostgreSQL por Testcontainers e testes de ponta a ponta sobre a aplicação compilada no Compose isolado.
+3. Auditoria de dependências e Semgrep em trabalhos separados, preservando seus relatórios mesmo quando houver falha.
+
+A auditoria acompanhará as alterações de dependências e será refeita antes de cada entrega; o Semgrep acompanhará alterações de código ou configurações analisáveis e também a revisão de entrega. Os demais resultados obrigatórios de aceitação serão executados e registrados conforme a arquitetura. Falha de testes, compilação, tipos ou verificações de segurança impedirá considerar a alteração pronta para integração; habilitar as verificações obrigatórias da proposta quando os trabalhos existirem.
+
+Usar ambiente Linux com Docker disponível, versões fixadas das ferramentas, imagens por resumo criptográfico e ações por identificador completo de revisão. Dar ao *token* apenas as permissões necessárias, começando por `contents: read`; os testes usarão dados e credenciais descartáveis. Executar código de propostas pelo evento `pull_request`, sem segredos de implantação. Publicação e implantação não serão ações automáticas deste fluxo acadêmico.
+
+Guardar cobertura, relatórios de segurança e evidências de falhas dos testes de navegador como artefatos da execução, vinculados à revisão analisada. O plano definirá duração de retenção, tempos máximos e comandos locais equivalentes. Também fixará versões compatíveis de Vitest, Vite, Node.js, ferramentas de teste, npm e Semgrep; não instalar simplesmente as versões mais recentes sem verificar a combinação.
+
+Fontes: [testes Node.js com GitHub Actions](https://docs.github.com/en/actions/tutorials/build-and-test-code/nodejs), [Playwright em integração contínua](https://playwright.dev/docs/ci), [uso seguro de ações](https://docs.github.com/en/actions/reference/security/secure-use) e [artefatos de execução](https://docs.github.com/en/actions/how-tos/writing-workflows/choosing-what-your-workflow-does/storing-and-sharing-data-from-a-workflow).
+
 ## Implantação local e compatibilidade futura com Vercel
 
 No Compose, preparar serviços para servir a interface compilada, executar a API e manter PostgreSQL com volume persistente. A preparação e publicação demonstrativa será uma operação separada da consulta pública. A imagem do banco foi definida nesta etapa; as demais imagens, a inicialização, as verificações de disponibilidade, a rede, o HTTPS local e os comandos ainda serão definidos no plano.
@@ -238,8 +316,8 @@ Executar na infraestrutura de destino os cenários de limitação, falhas e cons
 
 1. Detalhar o modelo físico com Drizzle e as migrações: tabelas, índices, precisão/escala, proteção de imutabilidade e retenção de versões, após fixar os dados demonstrativos. Versão do PostgreSQL, acesso, ferramenta de migrações e mecanismo de publicação já foram adotados.
 2. Formalizar os esquemas completos e exemplos das respostas com TypeBox, os limites de entrada e os detalhes do armazenamento com IndexedDB. Validação, aritmética decimal, persistência e gráfico já foram adotados; verificar suas configurações nos testes e medições da implementação.
-3. Selecionar testes, auditoria de dependências, regras do Semgrep e integração contínua; TDD já está estabelecido.
-4. Fixar versões, gerenciador de pacotes, diretórios, formatação, análise estática, configuração do Compose e comandos reproduzíveis.
+3. Detalhar a configuração das ferramentas de teste, auditoria e integração contínua adotadas; fixar os arquivos e a revisão das regras comunitárias do Semgrep e seus testes. TDD e Semgrep foram confirmados pelo autor; as configurações executáveis serão criadas com a implementação.
+4. Fixar versões compatíveis, diretórios, formatação, demais verificações estáticas, configuração do Compose e comandos reproduzíveis. npm com espaços de trabalho já foi adotado.
 5. Definir idade e peso dos oito perfis, composição municipal e versão territorial, janela de 12 meses, convenção semanal e geração reproduzível de preços e lacunas.
 6. Definir apresentação visual e navegadores suportados, preservando estados de consulta, acessibilidade e rotação de tela já exigidos.
 7. Medir a representação persistida do resumo e dos oito históricos para definir o orçamento de armazenamento, incluindo margem e troca segura de versões, antes de fechar essa configuração no plano.

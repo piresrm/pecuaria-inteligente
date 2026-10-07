@@ -106,9 +106,11 @@ O banco escolhido é PostgreSQL 18.6, com persistência em volume no Docker Comp
 
 Os contratos usarão TypeBox e Ajv, e os cálculos usarão `big.js`. A persistência no navegador usará IndexedDB com `idb`; o gráfico será feito com Chart.js, carregado separadamente.
 
+O desenvolvimento seguirá TDD. Foram adotados Vitest para domínio e API, React Testing Library para componentes e Playwright para a consulta completa. Os testes de integração usarão PostgreSQL real com Testcontainers. npm organizará as dependências; GitHub Actions executará as verificações, incluindo auditoria com `npm audit` e análise obrigatória com Semgrep Community Edition.
+
 A execução da v0.1 e da entrega acadêmica v0.2 será local, via Docker Compose, com uma única instância e um único processo da API. Os controles por IP e de concorrência serão mantidos em memória; Valkey ou Redis serão avaliados em versões futuras, antes de ampliar para múltiplas instâncias.
 
-A aplicação e essa configuração ainda não foram implementadas. As demais dependências continuam em definição. A v0.1 utilizará apenas dados demonstrativos, e as fontes reais serão avaliadas posteriormente. Não há, neste momento, procedimento de instalação, execução local ou exemplos de API. Essas instruções serão acrescentadas conforme a implementação avance.
+A aplicação, os testes e as configurações de execução e integração contínua ainda não foram implementados. As demais dependências continuam em definição. A v0.1 utilizará apenas dados demonstrativos, e as fontes reais serão avaliadas posteriormente. Não há, neste momento, procedimento de instalação, execução local ou exemplos de API. Essas instruções serão acrescentadas conforme a implementação avance.
 
 ## Qualidade e critérios de sucesso
 
