@@ -233,10 +233,8 @@ Antes da entrega, testar esgotamento e reposição de permissões, isolamento en
 
 O principal custo dessa escolha é depender da API para obter preços no primeiro acesso sem cache. A divisão entre resumo e históricos reduz a espera inicial, mas traz estados intermediários que precisam de testes. A API e o banco acrescentam operação e hospedagem ao MVP; não serão substituídos por preços embutidos na compilação.
 
-## Etapas seguintes e decisões pendentes
+## Continuidade do planejamento
 
-Com a arquitetura aprovada, selecionar tecnologias para interface, serviço HTTP, banco, aritmética decimal, testes, gráfico, hospedagem e verificações de segurança. A seleção deve demonstrar compatibilidade com os orçamentos e com os contratos, sem acrescentar funcionalidades.
+As escolhas de tecnologias e implantação, suas justificativas e a lista de definições restantes estão centralizadas no [registro de tecnologias e implantação](2026-10-06-tecnologias-e-implantacao.md). Esse registro também preserva os achados sobre Vercel e os exemplos de coordenação entre instâncias. Os contratos, as políticas operacionais e os critérios de verificação desta arquitetura orientam a avaliação dessas escolhas.
 
-Na preparação dos dados, fixar idade e peso de cada perfil, composição municipal e versão territorial, janela exata de 12 meses, convenção semanal e conjunto reproduzível de preços/lacunas. Essas decisões pertencem aos dados e devem ser documentadas antes de executar os testes de aceitação.
-
-Depois dessas definições, escrever o plano de implementação com caminhos de arquivos, interfaces, comandos reproduzíveis e ciclo TDD. Nenhuma tecnologia ou funcionalidade está implementada por este documento.
+Depois de concluir as definições listadas no registro, escrever o plano de implementação com caminhos de arquivos, interfaces, comandos reproduzíveis e ciclo TDD. Nenhuma tecnologia ou funcionalidade está implementada por este documento.

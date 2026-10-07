@@ -100,7 +100,7 @@ A visão de longo prazo continua abrangendo toda a cadeia pecuária brasileira. 
 
 O projeto está em fase de concepção e documentação. Este README descreve a visão do produto e o *roadmap* proposto; as funcionalidades apresentadas ainda não constituem uma aplicação implementada neste repositório.
 
-A arquitetura da v0.1 foi definida e aprovada. As tecnologias, as dependências e as fontes de dados reais ainda serão selecionadas; a v0.1 utilizará apenas dados demonstrativos. Não há, neste momento, procedimento de instalação, execução local ou exemplos de API. Essas instruções serão acrescentadas conforme a implementação avance.
+A arquitetura da v0.1 foi definida e aprovada. TypeScript, React, Tailwind CSS, Vite e Fastify em Node.js foram escolhidos em conversa. A execução da v0.1 e da entrega acadêmica v0.2 será local, via Docker Compose, com uma única instância e um único processo da API. O banco escolhido é PostgreSQL, com persistência em volume no Compose. Os controles por IP e de concorrência serão mantidos em memória; Valkey ou Redis serão avaliados em versões futuras, antes de ampliar para múltiplas instâncias. A aplicação e essa configuração ainda não foram implementadas. As demais dependências continuam em definição. A v0.1 utilizará apenas dados demonstrativos, e as fontes reais serão avaliadas posteriormente. Não há, neste momento, procedimento de instalação, execução local ou exemplos de API. Essas instruções serão acrescentadas conforme a implementação avance.
 
 ## Qualidade e critérios de sucesso
 
@@ -115,7 +115,13 @@ A arquitetura da v0.1 foi definida e aprovada. As tecnologias, as dependências 
 
 A viabilidade da plataforma depende da disponibilidade, do histórico, da qualidade e das permissões de uso das fontes. A frequência de atualização será definida por fonte e não pressupõe cotações em tempo real.
 
-Os [requisitos da v0.1](docs/superpowers/specs/2026-10-04-requisitos-v0.1-design.md) estão consolidados em `docs/superpowers/specs/`. Incluem os oito perfis de reposição, as dez regiões de planejamento do IMB, a visão estadual demonstrativa, o suporte a conexões rurais lentas e os critérios de segurança. A [arquitetura aprovada](docs/superpowers/specs/2026-10-04-arquitetura-v0.1-design.md) define interface estática com dados obtidos automaticamente por API ligada ao banco, sem recompilar a página ao atualizar preços. Documenta componentes, contratos iniciais, moedas e unidades explícitas, cache, recuperação de falhas, limitação de requisições e orçamento inicial de desempenho, incluindo rotação da tela. Os próximos passos são selecionar tecnologias, preparar dados fictícios de cria e recria em Goiás e elaborar o plano de implementação. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
+A documentação da v0.1 está em `docs/superpowers/specs/`:
+
+- [Requisitos](docs/superpowers/specs/2026-10-04-requisitos-v0.1-design.md): escopo, regras de negócio e critérios de aceitação.
+- [Arquitetura aprovada](docs/superpowers/specs/2026-10-04-arquitetura-v0.1-design.md): componentes, contratos e políticas de consistência, recuperação, segurança e desempenho.
+- [Tecnologias e implantação](docs/superpowers/specs/2026-10-06-tecnologias-e-implantacao.md): escolhas aprovadas, justificativas, alternativas avaliadas, considerações sobre Vercel e lista centralizada de decisões pendentes.
+
+Os próximos passos são concluir a seleção das dependências e a preparação dos dados fictícios de cria e recria em Goiás, conforme as pendências do registro, e elaborar o plano de implementação. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
 
 ## Créditos e licença
 
