@@ -1,0 +1,828 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:pecuaria-inteligente:contratos:v1",
+  "title": "Contratos da API e persistência local da v0.1",
+  "$ref": "#/definitions/Resumo",
+  "definitions": {
+    "Identificador": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "^[a-z0-9](?:[a-z0-9-]{0,78}[a-z0-9])?(?![\\s\\S])"
+    },
+    "PerfilId": {
+      "type": "string",
+      "enum": [
+        "bezerro-macho-nelore",
+        "bezerro-macho-mestico",
+        "bezerra-femea-nelore",
+        "bezerra-femea-mestica",
+        "garrote-macho-nelore",
+        "garrote-macho-mestico",
+        "novilha-femea-nelore",
+        "novilha-femea-mestica"
+      ]
+    },
+    "RegiaoId": {
+      "type": "string",
+      "enum": [
+        "metropolitana-goiania",
+        "centro-goiano",
+        "norte-goiano",
+        "nordeste-goiano",
+        "entorno-df",
+        "sudeste-goiano",
+        "sul-goiano",
+        "sudoeste-goiano",
+        "oeste-goiano",
+        "noroeste-goiano"
+      ]
+    },
+    "DataCivil": {
+      "type": "string",
+      "format": "date",
+      "pattern": "^(?!0000)[0-9]{4}-[0-9]{2}-[0-9]{2}(?![\\s\\S])"
+    },
+    "InstanteUtc": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^(?!0000)[0-9]{4}-[0-9]{2}-[0-9]{2}T(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]\\.[0-9]{3}Z(?![\\s\\S])"
+    },
+    "Preco": {
+      "type": "string",
+      "pattern": "^(?:0|[1-9][0-9]{0,9})\\.[0-9]{2}(?![\\s\\S])",
+      "not": {
+        "const": "0.00"
+      }
+    },
+    "Peso": {
+      "type": "string",
+      "pattern": "^(?:0|[1-9][0-9]{0,5})\\.[0-9]{2}(?![\\s\\S])",
+      "not": {
+        "const": "0.00"
+      }
+    },
+    "Categoria": {
+      "type": "string",
+      "enum": [
+        "Bezerro",
+        "Bezerra",
+        "Garrote",
+        "Novilha"
+      ]
+    },
+    "Sexo": {
+      "type": "string",
+      "enum": [
+        "Macho",
+        "Fêmea"
+      ]
+    },
+    "GrupoRacial": {
+      "type": "string",
+      "enum": [
+        "Nelore",
+        "Mestiço",
+        "Mestiça"
+      ]
+    },
+    "Janela": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "inicio",
+        "fim",
+        "primeiraSemana",
+        "ultimaSemana",
+        "semanaAnterior",
+        "quantidadeSemanasNaJanela"
+      ],
+      "properties": {
+        "inicio": {
+          "$ref": "#/definitions/DataCivil"
+        },
+        "fim": {
+          "$ref": "#/definitions/DataCivil"
+        },
+        "primeiraSemana": {
+          "$ref": "#/definitions/DataCivil"
+        },
+        "ultimaSemana": {
+          "$ref": "#/definitions/DataCivil"
+        },
+        "semanaAnterior": {
+          "$ref": "#/definitions/DataCivil"
+        },
+        "quantidadeSemanasNaJanela": {
+          "type": "integer",
+          "minimum": 52,
+          "maximum": 53
+        }
+      }
+    },
+    "Perfil": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "ordem",
+        "categoria",
+        "sexo",
+        "grupoRacial",
+        "idadeReferenciaMeses",
+        "pesoReferencia",
+        "unidadePeso",
+        "referenciaParametrosId"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/PerfilId"
+        },
+        "ordem": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "categoria": {
+          "$ref": "#/definitions/Categoria"
+        },
+        "sexo": {
+          "$ref": "#/definitions/Sexo"
+        },
+        "grupoRacial": {
+          "$ref": "#/definitions/GrupoRacial"
+        },
+        "idadeReferenciaMeses": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 32767
+        },
+        "pesoReferencia": {
+          "$ref": "#/definitions/Peso"
+        },
+        "unidadePeso": {
+          "type": "string",
+          "const": "kg"
+        },
+        "referenciaParametrosId": {
+          "$ref": "#/definitions/Identificador"
+        }
+      }
+    },
+    "Regiao": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "ordem",
+        "codigoImb",
+        "nome",
+        "versaoTerritorial",
+        "quantidadeMunicipios"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/RegiaoId"
+        },
+        "ordem": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "codigoImb": {
+          "type": "string",
+          "enum": [
+            "001",
+            "002",
+            "003",
+            "004",
+            "005",
+            "006",
+            "007",
+            "008",
+            "009",
+            "010"
+          ]
+        },
+        "nome": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "versaoTerritorial": {
+          "$ref": "#/definitions/Identificador"
+        },
+        "quantidadeMunicipios": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000
+        }
+      }
+    },
+    "Condicoes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "pagamento",
+        "frete",
+        "tributos",
+        "descricao"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "const": "avista-sem-frete-sem-tributos"
+        },
+        "pagamento": {
+          "type": "string",
+          "const": "à vista"
+        },
+        "frete": {
+          "type": "string",
+          "const": "excluído"
+        },
+        "tributos": {
+          "type": "string",
+          "const": "excluídos"
+        },
+        "descricao": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        }
+      }
+    },
+    "Fonte": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "instituicao",
+        "url",
+        "consultadaEm",
+        "uso"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/Identificador"
+        },
+        "instituicao": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "url": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "format": "uri",
+          "pattern": "^https://"
+        },
+        "consultadaEm": {
+          "$ref": "#/definitions/DataCivil"
+        },
+        "uso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        }
+      }
+    },
+    "PrecoRegional": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "perfilId",
+        "regiaoId",
+        "semana",
+        "preco",
+        "moeda",
+        "unidadePreco",
+        "natureza",
+        "conjuntoId",
+        "condicoesComerciaisId"
+      ],
+      "properties": {
+        "perfilId": {
+          "$ref": "#/definitions/PerfilId"
+        },
+        "regiaoId": {
+          "$ref": "#/definitions/RegiaoId"
+        },
+        "semana": {
+          "$ref": "#/definitions/DataCivil"
+        },
+        "preco": {
+          "$ref": "#/definitions/Preco"
+        },
+        "moeda": {
+          "type": "string",
+          "const": "BRL"
+        },
+        "unidadePreco": {
+          "type": "string",
+          "const": "cabeca"
+        },
+        "natureza": {
+          "type": "string",
+          "const": "demonstrativa"
+        },
+        "conjuntoId": {
+          "$ref": "#/definitions/Identificador"
+        },
+        "condicoesComerciaisId": {
+          "type": "string",
+          "const": "avista-sem-frete-sem-tributos"
+        }
+      }
+    },
+    "ReferenciaSemanal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "perfilId",
+        "semana",
+        "regioesAusentes"
+      ],
+      "properties": {
+        "perfilId": {
+          "$ref": "#/definitions/PerfilId"
+        },
+        "semana": {
+          "$ref": "#/definitions/DataCivil"
+        },
+        "regioesAusentes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RegiaoId"
+          },
+          "minItems": 0,
+          "maxItems": 10,
+          "uniqueItems": true
+        }
+      }
+    },
+    "Resumo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "versaoDados",
+        "publicadoEm",
+        "natureza",
+        "conjuntoId",
+        "aviso",
+        "versaoTerritorial",
+        "janela",
+        "condicoesComerciais",
+        "referenciasFontes",
+        "perfis",
+        "regioes",
+        "referenciasSemanais",
+        "precos"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "const": "1.0.0"
+        },
+        "versaoDados": {
+          "$ref": "#/definitions/Identificador"
+        },
+        "publicadoEm": {
+          "$ref": "#/definitions/InstanteUtc"
+        },
+        "natureza": {
+          "type": "string",
+          "const": "demonstrativa"
+        },
+        "conjuntoId": {
+          "$ref": "#/definitions/Identificador"
+        },
+        "aviso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "versaoTerritorial": {
+          "$ref": "#/definitions/Identificador"
+        },
+        "janela": {
+          "$ref": "#/definitions/Janela"
+        },
+        "condicoesComerciais": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Condicoes"
+          },
+          "minItems": 1,
+          "maxItems": 1
+        },
+        "referenciasFontes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Fonte"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "perfis": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Perfil"
+          },
+          "minItems": 8,
+          "maxItems": 8
+        },
+        "regioes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Regiao"
+          },
+          "minItems": 10,
+          "maxItems": 10
+        },
+        "referenciasSemanais": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReferenciaSemanal"
+          },
+          "minItems": 16,
+          "maxItems": 16
+        },
+        "precos": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PrecoRegional"
+          },
+          "minItems": 0,
+          "maxItems": 160
+        }
+      }
+    },
+    "Historico": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "versaoDados",
+        "publicadoEm",
+        "natureza",
+        "conjuntoId",
+        "aviso",
+        "versaoTerritorial",
+        "janela",
+        "condicoesComerciais",
+        "referenciasFontes",
+        "perfilId",
+        "referenciasSemanais",
+        "precos"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "const": "1.0.0"
+        },
+        "versaoDados": {
+          "$ref": "#/definitions/Identificador"
+        },
+        "publicadoEm": {
+          "$ref": "#/definitions/InstanteUtc"
+        },
+        "natureza": {
+          "type": "string",
+          "const": "demonstrativa"
+        },
+        "conjuntoId": {
+          "$ref": "#/definitions/Identificador"
+        },
+        "aviso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "versaoTerritorial": {
+          "$ref": "#/definitions/Identificador"
+        },
+        "janela": {
+          "$ref": "#/definitions/Janela"
+        },
+        "condicoesComerciais": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Condicoes"
+          },
+          "minItems": 1,
+          "maxItems": 1
+        },
+        "referenciasFontes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Fonte"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "perfilId": {
+          "$ref": "#/definitions/PerfilId"
+        },
+        "referenciasSemanais": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReferenciaSemanal"
+          },
+          "minItems": 53,
+          "maxItems": 54
+        },
+        "precos": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PrecoRegional"
+          },
+          "minItems": 0,
+          "maxItems": 540
+        }
+      }
+    },
+    "ConsultaResumo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [],
+      "properties": {}
+    },
+    "ConsultaHistorico": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "perfilId",
+        "versaoDados"
+      ],
+      "properties": {
+        "perfilId": {
+          "$ref": "#/definitions/Identificador"
+        },
+        "versaoDados": {
+          "$ref": "#/definitions/Identificador"
+        }
+      }
+    },
+    "Erro": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "erro"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "const": "1.0.0"
+        },
+        "erro": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "codigo",
+            "mensagem"
+          ],
+          "properties": {
+            "codigo": {
+              "type": "string",
+              "enum": [
+                "PARAMETROS_INVALIDOS",
+                "PERFIL_INEXISTENTE",
+                "VERSAO_INDISPONIVEL",
+                "LIMITE_REQUISICOES",
+                "SERVICO_OCUPADO",
+                "CONTROLE_INDISPONIVEL",
+                "DADOS_INDISPONIVEIS",
+                "ERRO_INTERNO"
+              ]
+            },
+            "mensagem": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          }
+        }
+      }
+    },
+    "ETag": {
+      "type": "string",
+      "maxLength": 100,
+      "pattern": "^W/\"v1-(?:resumo|historico)-[0-9a-f]{64}\"(?![\\s\\S])"
+    },
+    "RevisaoLocal": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "ResumoSalvo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "versaoDados",
+        "dados",
+        "etag",
+        "recebidoEm",
+        "verificadoEm",
+        "ordemUso"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "const": "1.0.0"
+        },
+        "versaoDados": {
+          "$ref": "#/definitions/Identificador"
+        },
+        "dados": {
+          "$ref": "#/definitions/Resumo"
+        },
+        "etag": {
+          "$ref": "#/definitions/ETag"
+        },
+        "recebidoEm": {
+          "$ref": "#/definitions/InstanteUtc"
+        },
+        "verificadoEm": {
+          "$ref": "#/definitions/InstanteUtc"
+        },
+        "ordemUso": {
+          "$ref": "#/definitions/RevisaoLocal"
+        }
+      }
+    },
+    "HistoricoSalvo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "versaoDados",
+        "perfilId",
+        "dados",
+        "etag",
+        "recebidoEm",
+        "verificadoEm",
+        "ordemUso"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "const": "1.0.0"
+        },
+        "versaoDados": {
+          "$ref": "#/definitions/Identificador"
+        },
+        "perfilId": {
+          "$ref": "#/definitions/PerfilId"
+        },
+        "dados": {
+          "$ref": "#/definitions/Historico"
+        },
+        "etag": {
+          "$ref": "#/definitions/ETag"
+        },
+        "recebidoEm": {
+          "$ref": "#/definitions/InstanteUtc"
+        },
+        "verificadoEm": {
+          "$ref": "#/definitions/InstanteUtc"
+        },
+        "ordemUso": {
+          "$ref": "#/definitions/RevisaoLocal"
+        }
+      }
+    },
+    "FiltrosSalvos": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "categoria",
+        "sexo",
+        "grupoRacial",
+        "regiaoId",
+        "inicio",
+        "fim",
+        "modoTabela"
+      ],
+      "properties": {
+        "categoria": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Categoria"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sexo": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Sexo"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "grupoRacial": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GrupoRacial"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "regiaoId": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/RegiaoId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "inicio": {
+          "$ref": "#/definitions/DataCivil"
+        },
+        "fim": {
+          "$ref": "#/definitions/DataCivil"
+        },
+        "modoTabela": {
+          "type": "string",
+          "enum": [
+            "recente",
+            "periodo"
+          ]
+        }
+      }
+    },
+    "ConsultaSalva": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "chave",
+        "revisao",
+        "schemaVersion",
+        "versaoDados",
+        "etapa",
+        "filtros",
+        "perfilAtivoId",
+        "perfisHistorico"
+      ],
+      "properties": {
+        "chave": {
+          "type": "string",
+          "const": "consultaSalva"
+        },
+        "revisao": {
+          "$ref": "#/definitions/RevisaoLocal"
+        },
+        "schemaVersion": {
+          "type": "string",
+          "const": "1.0.0"
+        },
+        "versaoDados": {
+          "$ref": "#/definitions/Identificador"
+        },
+        "etapa": {
+          "type": "string",
+          "enum": [
+            "resumo",
+            "completa"
+          ]
+        },
+        "filtros": {
+          "$ref": "#/definitions/FiltrosSalvos"
+        },
+        "perfilAtivoId": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/PerfilId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "perfisHistorico": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PerfilId"
+          },
+          "minItems": 0,
+          "maxItems": 8,
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}

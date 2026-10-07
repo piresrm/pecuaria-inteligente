@@ -119,7 +119,7 @@ Fontes: [integração seletiva do Chart.js](https://www.chartjs.org/docs/latest/
 
 As versões estáveis foram conferidas em 06/10/2026 nos metadados públicos do npm: [TypeBox 1.3.36](https://registry.npmjs.org/typebox/1.3.36), [integração Fastify 6.1.0](https://registry.npmjs.org/@fastify%2Ftype-provider-typebox/6.1.0), [Ajv 8.20.0](https://registry.npmjs.org/ajv/8.20.0), [ajv-formats 3.0.1](https://registry.npmjs.org/ajv-formats/3.0.1), [big.js 7.0.1](https://registry.npmjs.org/big.js/7.0.1), [idb 8.0.4](https://registry.npmjs.org/idb/8.0.4) e [Chart.js 4.5.1](https://registry.npmjs.org/chart.js/4.5.1). Fixar essas versões e o arquivo de resolução de dependências ao introduzir os manifestos. Tipagens auxiliares e versões restantes serão conferidas junto ao ambiente.
 
-No plano, formalizar os esquemas e exemplos completos, os detalhes do armazenamento e os testes de contrato, precisão e recuperação. A seleção das ferramentas foi concluída; a conformidade da aplicação dependerá das medições e dos testes previstos na arquitetura. Publicidade de tamanho de uma biblioteca ou de um exemplo não substitui essas medições.
+Os [esquemas, exemplos e detalhes do armazenamento](2026-10-07-contratos-api-e-indexeddb-v0.1-design.md) foram formalizados em documento próprio. No plano, detalhar sua implementação e os testes de contrato, precisão e recuperação. A conformidade da aplicação dependerá das medições e dos testes previstos na arquitetura; publicidade de tamanho de uma biblioteca ou de um exemplo não substitui essas medições.
 
 ## Banco: escolha aprovada e alternativa avaliada
 
@@ -426,12 +426,15 @@ Os preços são fictícios, preservando a natureza demonstrativa da v0.1/v0.2. A
 
 O [modelo físico do PostgreSQL](2026-10-07-modelo-fisico-postgresql-v0.1-design.md) concentra as sete tabelas, chaves compostas por versão, índices, precisão e escala, publicação transacional, proteção por permissões e gatilhos, retenção integral durante v0.1/v0.2 e responsabilidades das migrações. A definição foi adotada sob a delegação técnica do autor; esquema, migrações e testes serão construídos no plano de implementação.
 
+## Contratos e armazenamento definidos
+
+Os [contratos da API e do IndexedDB](2026-10-07-contratos-api-e-indexeddb-v0.1-design.md) fixam campos, limites, exemplos completos, validação estrutural e semântica, protocolo condicional, chaves locais, confirmação atômica e concorrência entre abas. Os esquemas JSON Schema são referência verificável para as declarações futuras em TypeBox. O orçamento real de armazenamento permanece pendente de medição; rotas, validadores e persistência ainda serão implementados.
+
 ## Definições restantes antes do plano de implementação
 
-1. Formalizar os esquemas completos e exemplos das respostas com TypeBox, os limites de entrada e os detalhes do armazenamento com IndexedDB. Validação, aritmética decimal, persistência e gráfico já foram adotados; verificar suas configurações nos testes e medições da implementação.
-2. Detalhar a configuração das ferramentas de teste, auditoria e integração contínua adotadas; fixar os arquivos e a revisão das regras comunitárias do Semgrep e seus testes. TDD e Semgrep foram confirmados pelo autor; as configurações executáveis serão criadas com a implementação.
-3. Formalizar os arquivos do ambiente e os comandos completos no plano: manifestos, compilação, geração de validadores, formatação, verificações estáticas, Compose, segredos e confiança HTTPS local. Versões de referência, imagens, diretórios e convenções já foram adotados; instalar e verificar a combinação na implementação.
-4. Definir apresentação visual e navegadores suportados, preservando estados de consulta, acessibilidade e rotação de tela já exigidos.
-5. Medir a representação persistida do resumo e dos oito históricos para definir o orçamento de armazenamento, incluindo margem e troca segura de versões, antes de fechar essa configuração no plano.
+1. Detalhar a configuração das ferramentas de teste, auditoria e integração contínua adotadas; fixar os arquivos e a revisão das regras comunitárias do Semgrep e seus testes. TDD e Semgrep foram confirmados pelo autor; as configurações executáveis serão criadas com a implementação.
+2. Formalizar os arquivos do ambiente e os comandos completos no plano: manifestos, compilação, geração de validadores, formatação, verificações estáticas, Compose, segredos e confiança HTTPS local. Versões de referência, imagens, diretórios e convenções já foram adotados; instalar e verificar a combinação na implementação.
+3. Definir apresentação visual e navegadores suportados, preservando estados de consulta, acessibilidade e rotação de tela já exigidos.
+4. Medir a representação persistida do resumo e dos oito históricos para definir o orçamento de armazenamento, incluindo margem e troca segura de versões, antes de fechar essa configuração no plano.
 
 As escolhas técnicas registradas como adotadas foram resolvidas sob a delegação do autor. Decisões de produto e escolhas ainda pendentes devem ser revisadas e registradas antes de serem tratadas como aprovadas. A implementação e as medições produzirão evidências próprias; este registro preserva a pesquisa e suas implicações.

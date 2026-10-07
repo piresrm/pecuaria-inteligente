@@ -104,7 +104,7 @@ A arquitetura da v0.1 foi definida e aprovada. TypeScript, React, Tailwind CSS, 
 
 O banco escolhido é PostgreSQL 18.6, com persistência em volume no Docker Compose. O acesso aos dados usará Drizzle ORM com o *driver* `pg`; as migrações serão geradas, revisadas e versionadas com Drizzle Kit. O [modelo físico](docs/superpowers/specs/2026-10-07-modelo-fisico-postgresql-v0.1-design.md) define sete tabelas, cadastros e preços por versão, precisão decimal, publicação atômica e retenção de todas as versões durante a entrega acadêmica.
 
-Os contratos usarão TypeBox e Ajv, e os cálculos usarão `big.js`. A persistência no navegador usará IndexedDB com `idb`; o gráfico será feito com Chart.js, carregado separadamente.
+Os contratos usarão TypeBox e Ajv, e os cálculos usarão `big.js`. A persistência no navegador usará IndexedDB com `idb`; o gráfico será feito com Chart.js, carregado separadamente. Os [contratos e o armazenamento local](docs/superpowers/specs/2026-10-07-contratos-api-e-indexeddb-v0.1-design.md) já têm campos, limites, exemplos verificáveis e confirmação atômica especificados.
 
 O desenvolvimento seguirá TDD. Foram adotados Vitest para domínio e API, React Testing Library para componentes e Playwright para a consulta completa. Os testes de integração usarão PostgreSQL real com Testcontainers. npm organizará as dependências; GitHub Actions executará as verificações, incluindo auditoria com `npm audit` e análise obrigatória com Semgrep Community Edition.
 
@@ -112,7 +112,7 @@ A execução da v0.1 e da entrega acadêmica v0.2 será local, via Docker Compos
 
 A base demonstrativa fixa foi preparada em `data/demonstrativa/v0.1/`: oito perfis, dez regiões do IMB, 246 municípios e 4.146 preços fictícios, com lacunas controladas. O histórico cobre outubro de 2025 a setembro de 2026, além da semana anterior para comparação. Fontes públicas fundamentam os parâmetros e o território; os preços são demonstrativos. A [documentação da base](docs/superpowers/specs/2026-10-07-base-demonstrativa-v0.1.md) registra pesquisa, condições comerciais, reprodução e verificação.
 
-A aplicação, os testes e as configurações de execução e integração contínua ainda não foram implementados. As versões de referência, imagens e módulos planejados estão no registro de tecnologias; a instalação integrada e as configurações ainda serão verificadas na implementação. A v0.1 utilizará apenas dados demonstrativos; a validação para importação de cotações reais será realizada posteriormente. Não há, neste momento, procedimento de instalação, execução local ou exemplos de API. Essas instruções serão acrescentadas conforme a implementação avance.
+A aplicação, os testes e as configurações de execução e integração contínua ainda não foram implementados. As versões de referência, imagens e módulos planejados estão no registro de tecnologias; a instalação integrada e as configurações ainda serão verificadas na implementação. A v0.1 utilizará apenas dados demonstrativos; a validação para importação de cotações reais será realizada posteriormente. Há [exemplos documentais das respostas previstas](docs/superpowers/contracts/v0.1/), mas ainda não há rotas executáveis nem procedimento de instalação ou execução local. Essas instruções serão acrescentadas conforme a implementação avance.
 
 ### Dados disponíveis
 
