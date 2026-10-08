@@ -1,0 +1,20 @@
+{
+  "chave": "consultaSalva",
+  "revisao": 1,
+  "schemaVersion": "1.0.0",
+  "versaoDados": "go-reposicao-demo-2026-10-07-r1",
+  "etapa": "completa",
+  "filtros": {
+    "categoria": null,
+    "sexo": null,
+    "grupoRacial": null,
+    "regiaoId": null,
+    "inicio": "2025-10-01",
+    "fim": "2026-09-30",
+    "modoTabela": "recente"
+  },
+  "perfilAtivoId": "bezerro-macho-nelore",
+  "perfisHistorico": [
+    "bezerro-macho-nelore"
+  ]
+}

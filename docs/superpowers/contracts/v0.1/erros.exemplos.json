@@ -1,0 +1,109 @@
+[
+  {
+    "status": 400,
+    "cabecalhos": {
+      "Cache-Control": "no-store"
+    },
+    "corpo": {
+      "schemaVersion": "1.0.0",
+      "erro": {
+        "codigo": "PARAMETROS_INVALIDOS",
+        "mensagem": "Parâmetros de consulta inválidos."
+      }
+    }
+  },
+  {
+    "status": 404,
+    "cabecalhos": {
+      "Cache-Control": "no-store"
+    },
+    "corpo": {
+      "schemaVersion": "1.0.0",
+      "erro": {
+        "codigo": "PERFIL_INEXISTENTE",
+        "mensagem": "Perfil não encontrado."
+      }
+    }
+  },
+  {
+    "status": 409,
+    "cabecalhos": {
+      "Cache-Control": "no-store"
+    },
+    "corpo": {
+      "schemaVersion": "1.0.0",
+      "erro": {
+        "codigo": "VERSAO_INDISPONIVEL",
+        "mensagem": "Versão de dados indisponível."
+      }
+    }
+  },
+  {
+    "status": 429,
+    "cabecalhos": {
+      "Cache-Control": "no-store",
+      "Retry-After": "1"
+    },
+    "corpo": {
+      "schemaVersion": "1.0.0",
+      "erro": {
+        "codigo": "LIMITE_REQUISICOES",
+        "mensagem": "Limite de requisições atingido."
+      }
+    }
+  },
+  {
+    "status": 503,
+    "cabecalhos": {
+      "Cache-Control": "no-store",
+      "Retry-After": "5"
+    },
+    "corpo": {
+      "schemaVersion": "1.0.0",
+      "erro": {
+        "codigo": "SERVICO_OCUPADO",
+        "mensagem": "Serviço ocupado. Tente novamente mais tarde."
+      }
+    }
+  },
+  {
+    "status": 503,
+    "cabecalhos": {
+      "Cache-Control": "no-store",
+      "Retry-After": "5"
+    },
+    "corpo": {
+      "schemaVersion": "1.0.0",
+      "erro": {
+        "codigo": "CONTROLE_INDISPONIVEL",
+        "mensagem": "Controle de acesso temporariamente indisponível."
+      }
+    }
+  },
+  {
+    "status": 503,
+    "cabecalhos": {
+      "Cache-Control": "no-store"
+    },
+    "corpo": {
+      "schemaVersion": "1.0.0",
+      "erro": {
+        "codigo": "DADOS_INDISPONIVEIS",
+        "mensagem": "Dados temporariamente indisponíveis."
+      }
+    }
+  },
+  {
+    "status": 500,
+    "cabecalhos": {
+      "Cache-Control": "no-store"
+    },
+    "corpo": {
+      "schemaVersion": "1.0.0",
+      "erro": {
+        "codigo": "ERRO_INTERNO",
+        "mensagem": "Não foi possível concluir a consulta."
+      }
+    }
+  }
+]

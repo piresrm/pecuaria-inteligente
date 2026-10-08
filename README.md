@@ -100,7 +100,45 @@ A visão de longo prazo continua abrangendo toda a cadeia pecuária brasileira. 
 
 O projeto está em fase de concepção e documentação. Este README descreve a visão do produto e o *roadmap* proposto; as funcionalidades apresentadas ainda não constituem uma aplicação implementada neste repositório.
 
-A arquitetura da v0.1 foi definida e aprovada. As tecnologias, as dependências e as fontes de dados reais ainda serão selecionadas; a v0.1 utilizará apenas dados demonstrativos. Não há, neste momento, procedimento de instalação, execução local ou exemplos de API. Essas instruções serão acrescentadas conforme a implementação avance.
+A arquitetura da v0.1 foi definida e aprovada. TypeScript, React, Tailwind CSS, Vite e Fastify em Node.js foram escolhidos em conversa. O ambiente adotado usa Node.js 24 LTS, TypeScript 6.0.3 e npm com espaços de trabalho; Prettier e ESLint farão as verificações de formatação e código.
+
+O banco escolhido é PostgreSQL 18.6, com persistência em volume no Docker Compose. O acesso aos dados usará Drizzle ORM com o *driver* `pg`; as migrações serão geradas, revisadas e versionadas com Drizzle Kit. O [modelo físico](docs/superpowers/specs/2026-10-07-modelo-fisico-postgresql-v0.1-design.md) define sete tabelas, cadastros e preços por versão, precisão decimal, publicação atômica e retenção de todas as versões durante a entrega acadêmica.
+
+Os contratos usarão TypeBox e Ajv, e os cálculos usarão `big.js`. A persistência no navegador usará IndexedDB com `idb`; o gráfico será feito com Chart.js, carregado separadamente. Os [contratos e o armazenamento local](docs/superpowers/specs/2026-10-07-contratos-api-e-indexeddb-v0.1-design.md) já têm campos, limites, exemplos verificáveis e confirmação atômica especificados.
+
+A [apresentação aprovada](docs/superpowers/specs/2026-10-07-apresentacao-e-armazenamento-v0.1-design.md) terá indicadores em destaque, verde profundo, tons de terra e faixa com imagens responsivas de gado no pasto e boi no curral, sobreposição e degradê. Chrome, Edge, Firefox e Safari compõem a matriz de suporte. O orçamento total do IndexedDB será de 10.240 KiB (10 MiB), com margem para troca segura; o autor dispensou novas medições de ocupação nos demais navegadores. A interface e as imagens finais ainda não foram produzidas.
+
+O desenvolvimento seguirá TDD. Foram adotados Vitest para domínio e API, React Testing Library para componentes e Playwright para a consulta completa. Os testes de integração usarão PostgreSQL real com Testcontainers. npm organizará as dependências; GitHub Actions executará as verificações, incluindo auditoria com `npm audit` e análise obrigatória com Semgrep Community Edition. A [configuração de testes, auditoria e CI](docs/superpowers/specs/2026-10-07-testes-auditoria-e-ci-v0.1-design.md) já define projetos, isolamento, prazos, evidências e seleção de regras. Manifesto, regras próprias e casos verificados estão em [`docs/superpowers/quality/v0.1/`](docs/superpowers/quality/v0.1/); as comunitárias serão obtidas por revisão e hash para uso local, sem redistribuição no repositório.
+
+A execução da v0.1 e da entrega acadêmica v0.2 será local, via Docker Compose, com uma única instância e um único processo da API. Caddy servirá a interface e encaminhará `/api/` pela mesma origem HTTPS, com certificado emitido por uma autoridade local. Os controles por IP e de concorrência serão mantidos em memória; Valkey ou Redis serão avaliados em versões futuras, antes de ampliar para múltiplas instâncias.
+
+A base demonstrativa fixa foi preparada em `data/demonstrativa/v0.1/`: oito perfis, dez regiões do IMB, 246 municípios e 4.146 preços fictícios, com lacunas controladas. O histórico cobre outubro de 2025 a setembro de 2026, além da semana anterior para comparação. Fontes públicas fundamentam os parâmetros e o território; os preços são demonstrativos. A [documentação da base](docs/superpowers/specs/2026-10-07-base-demonstrativa-v0.1.md) registra pesquisa, condições comerciais, reprodução e verificação.
+
+O [plano de implementação da v0.1](docs/superpowers/plans/2026-10-07-implementacao-v0.1.md) organiza contratos, domínio, banco, API, consulta, persistência, interface, HTTPS e qualidade em tarefas verificáveis de TDD. O plano está disponível para revisão; sua execução ainda não foi iniciada.
+
+A aplicação, os testes e as configurações de execução e integração contínua ainda não foram implementados. As versões de referência, imagens e módulos planejados estão no registro de tecnologias; a instalação integrada e as configurações ainda serão verificadas na implementação. A v0.1 utilizará apenas dados demonstrativos; a validação para importação de cotações reais será realizada posteriormente. Há [exemplos documentais das respostas previstas](docs/superpowers/contracts/v0.1/), mas ainda não há rotas executáveis nem procedimento de instalação ou execução local. Essas instruções serão acrescentadas conforme a implementação avance.
+
+### Dados disponíveis
+
+Os arquivos CSV e JSON da base fixa estão em [`data/demonstrativa/v0.1/`](data/demonstrativa/v0.1/). Para conferir sua integridade com GNU Coreutils, na raiz do repositório:
+
+```bash
+(cd data/demonstrativa/v0.1 && sha256sum --check SHA256SUMS)
+```
+
+### Organização planejada para a implementação
+
+Os diretórios abaixo ainda não existem; registram a organização adotada para o plano de implementação.
+
+| Local | Responsabilidade |
+| --- | --- |
+| `apps/web/` | Interface React, consultas, persistência no navegador e gráfico. |
+| `apps/api/` | API Fastify, repositório PostgreSQL e operações demonstrativas autorizadas. |
+| `packages/contracts/` | Contratos, tipos e geração dos validadores compartilhados. |
+| `packages/domain/` | Filtros e cálculos independentes da interface e do servidor. |
+| `tests/e2e/` | Verificação da consulta completa com Playwright. |
+| `infra/` e `compose.yaml` | Imagens, entrada HTTPS e configuração local dos serviços. |
+| `.github/workflows/` | Testes, compilação e verificações de qualidade e segurança. |
 
 ## Qualidade e critérios de sucesso
 
@@ -115,7 +153,15 @@ A arquitetura da v0.1 foi definida e aprovada. As tecnologias, as dependências 
 
 A viabilidade da plataforma depende da disponibilidade, do histórico, da qualidade e das permissões de uso das fontes. A frequência de atualização será definida por fonte e não pressupõe cotações em tempo real.
 
-Os [requisitos da v0.1](docs/superpowers/specs/2026-10-04-requisitos-v0.1-design.md) estão consolidados em `docs/superpowers/specs/`. Incluem os oito perfis de reposição, as dez regiões de planejamento do IMB, a visão estadual demonstrativa, o suporte a conexões rurais lentas e os critérios de segurança. A [arquitetura aprovada](docs/superpowers/specs/2026-10-04-arquitetura-v0.1-design.md) define interface estática com dados obtidos automaticamente por API ligada ao banco, sem recompilar a página ao atualizar preços. Documenta componentes, contratos iniciais, moedas e unidades explícitas, cache, recuperação de falhas, limitação de requisições e orçamento inicial de desempenho, incluindo rotação da tela. Os próximos passos são selecionar tecnologias, preparar dados fictícios de cria e recria em Goiás e elaborar o plano de implementação. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
+A documentação da v0.1 está em `docs/superpowers/specs/`:
+
+- [Requisitos](docs/superpowers/specs/2026-10-04-requisitos-v0.1-design.md): escopo, regras de negócio e critérios de aceitação.
+- [Arquitetura aprovada](docs/superpowers/specs/2026-10-04-arquitetura-v0.1-design.md): componentes, contratos e políticas de consistência, recuperação, segurança e desempenho.
+- [Tecnologias e implantação](docs/superpowers/specs/2026-10-06-tecnologias-e-implantacao.md): escolhas aprovadas, justificativas, alternativas avaliadas, considerações sobre Vercel e lista centralizada de decisões pendentes.
+- [Base demonstrativa fixa](docs/superpowers/specs/2026-10-07-base-demonstrativa-v0.1.md): pesquisa pública, perfis, território, arquivos de dados, receita e cenários verificáveis.
+- [Modelo físico do PostgreSQL](docs/superpowers/specs/2026-10-07-modelo-fisico-postgresql-v0.1-design.md): tabelas, chaves, índices, precisão, publicação, imutabilidade, retenção e migrações.
+
+Os próximos passos são formalizar os contratos a partir da base fixa e do modelo físico e elaborar o plano de implementação, conforme as pendências do registro. A seleção principal do ambiente e das ferramentas foi concluída; sua instalação e verificação integrada ocorrerão na implementação. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
 
 ## Créditos e licença
 

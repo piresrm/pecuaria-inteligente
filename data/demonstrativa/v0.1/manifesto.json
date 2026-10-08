@@ -1,0 +1,90 @@
+{
+  "versaoFormatoArquivos": "1",
+  "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+  "versaoDados": "go-reposicao-demo-2026-10-07-r1",
+  "natureza": "demonstrativa",
+  "preparadoEm": "2026-10-07",
+  "titulo": "Reposição bovina demonstrativa em Goiás",
+  "aviso": "Preços fictícios para avaliação acadêmica. Não são cotações reais, estimativas de mercado ou recomendações de negociação.",
+  "janela": {
+    "inicio": "2025-10-01",
+    "fim": "2026-09-30",
+    "primeiraSemana": "2025-10-06",
+    "ultimaSemana": "2026-09-28",
+    "semanaAnterior": "2025-09-29",
+    "diaReferencia": "segunda-feira",
+    "significadoSemana": "Data civil de início da semana de referência; não é data de coleta de uma cotação real.",
+    "quantidadeSemanasNaJanela": 52,
+    "quantidadeSemanasComAnterior": 53
+  },
+  "versaoTerritorial": "imb-regplan-2018",
+  "condicoesComerciais": [
+    {
+      "id": "avista-sem-frete-sem-tributos",
+      "pagamento": "à vista",
+      "frete": "excluído",
+      "tributos": "excluídos",
+      "descricao": "Preço fictício do animal por cabeça, à vista, sem frete nem tributos."
+    }
+  ],
+  "serializacao": {
+    "codificacao": "UTF-8",
+    "fimLinha": "LF",
+    "csvSeparador": ",",
+    "csvCabecalho": true,
+    "decimais": "cadeias com ponto e duas casas; valores monetários e pesos positivos",
+    "ordemPrecos": [
+      "semana",
+      "ordem do perfil",
+      "ordem da região"
+    ]
+  },
+  "contagens": {
+    "perfis": 8,
+    "regioes": 10,
+    "municipios": 246,
+    "combinacoesPossiveis": 4240,
+    "precos": 4146,
+    "lacunas": 94,
+    "precosNaJanela": 4066,
+    "precosSemanaAnterior": 80
+  },
+  "referencias": [
+    {
+      "id": "scot-reposicao",
+      "instituicao": "Scot Consultoria",
+      "url": "https://www.scotconsultoria.com.br/cotacoes/reposicao/",
+      "consultadaEm": "2026-10-07",
+      "dataExibida": "2026-10-06",
+      "uso": "Idades e pesos dos oito perfis; ordem de grandeza dos preços de reposição em Goiás. Nenhuma série ou preço observado foi importado.",
+      "limitacao": "Parâmetros próprios da tabela consultada; não constituem padrão universal. Não foi validada autorização para republicação de séries ou coleta periódica."
+    },
+    {
+      "id": "imb-regplan-2018",
+      "instituicao": "Instituto Mauro Borges",
+      "url": "https://goias.gov.br/imb/regioes-de-planejamento-do-estado-de-goias-2018/",
+      "arquivoUrl": "https://goias.gov.br/imb/wp-content/uploads/sites/29/2018/04/regplan2018-69c.xls",
+      "consultadaEm": "2026-10-07",
+      "publicadaEm": "2018-04-13",
+      "sha256Arquivo": "2bdb71b4e1d6ef743db57cebe1019f250363bf0f088f3ae8802dbb247e1a7694",
+      "uso": "Coluna A da Tabela 01 nas dez folhas regionais terminadas em 3; classificação municipal congelada nesta edição."
+    },
+    {
+      "id": "ibge-localidades-go-2026-10-07",
+      "instituicao": "IBGE",
+      "url": "https://servicodados.ibge.gov.br/api/v1/localidades/estados/52/municipios",
+      "documentacaoUrl": "https://servicodados.ibge.gov.br/api/docs/localidades",
+      "consultadaEm": "2026-10-07",
+      "sha256ConteudoDescomprimido": "17c352909a6238a25d5ec15fd5b9eec0a2584d1e819c0407c53424e2327ff528",
+      "uso": "Códigos e nomes municipais; associação por nome após remoção de acentos e espaços externos. O IBGE não fornece esta classificação regional do IMB."
+    },
+    {
+      "id": "cepea-bezerro-ms",
+      "instituicao": "CEPEA/ESALQ",
+      "url": "https://cepea.org.br/br/indicador/bezerro.aspx",
+      "consultadaEm": "2026-10-07",
+      "uso": "Referência metodológica consultada e descartada como cotação de Goiás; indicador de Mato Grosso do Sul com peso médio variável.",
+      "limitacao": "Página consultada declara CC BY-NC 4.0. Não há importação de observações dessa fonte."
+    }
+  ]
+}

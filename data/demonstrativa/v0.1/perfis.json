@@ -1,0 +1,90 @@
+[
+  {
+    "id": "bezerro-macho-nelore",
+    "ordem": 1,
+    "categoria": "Bezerro",
+    "sexo": "Macho",
+    "grupoRacial": "Nelore",
+    "idadeReferenciaMeses": 12,
+    "pesoReferencia": "240.00",
+    "unidadePeso": "kg",
+    "referenciaParametrosId": "scot-reposicao"
+  },
+  {
+    "id": "bezerro-macho-mestico",
+    "ordem": 2,
+    "categoria": "Bezerro",
+    "sexo": "Macho",
+    "grupoRacial": "Mestiço",
+    "idadeReferenciaMeses": 12,
+    "pesoReferencia": "205.00",
+    "unidadePeso": "kg",
+    "referenciaParametrosId": "scot-reposicao"
+  },
+  {
+    "id": "bezerra-femea-nelore",
+    "ordem": 3,
+    "categoria": "Bezerra",
+    "sexo": "Fêmea",
+    "grupoRacial": "Nelore",
+    "idadeReferenciaMeses": 12,
+    "pesoReferencia": "210.00",
+    "unidadePeso": "kg",
+    "referenciaParametrosId": "scot-reposicao"
+  },
+  {
+    "id": "bezerra-femea-mestica",
+    "ordem": 4,
+    "categoria": "Bezerra",
+    "sexo": "Fêmea",
+    "grupoRacial": "Mestiça",
+    "idadeReferenciaMeses": 12,
+    "pesoReferencia": "195.00",
+    "unidadePeso": "kg",
+    "referenciaParametrosId": "scot-reposicao"
+  },
+  {
+    "id": "garrote-macho-nelore",
+    "ordem": 5,
+    "categoria": "Garrote",
+    "sexo": "Macho",
+    "grupoRacial": "Nelore",
+    "idadeReferenciaMeses": 18,
+    "pesoReferencia": "300.00",
+    "unidadePeso": "kg",
+    "referenciaParametrosId": "scot-reposicao"
+  },
+  {
+    "id": "garrote-macho-mestico",
+    "ordem": 6,
+    "categoria": "Garrote",
+    "sexo": "Macho",
+    "grupoRacial": "Mestiço",
+    "idadeReferenciaMeses": 18,
+    "pesoReferencia": "255.00",
+    "unidadePeso": "kg",
+    "referenciaParametrosId": "scot-reposicao"
+  },
+  {
+    "id": "novilha-femea-nelore",
+    "ordem": 7,
+    "categoria": "Novilha",
+    "sexo": "Fêmea",
+    "grupoRacial": "Nelore",
+    "idadeReferenciaMeses": 18,
+    "pesoReferencia": "270.00",
+    "unidadePeso": "kg",
+    "referenciaParametrosId": "scot-reposicao"
+  },
+  {
+    "id": "novilha-femea-mestica",
+    "ordem": 8,
+    "categoria": "Novilha",
+    "sexo": "Fêmea",
+    "grupoRacial": "Mestiça",
+    "idadeReferenciaMeses": 18,
+    "pesoReferencia": "255.00",
+    "unidadePeso": "kg",
+    "referenciaParametrosId": "scot-reposicao"
+  }
+]

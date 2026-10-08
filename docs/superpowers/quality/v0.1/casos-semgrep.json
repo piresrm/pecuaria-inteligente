@@ -1,0 +1,198 @@
+[
+  {
+    "id": "eval-detected-positivo",
+    "regraId": "eval-detected",
+    "caminho": "case.ts",
+    "conteudo": "export function run(input: string) { return eval(input); }\n",
+    "deveEncontrar": true
+  },
+  {
+    "id": "eval-detected-negativo",
+    "regraId": "eval-detected",
+    "caminho": "case.ts",
+    "conteudo": "export function run(input: string) { return JSON.parse(input); }\n",
+    "deveEncontrar": false
+  },
+  {
+    "id": "ajv-allerrors-true-positivo",
+    "regraId": "ajv-allerrors-true",
+    "caminho": "case.ts",
+    "conteudo": "import Ajv from 'ajv';\nconst validator = new Ajv({ allErrors: true });\n",
+    "deveEncontrar": true
+  },
+  {
+    "id": "ajv-allerrors-true-negativo",
+    "regraId": "ajv-allerrors-true",
+    "caminho": "case.ts",
+    "conteudo": "import Ajv from 'ajv';\nconst validator = new Ajv({ allErrors: false });\n",
+    "deveEncontrar": false
+  },
+  {
+    "id": "pi-react-raw-html-positivo",
+    "regraId": "pi-react-raw-html",
+    "caminho": "case.tsx",
+    "conteudo": "export function View({ value }: { value: string }) { return <div dangerouslySetInnerHTML={{ __html: value }} />; }\n",
+    "deveEncontrar": true
+  },
+  {
+    "id": "pi-react-raw-html-negativo",
+    "regraId": "pi-react-raw-html",
+    "caminho": "case.tsx",
+    "conteudo": "export function View({ value }: { value: string }) { return <div>{value}</div>; }\n",
+    "deveEncontrar": false
+  },
+  {
+    "id": "insecure-innerhtml-positivo",
+    "regraId": "insecure-innerhtml",
+    "caminho": "case.ts",
+    "conteudo": "export function show(node: HTMLElement, value: string) { node.innerHTML = value; }\n",
+    "deveEncontrar": true
+  },
+  {
+    "id": "insecure-innerhtml-negativo",
+    "regraId": "insecure-innerhtml",
+    "caminho": "case.ts",
+    "conteudo": "export function show(node: HTMLElement, value: string) { node.textContent = value; }\n",
+    "deveEncontrar": false
+  },
+  {
+    "id": "spawn-shell-true-positivo",
+    "regraId": "spawn-shell-true",
+    "caminho": "case.ts",
+    "conteudo": "import { spawn } from 'node:child_process';\nspawn('tool', ['argument'], { shell: true });\n",
+    "deveEncontrar": true
+  },
+  {
+    "id": "spawn-shell-true-negativo",
+    "regraId": "spawn-shell-true",
+    "caminho": "case.ts",
+    "conteudo": "import { spawn } from 'node:child_process';\nspawn('tool', ['argument'], { shell: false });\n",
+    "deveEncontrar": false
+  },
+  {
+    "id": "secret-in-build-arg-positivo",
+    "regraId": "secret-in-build-arg",
+    "caminho": "Dockerfile",
+    "conteudo": "FROM scratch\nARG ACCESS_TOKEN\n",
+    "deveEncontrar": true
+  },
+  {
+    "id": "secret-in-build-arg-negativo",
+    "regraId": "secret-in-build-arg",
+    "caminho": "Dockerfile",
+    "conteudo": "FROM scratch\nARG BUILD_VERSION\n",
+    "deveEncontrar": false
+  },
+  {
+    "id": "last-user-is-root-positivo",
+    "regraId": "last-user-is-root",
+    "caminho": "Dockerfile",
+    "conteudo": "FROM scratch\nUSER root\nCMD [\"service\"]\n",
+    "deveEncontrar": true
+  },
+  {
+    "id": "last-user-is-root-negativo",
+    "regraId": "last-user-is-root",
+    "caminho": "Dockerfile",
+    "conteudo": "FROM scratch\nUSER 1000\nCMD [\"service\"]\n",
+    "deveEncontrar": false
+  },
+  {
+    "id": "missing-user-positivo",
+    "regraId": "missing-user",
+    "caminho": "Dockerfile",
+    "conteudo": "FROM scratch\nCMD [\"service\"]\n",
+    "deveEncontrar": true
+  },
+  {
+    "id": "missing-user-negativo",
+    "regraId": "missing-user",
+    "caminho": "Dockerfile",
+    "conteudo": "FROM scratch\nUSER 1000\nCMD [\"service\"]\n",
+    "deveEncontrar": false
+  },
+  {
+    "id": "run-shell-injection-positivo",
+    "regraId": "run-shell-injection",
+    "caminho": "workflow.yml",
+    "conteudo": "name: Example\non: pull_request\njobs:\n  verify:\n    runs-on: ubuntu-24.04\n    steps:\n      - run: echo '${{ github.event.pull_request.title }}'\n",
+    "deveEncontrar": true
+  },
+  {
+    "id": "run-shell-injection-negativo",
+    "regraId": "run-shell-injection",
+    "caminho": "workflow.yml",
+    "conteudo": "name: Example\non: pull_request\njobs:\n  verify:\n    runs-on: ubuntu-24.04\n    steps:\n      - env:\n          PR_TITLE: ${{ github.event.pull_request.title }}\n        run: echo \"$PR_TITLE\"\n",
+    "deveEncontrar": false
+  },
+  {
+    "id": "pull-request-target-code-checkout-positivo",
+    "regraId": "pull-request-target-code-checkout",
+    "caminho": "workflow.yml",
+    "conteudo": "on: pull_request_target\njobs:\n  verify:\n    runs-on: ubuntu-24.04\n    steps:\n      - uses: actions/checkout@1111111111111111111111111111111111111111\n        with:\n          ref: ${{ github.event.pull_request.head.sha }}\n",
+    "deveEncontrar": true
+  },
+  {
+    "id": "pull-request-target-code-checkout-negativo",
+    "regraId": "pull-request-target-code-checkout",
+    "caminho": "workflow.yml",
+    "conteudo": "on: pull_request\njobs:\n  verify:\n    runs-on: ubuntu-24.04\n    steps:\n      - uses: actions/checkout@1111111111111111111111111111111111111111\n",
+    "deveEncontrar": false
+  },
+  {
+    "id": "github-actions-mutable-action-tag-positivo",
+    "regraId": "github-actions-mutable-action-tag",
+    "caminho": "workflow.yml",
+    "conteudo": "jobs:\n  verify:\n    steps:\n      - uses: actions/checkout@v7\n",
+    "deveEncontrar": true
+  },
+  {
+    "id": "github-actions-mutable-action-tag-negativo",
+    "regraId": "github-actions-mutable-action-tag",
+    "caminho": "workflow.yml",
+    "conteudo": "jobs:\n  verify:\n    steps:\n      - uses: actions/checkout@1111111111111111111111111111111111111111\n",
+    "deveEncontrar": false
+  },
+  {
+    "id": "pi-compose-privileged-positivo",
+    "regraId": "pi-compose-privileged",
+    "caminho": "compose.yaml",
+    "conteudo": "services:\n  api:\n    image: example/api\n    privileged: true\n",
+    "deveEncontrar": true
+  },
+  {
+    "id": "pi-compose-privileged-negativo",
+    "regraId": "pi-compose-privileged",
+    "caminho": "compose.yaml",
+    "conteudo": "services:\n  api:\n    image: example/api\n    privileged: false\n",
+    "deveEncontrar": false
+  },
+  {
+    "id": "pi-compose-host-socket-positivo",
+    "regraId": "pi-compose-host-socket",
+    "caminho": "compose.yaml",
+    "conteudo": "services:\n  api:\n    image: example/api\n    volumes:\n      - /var/run/docker.sock:/var/run/docker.sock:ro\n",
+    "deveEncontrar": true
+  },
+  {
+    "id": "pi-compose-host-socket-negativo",
+    "regraId": "pi-compose-host-socket",
+    "caminho": "compose.yaml",
+    "conteudo": "services:\n  api:\n    image: example/api\n    volumes:\n      - database:/var/lib/data\n",
+    "deveEncontrar": false
+  },
+  {
+    "id": "pi-compose-host-socket-longo-positivo",
+    "regraId": "pi-compose-host-socket",
+    "caminho": "compose.yaml",
+    "conteudo": "services:\n  api:\n    image: example/api\n    volumes:\n      - type: bind\n        source: /run/docker.sock\n        target: /run/docker.sock\n",
+    "deveEncontrar": true
+  },
+  {
+    "id": "pi-compose-host-socket-longo-negativo",
+    "regraId": "pi-compose-host-socket",
+    "caminho": "compose.yaml",
+    "conteudo": "services:\n  api:\n    image: example/api\n    volumes:\n      - type: volume\n        source: database\n        target: /var/lib/data\n",
+    "deveEncontrar": false
+  }
+]

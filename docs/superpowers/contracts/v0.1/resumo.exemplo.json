@@ -1,0 +1,2020 @@
+{
+  "schemaVersion": "1.0.0",
+  "versaoDados": "go-reposicao-demo-2026-10-07-r1",
+  "natureza": "demonstrativa",
+  "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+  "aviso": "Preços fictícios para avaliação acadêmica. Não são cotações reais, estimativas de mercado ou recomendações de negociação.",
+  "versaoTerritorial": "imb-regplan-2018",
+  "condicoesComerciais": [
+    {
+      "id": "avista-sem-frete-sem-tributos",
+      "pagamento": "à vista",
+      "frete": "excluído",
+      "tributos": "excluídos",
+      "descricao": "Preço fictício do animal por cabeça, à vista, sem frete nem tributos."
+    }
+  ],
+  "publicadoEm": "2026-10-07T12:00:00.000Z",
+  "janela": {
+    "inicio": "2025-10-01",
+    "fim": "2026-09-30",
+    "primeiraSemana": "2025-10-06",
+    "ultimaSemana": "2026-09-28",
+    "semanaAnterior": "2025-09-29",
+    "quantidadeSemanasNaJanela": 52
+  },
+  "referenciasFontes": [
+    {
+      "id": "scot-reposicao",
+      "instituicao": "Scot Consultoria",
+      "url": "https://www.scotconsultoria.com.br/cotacoes/reposicao/",
+      "consultadaEm": "2026-10-07",
+      "uso": "Idades e pesos dos oito perfis; ordem de grandeza dos preços de reposição em Goiás. Nenhuma série ou preço observado foi importado."
+    },
+    {
+      "id": "imb-regplan-2018",
+      "instituicao": "Instituto Mauro Borges",
+      "url": "https://goias.gov.br/imb/regioes-de-planejamento-do-estado-de-goias-2018/",
+      "consultadaEm": "2026-10-07",
+      "uso": "Coluna A da Tabela 01 nas dez folhas regionais terminadas em 3; classificação municipal congelada nesta edição."
+    }
+  ],
+  "perfis": [
+    {
+      "id": "bezerro-macho-nelore",
+      "ordem": 1,
+      "categoria": "Bezerro",
+      "sexo": "Macho",
+      "grupoRacial": "Nelore",
+      "idadeReferenciaMeses": 12,
+      "pesoReferencia": "240.00",
+      "unidadePeso": "kg",
+      "referenciaParametrosId": "scot-reposicao"
+    },
+    {
+      "id": "bezerro-macho-mestico",
+      "ordem": 2,
+      "categoria": "Bezerro",
+      "sexo": "Macho",
+      "grupoRacial": "Mestiço",
+      "idadeReferenciaMeses": 12,
+      "pesoReferencia": "205.00",
+      "unidadePeso": "kg",
+      "referenciaParametrosId": "scot-reposicao"
+    },
+    {
+      "id": "bezerra-femea-nelore",
+      "ordem": 3,
+      "categoria": "Bezerra",
+      "sexo": "Fêmea",
+      "grupoRacial": "Nelore",
+      "idadeReferenciaMeses": 12,
+      "pesoReferencia": "210.00",
+      "unidadePeso": "kg",
+      "referenciaParametrosId": "scot-reposicao"
+    },
+    {
+      "id": "bezerra-femea-mestica",
+      "ordem": 4,
+      "categoria": "Bezerra",
+      "sexo": "Fêmea",
+      "grupoRacial": "Mestiça",
+      "idadeReferenciaMeses": 12,
+      "pesoReferencia": "195.00",
+      "unidadePeso": "kg",
+      "referenciaParametrosId": "scot-reposicao"
+    },
+    {
+      "id": "garrote-macho-nelore",
+      "ordem": 5,
+      "categoria": "Garrote",
+      "sexo": "Macho",
+      "grupoRacial": "Nelore",
+      "idadeReferenciaMeses": 18,
+      "pesoReferencia": "300.00",
+      "unidadePeso": "kg",
+      "referenciaParametrosId": "scot-reposicao"
+    },
+    {
+      "id": "garrote-macho-mestico",
+      "ordem": 6,
+      "categoria": "Garrote",
+      "sexo": "Macho",
+      "grupoRacial": "Mestiço",
+      "idadeReferenciaMeses": 18,
+      "pesoReferencia": "255.00",
+      "unidadePeso": "kg",
+      "referenciaParametrosId": "scot-reposicao"
+    },
+    {
+      "id": "novilha-femea-nelore",
+      "ordem": 7,
+      "categoria": "Novilha",
+      "sexo": "Fêmea",
+      "grupoRacial": "Nelore",
+      "idadeReferenciaMeses": 18,
+      "pesoReferencia": "270.00",
+      "unidadePeso": "kg",
+      "referenciaParametrosId": "scot-reposicao"
+    },
+    {
+      "id": "novilha-femea-mestica",
+      "ordem": 8,
+      "categoria": "Novilha",
+      "sexo": "Fêmea",
+      "grupoRacial": "Mestiça",
+      "idadeReferenciaMeses": 18,
+      "pesoReferencia": "255.00",
+      "unidadePeso": "kg",
+      "referenciaParametrosId": "scot-reposicao"
+    }
+  ],
+  "regioes": [
+    {
+      "id": "metropolitana-goiania",
+      "ordem": 1,
+      "codigoImb": "001",
+      "nome": "Região Metropolitana de Goiânia",
+      "versaoTerritorial": "imb-regplan-2018",
+      "quantidadeMunicipios": 20
+    },
+    {
+      "id": "centro-goiano",
+      "ordem": 2,
+      "codigoImb": "002",
+      "nome": "Região Centro Goiano (Eixo BR-153)",
+      "versaoTerritorial": "imb-regplan-2018",
+      "quantidadeMunicipios": 31
+    },
+    {
+      "id": "norte-goiano",
+      "ordem": 3,
+      "codigoImb": "003",
+      "nome": "Região Norte Goiano",
+      "versaoTerritorial": "imb-regplan-2018",
+      "quantidadeMunicipios": 26
+    },
+    {
+      "id": "nordeste-goiano",
+      "ordem": 4,
+      "codigoImb": "004",
+      "nome": "Região Nordeste Goiano",
+      "versaoTerritorial": "imb-regplan-2018",
+      "quantidadeMunicipios": 20
+    },
+    {
+      "id": "entorno-df",
+      "ordem": 5,
+      "codigoImb": "005",
+      "nome": "Região Entorno do Distrito Federal",
+      "versaoTerritorial": "imb-regplan-2018",
+      "quantidadeMunicipios": 19
+    },
+    {
+      "id": "sudeste-goiano",
+      "ordem": 6,
+      "codigoImb": "006",
+      "nome": "Região Sudeste Goiano (Estrada-de-Ferro)",
+      "versaoTerritorial": "imb-regplan-2018",
+      "quantidadeMunicipios": 22
+    },
+    {
+      "id": "sul-goiano",
+      "ordem": 7,
+      "codigoImb": "007",
+      "nome": "Região Sul Goiano",
+      "versaoTerritorial": "imb-regplan-2018",
+      "quantidadeMunicipios": 26
+    },
+    {
+      "id": "sudoeste-goiano",
+      "ordem": 8,
+      "codigoImb": "008",
+      "nome": "Região Sudoeste Goiano",
+      "versaoTerritorial": "imb-regplan-2018",
+      "quantidadeMunicipios": 26
+    },
+    {
+      "id": "oeste-goiano",
+      "ordem": 9,
+      "codigoImb": "009",
+      "nome": "Região Oeste Goiano (Eixo GO-060)",
+      "versaoTerritorial": "imb-regplan-2018",
+      "quantidadeMunicipios": 43
+    },
+    {
+      "id": "noroeste-goiano",
+      "ordem": 10,
+      "codigoImb": "010",
+      "nome": "Região Noroeste Goiano (Estrada do Boi)",
+      "versaoTerritorial": "imb-regplan-2018",
+      "quantidadeMunicipios": 13
+    }
+  ],
+  "referenciasSemanais": [
+    {
+      "perfilId": "bezerro-macho-nelore",
+      "semana": "2026-09-21",
+      "regioesAusentes": [
+        "oeste-goiano",
+        "noroeste-goiano"
+      ]
+    },
+    {
+      "perfilId": "bezerro-macho-mestico",
+      "semana": "2026-09-21",
+      "regioesAusentes": []
+    },
+    {
+      "perfilId": "bezerra-femea-nelore",
+      "semana": "2026-09-21",
+      "regioesAusentes": []
+    },
+    {
+      "perfilId": "bezerra-femea-mestica",
+      "semana": "2026-09-21",
+      "regioesAusentes": []
+    },
+    {
+      "perfilId": "garrote-macho-nelore",
+      "semana": "2026-09-21",
+      "regioesAusentes": []
+    },
+    {
+      "perfilId": "garrote-macho-mestico",
+      "semana": "2026-09-21",
+      "regioesAusentes": []
+    },
+    {
+      "perfilId": "novilha-femea-nelore",
+      "semana": "2026-09-21",
+      "regioesAusentes": []
+    },
+    {
+      "perfilId": "novilha-femea-mestica",
+      "semana": "2026-09-21",
+      "regioesAusentes": []
+    },
+    {
+      "perfilId": "bezerro-macho-nelore",
+      "semana": "2026-09-28",
+      "regioesAusentes": [
+        "metropolitana-goiania",
+        "centro-goiano"
+      ]
+    },
+    {
+      "perfilId": "bezerro-macho-mestico",
+      "semana": "2026-09-28",
+      "regioesAusentes": []
+    },
+    {
+      "perfilId": "bezerra-femea-nelore",
+      "semana": "2026-09-28",
+      "regioesAusentes": []
+    },
+    {
+      "perfilId": "bezerra-femea-mestica",
+      "semana": "2026-09-28",
+      "regioesAusentes": []
+    },
+    {
+      "perfilId": "garrote-macho-nelore",
+      "semana": "2026-09-28",
+      "regioesAusentes": []
+    },
+    {
+      "perfilId": "garrote-macho-mestico",
+      "semana": "2026-09-28",
+      "regioesAusentes": []
+    },
+    {
+      "perfilId": "novilha-femea-nelore",
+      "semana": "2026-09-28",
+      "regioesAusentes": []
+    },
+    {
+      "perfilId": "novilha-femea-mestica",
+      "semana": "2026-09-28",
+      "regioesAusentes": []
+    }
+  ],
+  "precos": [
+    {
+      "perfilId": "bezerro-macho-nelore",
+      "regiaoId": "metropolitana-goiania",
+      "semana": "2026-09-21",
+      "preco": "2950.00",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-nelore",
+      "regiaoId": "centro-goiano",
+      "semana": "2026-09-21",
+      "preco": "3050.00",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-nelore",
+      "regiaoId": "norte-goiano",
+      "semana": "2026-09-21",
+      "preco": "3150.00",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-nelore",
+      "regiaoId": "nordeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "3250.00",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-nelore",
+      "regiaoId": "entorno-df",
+      "semana": "2026-09-21",
+      "preco": "3350.00",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-nelore",
+      "regiaoId": "sudeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "3450.00",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-nelore",
+      "regiaoId": "sul-goiano",
+      "semana": "2026-09-21",
+      "preco": "3550.00",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-nelore",
+      "regiaoId": "sudoeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "3000.00",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-mestico",
+      "regiaoId": "metropolitana-goiania",
+      "semana": "2026-09-21",
+      "preco": "3079.48",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-mestico",
+      "regiaoId": "centro-goiano",
+      "semana": "2026-09-21",
+      "preco": "3059.65",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-mestico",
+      "regiaoId": "norte-goiano",
+      "semana": "2026-09-21",
+      "preco": "3029.82",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-mestico",
+      "regiaoId": "nordeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "2999.99",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-mestico",
+      "regiaoId": "entorno-df",
+      "semana": "2026-09-21",
+      "preco": "3050.16",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-mestico",
+      "regiaoId": "sudeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "3090.33",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-mestico",
+      "regiaoId": "sul-goiano",
+      "semana": "2026-09-21",
+      "preco": "3100.50",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-mestico",
+      "regiaoId": "sudoeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "3125.66",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-mestico",
+      "regiaoId": "oeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "3025.83",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-mestico",
+      "regiaoId": "noroeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "3056.00",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-nelore",
+      "regiaoId": "metropolitana-goiania",
+      "semana": "2026-09-21",
+      "preco": "2754.29",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-nelore",
+      "regiaoId": "centro-goiano",
+      "semana": "2026-09-21",
+      "preco": "2734.46",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-nelore",
+      "regiaoId": "norte-goiano",
+      "semana": "2026-09-21",
+      "preco": "2704.63",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-nelore",
+      "regiaoId": "nordeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "2674.80",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-nelore",
+      "regiaoId": "entorno-df",
+      "semana": "2026-09-21",
+      "preco": "2724.97",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-nelore",
+      "regiaoId": "sudeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "2750.13",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-nelore",
+      "regiaoId": "sul-goiano",
+      "semana": "2026-09-21",
+      "preco": "2760.30",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-nelore",
+      "regiaoId": "sudoeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "2800.47",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-nelore",
+      "regiaoId": "oeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "2700.64",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-nelore",
+      "regiaoId": "noroeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "2730.81",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-mestica",
+      "regiaoId": "metropolitana-goiania",
+      "semana": "2026-09-21",
+      "preco": "2329.10",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-mestica",
+      "regiaoId": "centro-goiano",
+      "semana": "2026-09-21",
+      "preco": "2309.27",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-mestica",
+      "regiaoId": "norte-goiano",
+      "semana": "2026-09-21",
+      "preco": "2279.44",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-mestica",
+      "regiaoId": "nordeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "2234.60",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-mestica",
+      "regiaoId": "entorno-df",
+      "semana": "2026-09-21",
+      "preco": "2284.77",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-mestica",
+      "regiaoId": "sudeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "2324.94",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-mestica",
+      "regiaoId": "sul-goiano",
+      "semana": "2026-09-21",
+      "preco": "2335.11",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-mestica",
+      "regiaoId": "sudoeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "2375.28",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-mestica",
+      "regiaoId": "oeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "2275.45",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-mestica",
+      "regiaoId": "noroeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "2305.62",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-nelore",
+      "regiaoId": "metropolitana-goiania",
+      "semana": "2026-09-21",
+      "preco": "4331.41",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-nelore",
+      "regiaoId": "centro-goiano",
+      "semana": "2026-09-21",
+      "preco": "4296.57",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-nelore",
+      "regiaoId": "norte-goiano",
+      "semana": "2026-09-21",
+      "preco": "4266.74",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-nelore",
+      "regiaoId": "nordeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "4236.91",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-nelore",
+      "regiaoId": "entorno-df",
+      "semana": "2026-09-21",
+      "preco": "4287.08",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-nelore",
+      "regiaoId": "sudeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "4327.25",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-nelore",
+      "regiaoId": "sul-goiano",
+      "semana": "2026-09-21",
+      "preco": "4337.42",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-nelore",
+      "regiaoId": "sudoeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "4377.59",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-nelore",
+      "regiaoId": "oeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "4277.76",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-nelore",
+      "regiaoId": "noroeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "4307.93",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-mestico",
+      "regiaoId": "metropolitana-goiania",
+      "semana": "2026-09-21",
+      "preco": "3691.21",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-mestico",
+      "regiaoId": "centro-goiano",
+      "semana": "2026-09-21",
+      "preco": "3671.38",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-mestico",
+      "regiaoId": "norte-goiano",
+      "semana": "2026-09-21",
+      "preco": "3641.55",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-mestico",
+      "regiaoId": "nordeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "3611.72",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-mestico",
+      "regiaoId": "entorno-df",
+      "semana": "2026-09-21",
+      "preco": "3661.89",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-mestico",
+      "regiaoId": "sudeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "3702.06",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-mestico",
+      "regiaoId": "sul-goiano",
+      "semana": "2026-09-21",
+      "preco": "3712.23",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-mestico",
+      "regiaoId": "sudoeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "3752.40",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-mestico",
+      "regiaoId": "oeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "3652.57",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-mestico",
+      "regiaoId": "noroeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "3682.74",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-nelore",
+      "regiaoId": "metropolitana-goiania",
+      "semana": "2026-09-21",
+      "preco": "3366.02",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-nelore",
+      "regiaoId": "centro-goiano",
+      "semana": "2026-09-21",
+      "preco": "3346.19",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-nelore",
+      "regiaoId": "norte-goiano",
+      "semana": "2026-09-21",
+      "preco": "3316.36",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-nelore",
+      "regiaoId": "nordeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "3286.53",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-nelore",
+      "regiaoId": "entorno-df",
+      "semana": "2026-09-21",
+      "preco": "3336.70",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-nelore",
+      "regiaoId": "sudeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "3376.87",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-nelore",
+      "regiaoId": "sul-goiano",
+      "semana": "2026-09-21",
+      "preco": "3387.04",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-nelore",
+      "regiaoId": "sudoeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "3427.21",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-nelore",
+      "regiaoId": "oeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "3327.38",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-nelore",
+      "regiaoId": "noroeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "3357.55",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-mestica",
+      "regiaoId": "metropolitana-goiania",
+      "semana": "2026-09-21",
+      "preco": "2890.83",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-mestica",
+      "regiaoId": "centro-goiano",
+      "semana": "2026-09-21",
+      "preco": "2871.00",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-mestica",
+      "regiaoId": "norte-goiano",
+      "semana": "2026-09-21",
+      "preco": "2841.17",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-mestica",
+      "regiaoId": "nordeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "2811.34",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-mestica",
+      "regiaoId": "entorno-df",
+      "semana": "2026-09-21",
+      "preco": "2861.51",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-mestica",
+      "regiaoId": "sudeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "2901.68",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-mestica",
+      "regiaoId": "sul-goiano",
+      "semana": "2026-09-21",
+      "preco": "2911.85",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-mestica",
+      "regiaoId": "sudoeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "2952.02",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-mestica",
+      "regiaoId": "oeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "2852.19",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-mestica",
+      "regiaoId": "noroeste-goiano",
+      "semana": "2026-09-21",
+      "preco": "2882.36",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-nelore",
+      "regiaoId": "norte-goiano",
+      "semana": "2026-09-28",
+      "preco": "3100.00",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-nelore",
+      "regiaoId": "nordeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "3200.00",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-nelore",
+      "regiaoId": "entorno-df",
+      "semana": "2026-09-28",
+      "preco": "3300.00",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-nelore",
+      "regiaoId": "sudeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "3400.00",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-nelore",
+      "regiaoId": "sul-goiano",
+      "semana": "2026-09-28",
+      "preco": "3500.00",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-nelore",
+      "regiaoId": "sudoeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "3150.00",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-nelore",
+      "regiaoId": "oeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "3600.00",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-nelore",
+      "regiaoId": "noroeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "3700.00",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-mestico",
+      "regiaoId": "metropolitana-goiania",
+      "semana": "2026-09-28",
+      "preco": "3086.81",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-mestico",
+      "regiaoId": "centro-goiano",
+      "semana": "2026-09-28",
+      "preco": "3066.98",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-mestico",
+      "regiaoId": "norte-goiano",
+      "semana": "2026-09-28",
+      "preco": "3037.15",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-mestico",
+      "regiaoId": "nordeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "3007.32",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-mestico",
+      "regiaoId": "entorno-df",
+      "semana": "2026-09-28",
+      "preco": "3057.49",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-mestico",
+      "regiaoId": "sudeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "3097.66",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-mestico",
+      "regiaoId": "sul-goiano",
+      "semana": "2026-09-28",
+      "preco": "3107.83",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-mestico",
+      "regiaoId": "sudoeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "3148.00",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-mestico",
+      "regiaoId": "oeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "3048.17",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerro-macho-mestico",
+      "regiaoId": "noroeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "3078.34",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-nelore",
+      "regiaoId": "metropolitana-goiania",
+      "semana": "2026-09-28",
+      "preco": "2761.12",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-nelore",
+      "regiaoId": "centro-goiano",
+      "semana": "2026-09-28",
+      "preco": "2741.29",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-nelore",
+      "regiaoId": "norte-goiano",
+      "semana": "2026-09-28",
+      "preco": "2711.46",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-nelore",
+      "regiaoId": "nordeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "2681.63",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-nelore",
+      "regiaoId": "entorno-df",
+      "semana": "2026-09-28",
+      "preco": "2731.80",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-nelore",
+      "regiaoId": "sudeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "2771.97",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-nelore",
+      "regiaoId": "sul-goiano",
+      "semana": "2026-09-28",
+      "preco": "2782.14",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-nelore",
+      "regiaoId": "sudoeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "2822.31",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-nelore",
+      "regiaoId": "oeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "2722.48",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-nelore",
+      "regiaoId": "noroeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "2752.65",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-mestica",
+      "regiaoId": "metropolitana-goiania",
+      "semana": "2026-09-28",
+      "preco": "2335.43",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-mestica",
+      "regiaoId": "centro-goiano",
+      "semana": "2026-09-28",
+      "preco": "2315.60",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-mestica",
+      "regiaoId": "norte-goiano",
+      "semana": "2026-09-28",
+      "preco": "2285.77",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-mestica",
+      "regiaoId": "nordeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "2255.94",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-mestica",
+      "regiaoId": "entorno-df",
+      "semana": "2026-09-28",
+      "preco": "2306.11",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-mestica",
+      "regiaoId": "sudeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "2346.28",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-mestica",
+      "regiaoId": "sul-goiano",
+      "semana": "2026-09-28",
+      "preco": "2356.45",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-mestica",
+      "regiaoId": "sudoeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "2396.62",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-mestica",
+      "regiaoId": "oeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "2296.79",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "bezerra-femea-mestica",
+      "regiaoId": "noroeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "2326.96",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-nelore",
+      "regiaoId": "metropolitana-goiania",
+      "semana": "2026-09-28",
+      "preco": "4339.74",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-nelore",
+      "regiaoId": "centro-goiano",
+      "semana": "2026-09-28",
+      "preco": "4319.91",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-nelore",
+      "regiaoId": "norte-goiano",
+      "semana": "2026-09-28",
+      "preco": "4290.08",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-nelore",
+      "regiaoId": "nordeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "4260.25",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-nelore",
+      "regiaoId": "entorno-df",
+      "semana": "2026-09-28",
+      "preco": "4310.42",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-nelore",
+      "regiaoId": "sudeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "4350.59",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-nelore",
+      "regiaoId": "sul-goiano",
+      "semana": "2026-09-28",
+      "preco": "4360.76",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-nelore",
+      "regiaoId": "sudoeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "4400.93",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-nelore",
+      "regiaoId": "oeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "4301.10",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-nelore",
+      "regiaoId": "noroeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "4331.27",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-mestico",
+      "regiaoId": "metropolitana-goiania",
+      "semana": "2026-09-28",
+      "preco": "3714.05",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-mestico",
+      "regiaoId": "centro-goiano",
+      "semana": "2026-09-28",
+      "preco": "3694.22",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-mestico",
+      "regiaoId": "norte-goiano",
+      "semana": "2026-09-28",
+      "preco": "3664.39",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-mestico",
+      "regiaoId": "nordeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "3634.56",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-mestico",
+      "regiaoId": "entorno-df",
+      "semana": "2026-09-28",
+      "preco": "3684.73",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-mestico",
+      "regiaoId": "sudeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "3724.90",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-mestico",
+      "regiaoId": "sul-goiano",
+      "semana": "2026-09-28",
+      "preco": "3735.07",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-mestico",
+      "regiaoId": "sudoeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "3775.24",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-mestico",
+      "regiaoId": "oeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "3675.41",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "garrote-macho-mestico",
+      "regiaoId": "noroeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "3705.58",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-nelore",
+      "regiaoId": "metropolitana-goiania",
+      "semana": "2026-09-28",
+      "preco": "3388.36",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-nelore",
+      "regiaoId": "centro-goiano",
+      "semana": "2026-09-28",
+      "preco": "3368.53",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-nelore",
+      "regiaoId": "norte-goiano",
+      "semana": "2026-09-28",
+      "preco": "3338.70",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-nelore",
+      "regiaoId": "nordeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "3308.87",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-nelore",
+      "regiaoId": "entorno-df",
+      "semana": "2026-09-28",
+      "preco": "3359.04",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-nelore",
+      "regiaoId": "sudeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "3399.21",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-nelore",
+      "regiaoId": "sul-goiano",
+      "semana": "2026-09-28",
+      "preco": "3409.38",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-nelore",
+      "regiaoId": "sudoeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "3449.55",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-nelore",
+      "regiaoId": "oeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "3349.72",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-nelore",
+      "regiaoId": "noroeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "3379.89",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-mestica",
+      "regiaoId": "metropolitana-goiania",
+      "semana": "2026-09-28",
+      "preco": "2912.67",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-mestica",
+      "regiaoId": "centro-goiano",
+      "semana": "2026-09-28",
+      "preco": "2892.84",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-mestica",
+      "regiaoId": "norte-goiano",
+      "semana": "2026-09-28",
+      "preco": "2863.01",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-mestica",
+      "regiaoId": "nordeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "2833.18",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-mestica",
+      "regiaoId": "entorno-df",
+      "semana": "2026-09-28",
+      "preco": "2883.35",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-mestica",
+      "regiaoId": "sudeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "2923.52",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-mestica",
+      "regiaoId": "sul-goiano",
+      "semana": "2026-09-28",
+      "preco": "2933.69",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-mestica",
+      "regiaoId": "sudoeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "2973.86",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-mestica",
+      "regiaoId": "oeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "2874.03",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    },
+    {
+      "perfilId": "novilha-femea-mestica",
+      "regiaoId": "noroeste-goiano",
+      "semana": "2026-09-28",
+      "preco": "2904.20",
+      "moeda": "BRL",
+      "unidadePreco": "cabeca",
+      "natureza": "demonstrativa",
+      "conjuntoId": "go-reposicao-demo-2026-10-07-r1",
+      "condicoesComerciaisId": "avista-sem-frete-sem-tributos"
+    }
+  ]
+}

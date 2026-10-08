@@ -136,7 +136,7 @@ Recursos da interface com nomes versionados por conteúdo podem ter validade lon
 
 Manter em memória os dados validados da sessão. Persistir, quando o armazenamento estiver disponível, o resumo e os históricos consultados, até os oito perfis da versão corrente, conforme o orçamento de armazenamento. Isso não implica carregar antecipadamente todos os históricos.
 
-O limite de armazenamento persistente será definido a partir de medições. Antes de fechar a configuração do cache no plano de implementação, medir o resumo e os oito históricos completos na representação efetivamente persistida pela tecnologia escolhida, incluindo metadados, índices e custo de atualização. Considerar o espaço temporário necessário para manter a versão anterior enquanto a nova é preparada. Registrar a medição, a margem justificada e o orçamento adotado. Bytes comprimidos transferidos pela rede não representam o espaço ocupado no armazenamento.
+O limite de armazenamento persistente adotado é de 10.240 KiB (10 MiB), incluindo metadados e coexistência durante a troca. A [definição aprovada](2026-10-07-apresentacao-e-armazenamento-v0.1-design.md) registra a projeção completa, a estimativa no Chrome, a contabilidade lógica conservadora e a dispensa explícita de novas medições nos demais navegadores pelo autor. Bytes comprimidos transferidos pela rede não representam o espaço ocupado no armazenamento; o orçamento não garante quota física.
 
 O orçamento será um limite configurável, não uma obrigação de ocupar toda a quota disponível no navegador. Ao atingi-lo, descartar primeiro históricos menos recentemente usados que não pertençam à consulta exibida. Proteger o resumo e os dados da consulta atual; remover versões anteriores somente depois de concluir a troca consistente descrita abaixo. Se o conjunto protegido não couber ou o navegador negar armazenamento, manter a consulta em memória, informar que não foi possível salvar seus dados para reutilização posterior e continuar sem persistir novos registros. Uma falha de armazenamento não pode apagar a última consulta salva válida nem bloquear a consulta em andamento.
 
@@ -233,10 +233,8 @@ Antes da entrega, testar esgotamento e reposição de permissões, isolamento en
 
 O principal custo dessa escolha é depender da API para obter preços no primeiro acesso sem cache. A divisão entre resumo e históricos reduz a espera inicial, mas traz estados intermediários que precisam de testes. A API e o banco acrescentam operação e hospedagem ao MVP; não serão substituídos por preços embutidos na compilação.
 
-## Etapas seguintes e decisões pendentes
+## Continuidade do planejamento
 
-Com a arquitetura aprovada, selecionar tecnologias para interface, serviço HTTP, banco, aritmética decimal, testes, gráfico, hospedagem e verificações de segurança. A seleção deve demonstrar compatibilidade com os orçamentos e com os contratos, sem acrescentar funcionalidades.
+As escolhas de tecnologias e implantação, suas justificativas e a lista de definições restantes estão centralizadas no [registro de tecnologias e implantação](2026-10-06-tecnologias-e-implantacao.md). Esse registro também preserva os achados sobre Vercel e os exemplos de coordenação entre instâncias. Os contratos, as políticas operacionais e os critérios de verificação desta arquitetura orientam a avaliação dessas escolhas.
 
-Na preparação dos dados, fixar idade e peso de cada perfil, composição municipal e versão territorial, janela exata de 12 meses, convenção semanal e conjunto reproduzível de preços/lacunas. Essas decisões pertencem aos dados e devem ser documentadas antes de executar os testes de aceitação.
-
-Depois dessas definições, escrever o plano de implementação com caminhos de arquivos, interfaces, comandos reproduzíveis e ciclo TDD. Nenhuma tecnologia ou funcionalidade está implementada por este documento.
+Depois de concluir as definições listadas no registro, escrever o plano de implementação com caminhos de arquivos, interfaces, comandos reproduzíveis e ciclo TDD. Nenhuma tecnologia ou funcionalidade está implementada por este documento.
