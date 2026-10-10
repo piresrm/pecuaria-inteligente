@@ -20,7 +20,7 @@ export default defineConfig(
     languageOptions: { globals: globals.node },
   },
   {
-    files: ['vitest.config.ts', 'packages/contracts/**/*.ts'],
+    files: ['vitest.config.ts', 'packages/contracts/**/*.ts', 'packages/domain/**/*.ts'],
     extends: [js.configs.recommended, ...tseslint.configs.recommendedTypeChecked],
     languageOptions: {
       parserOptions: { projectService: true, tsconfigRootDir: import.meta.dirname },
@@ -46,6 +46,29 @@ export default defineConfig(
             {
               group: ['node:*', 'ajv', 'ajv/*', 'ajv-formats', 'typebox', 'typebox/*'],
               message: 'Módulo compartilhado deve ser puro e compatível com o navegador.',
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: ['packages/domain/src/**/*.ts'],
+    ignores: ['packages/domain/src/**/*.test.ts', 'packages/domain/src/fixtures.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: [
+                'node:*',
+                '@pecuaria/contracts/server',
+                '@pecuaria/contracts/browser',
+                'react',
+                'react/*',
+              ],
+              message: 'Domínio deve consumir somente tipos dos contratos e aritmética decimal.',
             },
           ],
         },

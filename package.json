@@ -17,14 +17,15 @@
     "test:unit": "vitest run",
     "test:coverage": "vitest run --coverage",
     "check": "npm run check:types && npm run check:format && npm run check:lint",
-    "check:types": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p packages/contracts/tsconfig.json",
-    "check:format": "prettier --check package.json package-lock.json tsconfig.json tsconfig.base.json .prettierrc.json eslint.config.mjs vitest.config.ts packages/contracts",
-    "check:lint": "eslint eslint.config.mjs vitest.config.ts packages/contracts",
+    "check:types": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p packages/contracts/tsconfig.json && tsc --noEmit -p packages/domain/tsconfig.json",
+    "check:format": "prettier --check package.json package-lock.json tsconfig.json tsconfig.base.json .prettierrc.json eslint.config.mjs vitest.config.ts packages/contracts packages/domain tools/quality",
+    "check:lint": "eslint eslint.config.mjs vitest.config.ts packages/contracts packages/domain tools/quality",
     "contracts:generate": "tsx packages/contracts/tools/generate-validators.ts",
-    "build": "npm run contracts:generate && tsc -p packages/contracts/tsconfig.build.json",
+    "build": "npm run contracts:generate && tsc -p packages/contracts/tsconfig.build.json && tsc -p packages/domain/tsconfig.build.json",
     "pretest:unit": "npm run contracts:generate",
     "pretest:coverage": "npm run contracts:generate",
-    "precheck:types": "npm run contracts:generate"
+    "precheck:types": "npm run contracts:generate",
+    "check:data": "node tools/quality/check-data.mjs"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

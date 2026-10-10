@@ -98,13 +98,13 @@ A visão de longo prazo continua abrangendo toda a cadeia pecuária brasileira. 
 
 ## Estado atual
 
-A implementação começou pelos contratos compartilhados em `packages/contracts/`, com tipos, validação estrutural e semântica, serialização determinística e testes executáveis. A aplicação completa da v0.1 permanece em desenvolvimento; este README distingue a entrega atual das funcionalidades previstas no *roadmap*.
+Estão implementados os contratos compartilhados em `packages/contracts/` e o domínio puro em `packages/domain/`, com filtros, indicadores decimais, calendário civil, apresentação localizada e testes executáveis. Os contratos oferecem tipos, validação estrutural e semântica e serialização determinística. A aplicação completa da v0.1 permanece em desenvolvimento; este README distingue a entrega atual das funcionalidades previstas no *roadmap*.
 
-A arquitetura da v0.1 foi definida e aprovada. TypeScript, React, Tailwind CSS, Vite e Fastify em Node.js foram escolhidos em conversa. O ambiente adotado usa Node.js 24 LTS, TypeScript 6.0.3 e npm com espaços de trabalho; Prettier e ESLint verificam os contratos e suas configurações; os demais módulos serão incorporados progressivamente.
+A arquitetura da v0.1 foi definida e aprovada. TypeScript, React, Tailwind CSS, Vite e Fastify em Node.js foram escolhidos em conversa. O ambiente adotado usa Node.js 24 LTS, TypeScript 6.0.3 e npm com espaços de trabalho; Prettier e ESLint verificam os contratos, o domínio e suas configurações; os demais módulos serão incorporados progressivamente.
 
 O banco escolhido é PostgreSQL 18.6, com persistência em volume no Docker Compose. O acesso aos dados usará Drizzle ORM com o *driver* `pg`; as migrações serão geradas, revisadas e versionadas com Drizzle Kit. O [modelo físico](docs/superpowers/specs/2026-10-07-modelo-fisico-postgresql-v0.1-design.md) define sete tabelas, cadastros e preços por versão, precisão decimal, publicação atômica e retenção de todas as versões durante a entrega acadêmica.
 
-Os contratos implementados usam TypeBox e Ajv; os cálculos futuros usarão `big.js`. A persistência no navegador usará IndexedDB com `idb`; o gráfico será feito com Chart.js, carregado separadamente. Os [contratos e o armazenamento local](docs/superpowers/specs/2026-10-07-contratos-api-e-indexeddb-v0.1-design.md) já têm campos, limites, exemplos verificáveis e confirmação atômica especificados.
+Os contratos implementados usam TypeBox e Ajv; o domínio calcula médias, conversões e variações com `big.js` 7.0.1. A persistência no navegador usará IndexedDB com `idb`; o gráfico será feito com Chart.js, carregado separadamente. Os [contratos e o armazenamento local](docs/superpowers/specs/2026-10-07-contratos-api-e-indexeddb-v0.1-design.md) já têm campos, limites, exemplos verificáveis e confirmação atômica especificados.
 
 A [apresentação aprovada](docs/superpowers/specs/2026-10-07-apresentacao-e-armazenamento-v0.1-design.md) terá indicadores em destaque, verde profundo, tons de terra e faixa com imagens responsivas de gado no pasto e boi no curral, sobreposição e degradê. Chrome, Edge, Firefox e Safari compõem a matriz de suporte. O orçamento total do IndexedDB será de 10.240 KiB (10 MiB), com margem para troca segura; o autor dispensou novas medições de ocupação nos demais navegadores. A interface e as imagens finais ainda não foram produzidas.
 
@@ -114,9 +114,9 @@ A execução da v0.1 e da entrega acadêmica v0.2 será local, via Docker Compos
 
 A base demonstrativa fixa foi preparada em `data/demonstrativa/v0.1/`: oito perfis, dez regiões do IMB, 246 municípios e 4.146 preços fictícios, com lacunas controladas. O histórico cobre outubro de 2025 a setembro de 2026, além da semana anterior para comparação. Fontes públicas fundamentam os parâmetros e o território; os preços são demonstrativos. A [documentação da base](docs/superpowers/specs/2026-10-07-base-demonstrativa-v0.1.md) registra pesquisa, condições comerciais, reprodução e verificação.
 
-O [plano de implementação da v0.1](docs/superpowers/plans/2026-10-07-implementacao-v0.1.md) organiza contratos, domínio, banco, API, consulta, persistência, interface, HTTPS e qualidade em tarefas verificáveis de TDD. Sua execução começou pela tarefa de contratos e ambiente; domínio, banco, API e interface serão implementados nas etapas seguintes.
+O [plano de implementação da v0.1](docs/superpowers/plans/2026-10-07-implementacao-v0.1.md) organiza contratos, domínio, banco, API, consulta, persistência, interface, HTTPS e qualidade em tarefas verificáveis de TDD. Contratos, ambiente e domínio estão implementados; banco, API e interface serão implementados nas etapas seguintes.
 
-Os [exemplos documentais](docs/superpowers/contracts/v0.1/) são entradas dos testes de equivalência entre o esquema de referência, as declarações TypeBox e os validadores do servidor e do navegador. O pacote também valida calendário, cadastros, preços únicos, cobertura regional, fontes e correspondência entre resumo e histórico. A instalação e as verificações dos contratos estão disponíveis abaixo. Rotas HTTP, banco, interface, Compose e integração contínua permanecem pendentes; a v0.1 utilizará apenas dados demonstrativos.
+Os [exemplos documentais](docs/superpowers/contracts/v0.1/) são entradas dos testes de equivalência entre o esquema de referência, as declarações TypeBox e os validadores do servidor e do navegador. O pacote também valida calendário, cadastros, preços únicos, cobertura regional, fontes e correspondência entre resumo e histórico. A instalação e as verificações dos contratos e do domínio estão disponíveis abaixo. Rotas HTTP, banco, interface, Compose e integração contínua permanecem pendentes; a v0.1 utilizará apenas dados demonstrativos.
 
 ### Dados disponíveis
 
@@ -128,7 +128,7 @@ Os arquivos CSV e JSON da base fixa estão em [`data/demonstrativa/v0.1/`](data/
 
 ### Organização da implementação
 
-`packages/contracts/` está implementado. Os demais diretórios da tabela registram a organização prevista para as etapas seguintes.
+`packages/contracts/` e `packages/domain/` estão implementados. Os demais diretórios da tabela registram a organização prevista para as etapas seguintes.
 
 | Local | Responsabilidade |
 | --- | --- |
@@ -140,7 +140,7 @@ Os arquivos CSV e JSON da base fixa estão em [`data/demonstrativa/v0.1/`](data/
 | `infra/` e `compose.yaml` | Imagens, entrada HTTPS e configuração local dos serviços. |
 | `.github/workflows/` | Testes, compilação e verificações de qualidade e segurança. |
 
-### Ambiente e verificações dos contratos
+### Ambiente e verificações dos contratos e do domínio
 
 Usar Node.js `24.21.0` e npm `11.19.0`, fixados em `.node-version` e no manifesto. Ativar essa instalação antes dos comandos; `.npmrc` rejeita versões incompatíveis. Na raiz:
 
@@ -151,7 +151,9 @@ npm ci
 npm run contracts:generate
 npm run build
 npm run check
+npm run check:data
 npm test
+npm run test:unit -- --project dominio
 npm run test:coverage
 ```
 
@@ -159,7 +161,13 @@ npm run test:coverage
 
 A geração produz `packages/contracts/src/generated/` com validadores estáticos autocontidos e preserva as licenças dos auxiliares puros de terceiros. Esses arquivos e `dist/` são ignorados e reproduzíveis. Testes e análise de tipos regeneram os validadores automaticamente; a compilação entrega as exportações `@pecuaria/contracts/types`, `/server` e `/browser`. Importar `/types` com `import type`; `/browser` inclui validadores, assertivas semânticas e `canonicalJson`, sem compilador dinâmico ou módulos Node.
 
-Nesta etapa, somente o projeto Vitest `contratos` está ativo. `npm run check` verifica tipos de produção, ferramentas e testes, formatação e ESLint dos arquivos presentes. A cobertura V8 abrange os contratos e fica em `artifacts/coverage/unit/`; ela não representa a aplicação completa. A prova isolada do pacote de navegador não substitui a futura validação funcional na matriz de navegadores.
+Nesta etapa, os projetos Vitest `contratos` e `dominio` estão ativos. `npm run check` verifica tipos de produção, ferramentas e testes, formatação e ESLint dos arquivos presentes. A cobertura V8 abrange os contratos e o domínio e fica em `artifacts/coverage/unit/`; ela não representa a aplicação completa. A prova isolada do pacote de navegador não substitui a futura validação funcional na matriz de navegadores.
+
+O pacote `@pecuaria/domain` exporta `filtrarPerfis`, `filtrarConsulta` e `calcularConsulta`, além dos tipos `Filtragem`, `ConsultaCalculada`, `LinhaPreco`, `PontoHistorico` e `Indicadores`. Recebe respostas previamente validadas dos contratos e filtros tipados; mantém decimais em cadeias e ausência em `null`. Na visão estadual, cada perfil tem dez linhas regionais e uma média; na regional, uma linha. A última data depende do perfil e do recorte, e a série conserva todas as segundas-feiras do intervalo com lacunas reais.
+
+O modo `recente` usa a janela inteira: o resumo permite tabela e comparação semanal, enquanto série e variação do período ficam pendentes até chegar o histórico ativo. O modo `periodo` exige históricos completos de todos os perfis elegíveis, da mesma versão. Combinações sem perfil elegível produzem resultado vazio com perfil ativo nulo. Intervalos inválidos ou históricos incompatíveis são rejeitados sem alterar entradas; preservar a consulta anterior é responsabilidade do futuro consumidor.
+
+Os cálculos usam um construtor isolado de `big.js`, com entradas textuais e 40 casas nas divisões, sem arredondamento intermediário para as casas de exibição. `@pecuaria/domain/presentation` aplica duas casas para preços, uma para percentuais e empate para longe de zero, sem converter decimais para ponto flutuante. `tools/quality/check-data.mjs`, executado por `npm run check:data`, verifica os seis SHA-256, reproduz o CSV integralmente, confere calendário, território, lacunas e os nove cenários com aritmética racional independente. A projeção `packages/domain/src/fixtures.ts` é exclusiva dos testes e fica fora da compilação de produção; os arquivos fixos permanecem intactos.
 
 ## Qualidade e critérios de sucesso
 
@@ -182,7 +190,7 @@ A documentação da v0.1 está em `docs/superpowers/specs/`:
 - [Base demonstrativa fixa](docs/superpowers/specs/2026-10-07-base-demonstrativa-v0.1.md): pesquisa pública, perfis, território, arquivos de dados, receita e cenários verificáveis.
 - [Modelo físico do PostgreSQL](docs/superpowers/specs/2026-10-07-modelo-fisico-postgresql-v0.1-design.md): tabelas, chaves, índices, precisão, publicação, imutabilidade, retenção e migrações.
 
-Os próximos passos são implementar domínio, banco, API, consulta, persistência e interface conforme o plano aprovado. O ambiente dos contratos foi instalado e verificado; a integração da aplicação e sua execução HTTPS ainda serão validadas nas etapas correspondentes. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
+Os próximos passos são implementar banco, API, consulta, persistência e interface conforme o plano aprovado. O ambiente dos contratos foi instalado e verificado; a integração da aplicação e sua execução HTTPS ainda serão validadas nas etapas correspondentes. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
 
 ## Créditos e licença
 

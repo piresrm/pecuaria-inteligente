@@ -8,13 +8,15 @@ Pecuária Inteligente is a Brazilian livestock market intelligence MVP covering 
 - `ABOUT.md`: academic context, contribution preferences, and delivery checklist.
 - `data/demonstrativa/v0.1/`: fixed CSV/JSON demonstration data, provenance, generation recipe, expected scenarios, and SHA-256 checksums.
 - `packages/contracts/`: TypeBox contracts, types, server validators, pure browser validators, semantic checks, canonical JSON, and colocated tests.
-- Root manifests and quality configuration cover the contracts; application modules and CI configuration are still pending.
+- `packages/domain/`: pure filters, calendar, decimal indicators, localized presentation, and colocated tests.
+- `tools/quality/check-data.mjs`: fixed data integrity, recipe, calendar, territory, and scenario verification.
+- Root manifests and quality configuration cover contracts and domain; application modules and CI configuration are still pending.
 
 Define requirements and architecture before selecting technologies. Document new module locations in `README.md`. Keep initial work focused on market monitoring; individual herd management is outside the initial scope. Do not version `PROMPTS.md`.
 
 ## Build, Test, and Development Commands
 
-Use Node.js `24.21.0` and npm `11.19.0`. From the repository root, `npm ci` installs the lockfile, `npm run build` generates and compiles contracts, `npm run check` verifies types/style/lint, and `npm test` runs the active contract project. See `README.md` for the verified commands and incremental scope.
+Use Node.js `24.21.0` and npm `11.19.0`. From the repository root, `npm ci` installs the lockfile, `npm run build` generates contracts and compiles contracts/domain, `npm run check` verifies types/style/lint, and `npm test` runs the active contracts and domain projects. See `README.md` for the verified commands and incremental scope.
 
 Useful repository checks:
 
@@ -34,7 +36,7 @@ TypeScript uses strict checking, `noUncheckedIndexedAccess`, and `exactOptionalP
 
 Follow the Red–Green–Refactor TDD cycle specified in `ABOUT.md`. Add unit or integration tests for implemented behavior, especially ingestion, normalization, and critical calculations. Verify formulas, units, and input assumptions.
 
-Vitest contract tests use colocated `.test.ts` files with explicit imports and no retries. Add the remaining projects as their modules arrive; never pass an empty suite. Coverage V8 reports the implemented scope without an arbitrary threshold. Academic delivery requires executable, passing automated tests.
+Vitest contracts and domain tests use colocated `.test.ts` files with explicit imports and no retries. Add the remaining projects as their modules arrive; never pass an empty suite. Coverage V8 reports the implemented scope without an arbitrary threshold. Academic delivery requires executable, passing automated tests.
 
 ## Commit & Pull Request Guidelines
 
