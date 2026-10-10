@@ -1,0 +1,46 @@
+{
+  "name": "pecuaria-inteligente",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "24.21.0",
+    "npm": "11.19.0"
+  },
+  "packageManager": "npm@11.19.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "npm run test:unit",
+    "test:unit": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "check": "npm run check:types && npm run check:format && npm run check:lint",
+    "check:types": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p packages/contracts/tsconfig.json",
+    "check:format": "prettier --check package.json package-lock.json tsconfig.json tsconfig.base.json .prettierrc.json eslint.config.mjs vitest.config.ts packages/contracts",
+    "check:lint": "eslint eslint.config.mjs vitest.config.ts packages/contracts",
+    "contracts:generate": "tsx packages/contracts/tools/generate-validators.ts",
+    "build": "npm run contracts:generate && tsc -p packages/contracts/tsconfig.build.json",
+    "pretest:unit": "npm run contracts:generate",
+    "pretest:coverage": "npm run contracts:generate",
+    "precheck:types": "npm run contracts:generate"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "24.19.1",
+    "@vitest/coverage-v8": "5.0.3",
+    "eslint": "10.12.0",
+    "eslint-config-prettier": "10.1.8",
+    "globals": "17.13.0",
+    "prettier": "3.9.9",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.71.1",
+    "vitest": "5.0.3",
+    "tsx": "4.23.15",
+    "ajv": "8.20.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
+  }
+}

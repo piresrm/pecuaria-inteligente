@@ -98,13 +98,13 @@ A visão de longo prazo continua abrangendo toda a cadeia pecuária brasileira. 
 
 ## Estado atual
 
-O projeto está em fase de concepção e documentação. Este README descreve a visão do produto e o *roadmap* proposto; as funcionalidades apresentadas ainda não constituem uma aplicação implementada neste repositório.
+A implementação começou pelos contratos compartilhados em `packages/contracts/`, com tipos, validação estrutural e semântica, serialização determinística e testes executáveis. A aplicação completa da v0.1 permanece em desenvolvimento; este README distingue a entrega atual das funcionalidades previstas no *roadmap*.
 
-A arquitetura da v0.1 foi definida e aprovada. TypeScript, React, Tailwind CSS, Vite e Fastify em Node.js foram escolhidos em conversa. O ambiente adotado usa Node.js 24 LTS, TypeScript 6.0.3 e npm com espaços de trabalho; Prettier e ESLint farão as verificações de formatação e código.
+A arquitetura da v0.1 foi definida e aprovada. TypeScript, React, Tailwind CSS, Vite e Fastify em Node.js foram escolhidos em conversa. O ambiente adotado usa Node.js 24 LTS, TypeScript 6.0.3 e npm com espaços de trabalho; Prettier e ESLint verificam os contratos e suas configurações; os demais módulos serão incorporados progressivamente.
 
 O banco escolhido é PostgreSQL 18.6, com persistência em volume no Docker Compose. O acesso aos dados usará Drizzle ORM com o *driver* `pg`; as migrações serão geradas, revisadas e versionadas com Drizzle Kit. O [modelo físico](docs/superpowers/specs/2026-10-07-modelo-fisico-postgresql-v0.1-design.md) define sete tabelas, cadastros e preços por versão, precisão decimal, publicação atômica e retenção de todas as versões durante a entrega acadêmica.
 
-Os contratos usarão TypeBox e Ajv, e os cálculos usarão `big.js`. A persistência no navegador usará IndexedDB com `idb`; o gráfico será feito com Chart.js, carregado separadamente. Os [contratos e o armazenamento local](docs/superpowers/specs/2026-10-07-contratos-api-e-indexeddb-v0.1-design.md) já têm campos, limites, exemplos verificáveis e confirmação atômica especificados.
+Os contratos implementados usam TypeBox e Ajv; os cálculos futuros usarão `big.js`. A persistência no navegador usará IndexedDB com `idb`; o gráfico será feito com Chart.js, carregado separadamente. Os [contratos e o armazenamento local](docs/superpowers/specs/2026-10-07-contratos-api-e-indexeddb-v0.1-design.md) já têm campos, limites, exemplos verificáveis e confirmação atômica especificados.
 
 A [apresentação aprovada](docs/superpowers/specs/2026-10-07-apresentacao-e-armazenamento-v0.1-design.md) terá indicadores em destaque, verde profundo, tons de terra e faixa com imagens responsivas de gado no pasto e boi no curral, sobreposição e degradê. Chrome, Edge, Firefox e Safari compõem a matriz de suporte. O orçamento total do IndexedDB será de 10.240 KiB (10 MiB), com margem para troca segura; o autor dispensou novas medições de ocupação nos demais navegadores. A interface e as imagens finais ainda não foram produzidas.
 
@@ -114,9 +114,9 @@ A execução da v0.1 e da entrega acadêmica v0.2 será local, via Docker Compos
 
 A base demonstrativa fixa foi preparada em `data/demonstrativa/v0.1/`: oito perfis, dez regiões do IMB, 246 municípios e 4.146 preços fictícios, com lacunas controladas. O histórico cobre outubro de 2025 a setembro de 2026, além da semana anterior para comparação. Fontes públicas fundamentam os parâmetros e o território; os preços são demonstrativos. A [documentação da base](docs/superpowers/specs/2026-10-07-base-demonstrativa-v0.1.md) registra pesquisa, condições comerciais, reprodução e verificação.
 
-O [plano de implementação da v0.1](docs/superpowers/plans/2026-10-07-implementacao-v0.1.md) organiza contratos, domínio, banco, API, consulta, persistência, interface, HTTPS e qualidade em tarefas verificáveis de TDD. O plano está disponível para revisão; sua execução ainda não foi iniciada.
+O [plano de implementação da v0.1](docs/superpowers/plans/2026-10-07-implementacao-v0.1.md) organiza contratos, domínio, banco, API, consulta, persistência, interface, HTTPS e qualidade em tarefas verificáveis de TDD. Sua execução começou pela tarefa de contratos e ambiente; domínio, banco, API e interface serão implementados nas etapas seguintes.
 
-A aplicação, os testes e as configurações de execução e integração contínua ainda não foram implementados. As versões de referência, imagens e módulos planejados estão no registro de tecnologias; a instalação integrada e as configurações ainda serão verificadas na implementação. A v0.1 utilizará apenas dados demonstrativos; a validação para importação de cotações reais será realizada posteriormente. Há [exemplos documentais das respostas previstas](docs/superpowers/contracts/v0.1/), mas ainda não há rotas executáveis nem procedimento de instalação ou execução local. Essas instruções serão acrescentadas conforme a implementação avance.
+Os [exemplos documentais](docs/superpowers/contracts/v0.1/) são entradas dos testes de equivalência entre o esquema de referência, as declarações TypeBox e os validadores do servidor e do navegador. O pacote também valida calendário, cadastros, preços únicos, cobertura regional, fontes e correspondência entre resumo e histórico. A instalação e as verificações dos contratos estão disponíveis abaixo. Rotas HTTP, banco, interface, Compose e integração contínua permanecem pendentes; a v0.1 utilizará apenas dados demonstrativos.
 
 ### Dados disponíveis
 
@@ -126,9 +126,9 @@ Os arquivos CSV e JSON da base fixa estão em [`data/demonstrativa/v0.1/`](data/
 (cd data/demonstrativa/v0.1 && sha256sum --check SHA256SUMS)
 ```
 
-### Organização planejada para a implementação
+### Organização da implementação
 
-Os diretórios abaixo ainda não existem; registram a organização adotada para o plano de implementação.
+`packages/contracts/` está implementado. Os demais diretórios da tabela registram a organização prevista para as etapas seguintes.
 
 | Local | Responsabilidade |
 | --- | --- |
@@ -139,6 +139,27 @@ Os diretórios abaixo ainda não existem; registram a organização adotada para
 | `tests/e2e/` | Verificação da consulta completa com Playwright. |
 | `infra/` e `compose.yaml` | Imagens, entrada HTTPS e configuração local dos serviços. |
 | `.github/workflows/` | Testes, compilação e verificações de qualidade e segurança. |
+
+### Ambiente e verificações dos contratos
+
+Usar Node.js `24.21.0` e npm `11.19.0`, fixados em `.node-version` e no manifesto. Ativar essa instalação antes dos comandos; `.npmrc` rejeita versões incompatíveis. Na raiz:
+
+```bash
+node --version
+npm --version
+npm ci
+npm run contracts:generate
+npm run build
+npm run check
+npm test
+npm run test:coverage
+```
+
+`npm ci` instala o `package-lock.json` único, incluindo dependências de desenvolvimento. O único script de instalação aprovado é o do esbuild `0.28.2`, usado pelas ferramentas. As versões verificadas incluem TypeScript `6.0.3`, TypeBox `1.3.36`, Ajv `8.20.0`, ajv-formats `3.0.1`, Vitest e cobertura V8 `5.0.3`, ESLint `10.12.0` e Prettier `3.9.9`.
+
+A geração produz `packages/contracts/src/generated/` com validadores estáticos autocontidos e preserva as licenças dos auxiliares puros de terceiros. Esses arquivos e `dist/` são ignorados e reproduzíveis. Testes e análise de tipos regeneram os validadores automaticamente; a compilação entrega as exportações `@pecuaria/contracts/types`, `/server` e `/browser`. Importar `/types` com `import type`; `/browser` inclui validadores, assertivas semânticas e `canonicalJson`, sem compilador dinâmico ou módulos Node.
+
+Nesta etapa, somente o projeto Vitest `contratos` está ativo. `npm run check` verifica tipos de produção, ferramentas e testes, formatação e ESLint dos arquivos presentes. A cobertura V8 abrange os contratos e fica em `artifacts/coverage/unit/`; ela não representa a aplicação completa. A prova isolada do pacote de navegador não substitui a futura validação funcional na matriz de navegadores.
 
 ## Qualidade e critérios de sucesso
 
@@ -161,7 +182,7 @@ A documentação da v0.1 está em `docs/superpowers/specs/`:
 - [Base demonstrativa fixa](docs/superpowers/specs/2026-10-07-base-demonstrativa-v0.1.md): pesquisa pública, perfis, território, arquivos de dados, receita e cenários verificáveis.
 - [Modelo físico do PostgreSQL](docs/superpowers/specs/2026-10-07-modelo-fisico-postgresql-v0.1-design.md): tabelas, chaves, índices, precisão, publicação, imutabilidade, retenção e migrações.
 
-Os próximos passos são formalizar os contratos a partir da base fixa e do modelo físico e elaborar o plano de implementação, conforme as pendências do registro. A seleção principal do ambiente e das ferramentas foi concluída; sua instalação e verificação integrada ocorrerão na implementação. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
+Os próximos passos são implementar domínio, banco, API, consulta, persistência e interface conforme o plano aprovado. O ambiente dos contratos foi instalado e verificado; a integração da aplicação e sua execução HTTPS ainda serão validadas nas etapas correspondentes. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
 
 ## Créditos e licença
 
