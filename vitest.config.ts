@@ -2,7 +2,11 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    projects: ['packages/contracts/vitest.config.ts', 'packages/domain/vitest.config.ts'],
+    projects: [
+      'packages/contracts/vitest.config.ts',
+      'packages/domain/vitest.config.ts',
+      'apps/api/vitest.integration.config.ts',
+    ],
     pool: 'forks',
     isolate: true,
     globals: false,

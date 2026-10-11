@@ -1,0 +1,820 @@
+{
+  "id": "f95fcb8f-ad8d-4e8f-beba-54bcae78f7c2",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "mercado.condicoes_comerciais": {
+      "name": "condicoes_comerciais",
+      "schema": "mercado",
+      "columns": {
+        "versao_dados": {
+          "name": "versao_dados",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "condicoes_id": {
+          "name": "condicoes_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pagamento": {
+          "name": "pagamento",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "frete": {
+          "name": "frete",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tributos": {
+          "name": "tributos",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "descricao": {
+          "name": "descricao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "condicoes_comerciais_versao_dados_versoes_dados_versao_dados_fk": {
+          "name": "condicoes_comerciais_versao_dados_versoes_dados_versao_dados_fk",
+          "tableFrom": "condicoes_comerciais",
+          "tableTo": "versoes_dados",
+          "schemaTo": "mercado",
+          "columnsFrom": ["versao_dados"],
+          "columnsTo": ["versao_dados"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "condicoes_comerciais_versao_dados_condicoes_id_pk": {
+          "name": "condicoes_comerciais_versao_dados_condicoes_id_pk",
+          "columns": ["versao_dados", "condicoes_id"]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "condicao_identificador": {
+          "name": "condicao_identificador",
+          "value": "\"mercado\".\"condicoes_comerciais\".\"condicoes_id\" ~ '^[a-z0-9]([a-z0-9-]{0,78}[a-z0-9])?$'"
+        },
+        "condicao_pagamento": {
+          "name": "condicao_pagamento",
+          "value": "\"mercado\".\"condicoes_comerciais\".\"pagamento\" = 'à vista'"
+        },
+        "condicao_frete": {
+          "name": "condicao_frete",
+          "value": "\"mercado\".\"condicoes_comerciais\".\"frete\" = 'excluído'"
+        },
+        "condicao_tributos": {
+          "name": "condicao_tributos",
+          "value": "\"mercado\".\"condicoes_comerciais\".\"tributos\" = 'excluídos'"
+        },
+        "condicao_descricao": {
+          "name": "condicao_descricao",
+          "value": "length(btrim(\"mercado\".\"condicoes_comerciais\".\"descricao\")) > 0 AND length(\"mercado\".\"condicoes_comerciais\".\"descricao\") <= 512"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "mercado.municipios": {
+      "name": "municipios",
+      "schema": "mercado",
+      "columns": {
+        "versao_dados": {
+          "name": "versao_dados",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "codigo_ibge": {
+          "name": "codigo_ibge",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "regiao_id": {
+          "name": "regiao_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nome": {
+          "name": "nome",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nome_fonte_imb": {
+          "name": "nome_fonte_imb",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "linha_fonte_imb": {
+          "name": "linha_fonte_imb",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "municipios_composicao": {
+          "name": "municipios_composicao",
+          "columns": [
+            {
+              "expression": "versao_dados",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "regiao_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "codigo_ibge",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "municipios_versao_dados_versoes_dados_versao_dados_fk": {
+          "name": "municipios_versao_dados_versoes_dados_versao_dados_fk",
+          "tableFrom": "municipios",
+          "tableTo": "versoes_dados",
+          "schemaTo": "mercado",
+          "columnsFrom": ["versao_dados"],
+          "columnsTo": ["versao_dados"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "municipios_versao_dados_regiao_id_regioes_versao_dados_regiao_id_fk": {
+          "name": "municipios_versao_dados_regiao_id_regioes_versao_dados_regiao_id_fk",
+          "tableFrom": "municipios",
+          "tableTo": "regioes",
+          "schemaTo": "mercado",
+          "columnsFrom": ["versao_dados", "regiao_id"],
+          "columnsTo": ["versao_dados", "regiao_id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "municipios_versao_dados_codigo_ibge_pk": {
+          "name": "municipios_versao_dados_codigo_ibge_pk",
+          "columns": ["versao_dados", "codigo_ibge"]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "municipio_codigo": {
+          "name": "municipio_codigo",
+          "value": "\"mercado\".\"municipios\".\"codigo_ibge\" ~ '^52[0-9]{5}$'"
+        },
+        "municipio_nome": {
+          "name": "municipio_nome",
+          "value": "length(btrim(\"mercado\".\"municipios\".\"nome\")) > 0 AND length(\"mercado\".\"municipios\".\"nome\") <= 160"
+        },
+        "municipio_nome_fonte": {
+          "name": "municipio_nome_fonte",
+          "value": "length(btrim(\"mercado\".\"municipios\".\"nome_fonte_imb\")) > 0 AND length(\"mercado\".\"municipios\".\"nome_fonte_imb\") <= 160"
+        },
+        "municipio_linha": {
+          "name": "municipio_linha",
+          "value": "\"mercado\".\"municipios\".\"linha_fonte_imb\" > 0"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "mercado.perfis": {
+      "name": "perfis",
+      "schema": "mercado",
+      "columns": {
+        "versao_dados": {
+          "name": "versao_dados",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "perfil_id": {
+          "name": "perfil_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ordem": {
+          "name": "ordem",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "categoria": {
+          "name": "categoria",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "sexo": {
+          "name": "sexo",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "grupo_racial": {
+          "name": "grupo_racial",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "idade_referencia_meses": {
+          "name": "idade_referencia_meses",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "peso_referencia": {
+          "name": "peso_referencia",
+          "type": "numeric(8, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "unidade_peso": {
+          "name": "unidade_peso",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "referencia_parametros_id": {
+          "name": "referencia_parametros_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "perfis_versao_dados_versoes_dados_versao_dados_fk": {
+          "name": "perfis_versao_dados_versoes_dados_versao_dados_fk",
+          "tableFrom": "perfis",
+          "tableTo": "versoes_dados",
+          "schemaTo": "mercado",
+          "columnsFrom": ["versao_dados"],
+          "columnsTo": ["versao_dados"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "perfis_versao_dados_perfil_id_pk": {
+          "name": "perfis_versao_dados_perfil_id_pk",
+          "columns": ["versao_dados", "perfil_id"]
+        }
+      },
+      "uniqueConstraints": {
+        "perfis_ordem": {
+          "name": "perfis_ordem",
+          "nullsNotDistinct": false,
+          "columns": ["versao_dados", "ordem"]
+        },
+        "perfis_combinacao": {
+          "name": "perfis_combinacao",
+          "nullsNotDistinct": false,
+          "columns": ["versao_dados", "categoria", "sexo", "grupo_racial"]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "perfil_identificador": {
+          "name": "perfil_identificador",
+          "value": "\"mercado\".\"perfis\".\"perfil_id\" ~ '^[a-z0-9]([a-z0-9-]{0,78}[a-z0-9])?$'"
+        },
+        "referencia_identificador": {
+          "name": "referencia_identificador",
+          "value": "\"mercado\".\"perfis\".\"referencia_parametros_id\" ~ '^[a-z0-9]([a-z0-9-]{0,78}[a-z0-9])?$'"
+        },
+        "perfil_ordem": {
+          "name": "perfil_ordem",
+          "value": "\"mercado\".\"perfis\".\"ordem\" BETWEEN 1 AND 8"
+        },
+        "perfil_coerencia": {
+          "name": "perfil_coerencia",
+          "value": "(\"mercado\".\"perfis\".\"categoria\" IN ('Bezerro','Garrote') AND \"mercado\".\"perfis\".\"sexo\" = 'Macho' AND \"mercado\".\"perfis\".\"grupo_racial\" IN ('Nelore','Mestiço')) OR (\"mercado\".\"perfis\".\"categoria\" IN ('Bezerra','Novilha') AND \"mercado\".\"perfis\".\"sexo\" = 'Fêmea' AND \"mercado\".\"perfis\".\"grupo_racial\" IN ('Nelore','Mestiça'))"
+        },
+        "perfil_idade": {
+          "name": "perfil_idade",
+          "value": "\"mercado\".\"perfis\".\"idade_referencia_meses\" > 0"
+        },
+        "perfil_peso": {
+          "name": "perfil_peso",
+          "value": "\"mercado\".\"perfis\".\"peso_referencia\" > 0 AND \"mercado\".\"perfis\".\"peso_referencia\" NOT IN ('NaN'::numeric, 'Infinity'::numeric, '-Infinity'::numeric)"
+        },
+        "perfil_unidade": {
+          "name": "perfil_unidade",
+          "value": "\"mercado\".\"perfis\".\"unidade_peso\" = 'kg'"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "mercado.precos": {
+      "name": "precos",
+      "schema": "mercado",
+      "columns": {
+        "versao_dados": {
+          "name": "versao_dados",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "perfil_id": {
+          "name": "perfil_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "semana": {
+          "name": "semana",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "regiao_id": {
+          "name": "regiao_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "condicoes_id": {
+          "name": "condicoes_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "preco": {
+          "name": "preco",
+          "type": "numeric(12, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "moeda": {
+          "name": "moeda",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "unidade_preco": {
+          "name": "unidade_preco",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "natureza": {
+          "name": "natureza",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "precos_resumo": {
+          "name": "precos_resumo",
+          "columns": [
+            {
+              "expression": "versao_dados",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "semana",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "perfil_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "regiao_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "precos_versao_dados_versoes_dados_versao_dados_fk": {
+          "name": "precos_versao_dados_versoes_dados_versao_dados_fk",
+          "tableFrom": "precos",
+          "tableTo": "versoes_dados",
+          "schemaTo": "mercado",
+          "columnsFrom": ["versao_dados"],
+          "columnsTo": ["versao_dados"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "precos_versao_dados_perfil_id_perfis_versao_dados_perfil_id_fk": {
+          "name": "precos_versao_dados_perfil_id_perfis_versao_dados_perfil_id_fk",
+          "tableFrom": "precos",
+          "tableTo": "perfis",
+          "schemaTo": "mercado",
+          "columnsFrom": ["versao_dados", "perfil_id"],
+          "columnsTo": ["versao_dados", "perfil_id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "precos_versao_dados_regiao_id_regioes_versao_dados_regiao_id_fk": {
+          "name": "precos_versao_dados_regiao_id_regioes_versao_dados_regiao_id_fk",
+          "tableFrom": "precos",
+          "tableTo": "regioes",
+          "schemaTo": "mercado",
+          "columnsFrom": ["versao_dados", "regiao_id"],
+          "columnsTo": ["versao_dados", "regiao_id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "precos_versao_dados_condicoes_id_condicoes_comerciais_versao_dados_condicoes_id_fk": {
+          "name": "precos_versao_dados_condicoes_id_condicoes_comerciais_versao_dados_condicoes_id_fk",
+          "tableFrom": "precos",
+          "tableTo": "condicoes_comerciais",
+          "schemaTo": "mercado",
+          "columnsFrom": ["versao_dados", "condicoes_id"],
+          "columnsTo": ["versao_dados", "condicoes_id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "precos_versao_dados_perfil_id_semana_regiao_id_pk": {
+          "name": "precos_versao_dados_perfil_id_semana_regiao_id_pk",
+          "columns": ["versao_dados", "perfil_id", "semana", "regiao_id"]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "preco_semana": {
+          "name": "preco_semana",
+          "value": "isfinite(\"mercado\".\"precos\".\"semana\") AND extract(isodow FROM \"mercado\".\"precos\".\"semana\") = 1"
+        },
+        "preco_positivo": {
+          "name": "preco_positivo",
+          "value": "\"mercado\".\"precos\".\"preco\" > 0 AND \"mercado\".\"precos\".\"preco\" NOT IN ('NaN'::numeric, 'Infinity'::numeric, '-Infinity'::numeric)"
+        },
+        "preco_moeda": {
+          "name": "preco_moeda",
+          "value": "\"mercado\".\"precos\".\"moeda\" = 'BRL'"
+        },
+        "preco_unidade": {
+          "name": "preco_unidade",
+          "value": "\"mercado\".\"precos\".\"unidade_preco\" = 'cabeca'"
+        },
+        "preco_natureza": {
+          "name": "preco_natureza",
+          "value": "\"mercado\".\"precos\".\"natureza\" = 'demonstrativa'"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "mercado.publicacao_atual": {
+      "name": "publicacao_atual",
+      "schema": "mercado",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "smallint",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "versao_dados": {
+          "name": "versao_dados",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "publicacao_atual_versao_dados_versoes_dados_versao_dados_fk": {
+          "name": "publicacao_atual_versao_dados_versoes_dados_versao_dados_fk",
+          "tableFrom": "publicacao_atual",
+          "tableTo": "versoes_dados",
+          "schemaTo": "mercado",
+          "columnsFrom": ["versao_dados"],
+          "columnsTo": ["versao_dados"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "publicacao_unica": {
+          "name": "publicacao_unica",
+          "value": "\"mercado\".\"publicacao_atual\".\"id\" = 1"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "mercado.regioes": {
+      "name": "regioes",
+      "schema": "mercado",
+      "columns": {
+        "versao_dados": {
+          "name": "versao_dados",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "regiao_id": {
+          "name": "regiao_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ordem": {
+          "name": "ordem",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "codigo_imb": {
+          "name": "codigo_imb",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nome": {
+          "name": "nome",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nome_fonte_imb": {
+          "name": "nome_fonte_imb",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "folha_fonte_imb": {
+          "name": "folha_fonte_imb",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "regioes_versao_dados_versoes_dados_versao_dados_fk": {
+          "name": "regioes_versao_dados_versoes_dados_versao_dados_fk",
+          "tableFrom": "regioes",
+          "tableTo": "versoes_dados",
+          "schemaTo": "mercado",
+          "columnsFrom": ["versao_dados"],
+          "columnsTo": ["versao_dados"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "regioes_versao_dados_regiao_id_pk": {
+          "name": "regioes_versao_dados_regiao_id_pk",
+          "columns": ["versao_dados", "regiao_id"]
+        }
+      },
+      "uniqueConstraints": {
+        "regioes_ordem": {
+          "name": "regioes_ordem",
+          "nullsNotDistinct": false,
+          "columns": ["versao_dados", "ordem"]
+        },
+        "regioes_codigo": {
+          "name": "regioes_codigo",
+          "nullsNotDistinct": false,
+          "columns": ["versao_dados", "codigo_imb"]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "regiao_identificador": {
+          "name": "regiao_identificador",
+          "value": "\"mercado\".\"regioes\".\"regiao_id\" ~ '^[a-z0-9]([a-z0-9-]{0,78}[a-z0-9])?$'"
+        },
+        "regiao_ordem": {
+          "name": "regiao_ordem",
+          "value": "\"mercado\".\"regioes\".\"ordem\" BETWEEN 1 AND 10"
+        },
+        "regiao_codigo": {
+          "name": "regiao_codigo",
+          "value": "\"mercado\".\"regioes\".\"codigo_imb\" ~ '^(00[1-9]|010)$'"
+        },
+        "regiao_nome": {
+          "name": "regiao_nome",
+          "value": "length(btrim(\"mercado\".\"regioes\".\"nome\")) > 0 AND length(\"mercado\".\"regioes\".\"nome\") <= 160"
+        },
+        "regiao_nome_fonte": {
+          "name": "regiao_nome_fonte",
+          "value": "length(btrim(\"mercado\".\"regioes\".\"nome_fonte_imb\")) > 0 AND length(\"mercado\".\"regioes\".\"nome_fonte_imb\") <= 160"
+        },
+        "regiao_folha": {
+          "name": "regiao_folha",
+          "value": "length(btrim(\"mercado\".\"regioes\".\"folha_fonte_imb\")) > 0 AND length(\"mercado\".\"regioes\".\"folha_fonte_imb\") <= 80"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "mercado.versoes_dados": {
+      "name": "versoes_dados",
+      "schema": "mercado",
+      "columns": {
+        "versao_dados": {
+          "name": "versao_dados",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "conjunto_id": {
+          "name": "conjunto_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "versao_formato_arquivos": {
+          "name": "versao_formato_arquivos",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "natureza": {
+          "name": "natureza",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "versao_territorial": {
+          "name": "versao_territorial",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "preparado_em": {
+          "name": "preparado_em",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "janela_inicio": {
+          "name": "janela_inicio",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "janela_fim": {
+          "name": "janela_fim",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "primeira_semana": {
+          "name": "primeira_semana",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ultima_semana": {
+          "name": "ultima_semana",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "semana_anterior": {
+          "name": "semana_anterior",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "hash_conjunto_sha256": {
+          "name": "hash_conjunto_sha256",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "manifesto": {
+          "name": "manifesto",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "estado": {
+          "name": "estado",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "publicado_em": {
+          "name": "publicado_em",
+          "type": "timestamp (3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "versao_identificador": {
+          "name": "versao_identificador",
+          "value": "\"mercado\".\"versoes_dados\".\"versao_dados\" ~ '^[a-z0-9]([a-z0-9-]{0,78}[a-z0-9])?$'"
+        },
+        "conjunto_identificador": {
+          "name": "conjunto_identificador",
+          "value": "\"mercado\".\"versoes_dados\".\"conjunto_id\" ~ '^[a-z0-9]([a-z0-9-]{0,78}[a-z0-9])?$'"
+        },
+        "territorio_identificador": {
+          "name": "territorio_identificador",
+          "value": "\"mercado\".\"versoes_dados\".\"versao_territorial\" ~ '^[a-z0-9]([a-z0-9-]{0,78}[a-z0-9])?$'"
+        },
+        "versao_formato": {
+          "name": "versao_formato",
+          "value": "\"mercado\".\"versoes_dados\".\"versao_formato_arquivos\" = '1'"
+        },
+        "versao_natureza": {
+          "name": "versao_natureza",
+          "value": "\"mercado\".\"versoes_dados\".\"natureza\" = 'demonstrativa'"
+        },
+        "preparado_finito": {
+          "name": "preparado_finito",
+          "value": "isfinite(\"mercado\".\"versoes_dados\".\"preparado_em\")"
+        },
+        "janela_civil": {
+          "name": "janela_civil",
+          "value": "isfinite(\"mercado\".\"versoes_dados\".\"janela_inicio\") AND isfinite(\"mercado\".\"versoes_dados\".\"janela_fim\") AND extract(day FROM \"mercado\".\"versoes_dados\".\"janela_inicio\") = 1 AND \"mercado\".\"versoes_dados\".\"janela_fim\" = (\"mercado\".\"versoes_dados\".\"janela_inicio\" + interval '1 year' - interval '1 day')::date"
+        },
+        "calendario_semanal": {
+          "name": "calendario_semanal",
+          "value": "isfinite(\"mercado\".\"versoes_dados\".\"primeira_semana\") AND extract(isodow FROM \"mercado\".\"versoes_dados\".\"primeira_semana\") = 1 AND isfinite(\"mercado\".\"versoes_dados\".\"ultima_semana\") AND extract(isodow FROM \"mercado\".\"versoes_dados\".\"ultima_semana\") = 1 AND isfinite(\"mercado\".\"versoes_dados\".\"semana_anterior\") AND extract(isodow FROM \"mercado\".\"versoes_dados\".\"semana_anterior\") = 1 AND \"mercado\".\"versoes_dados\".\"primeira_semana\" BETWEEN \"mercado\".\"versoes_dados\".\"janela_inicio\" AND \"mercado\".\"versoes_dados\".\"janela_inicio\" + 6 AND \"mercado\".\"versoes_dados\".\"ultima_semana\" BETWEEN \"mercado\".\"versoes_dados\".\"janela_fim\" - 6 AND \"mercado\".\"versoes_dados\".\"janela_fim\" AND \"mercado\".\"versoes_dados\".\"semana_anterior\" = \"mercado\".\"versoes_dados\".\"primeira_semana\" - 7"
+        },
+        "hash_sha256": {
+          "name": "hash_sha256",
+          "value": "\"mercado\".\"versoes_dados\".\"hash_conjunto_sha256\" ~ '^[0-9a-f]{64}$'"
+        },
+        "manifesto_objeto": {
+          "name": "manifesto_objeto",
+          "value": "jsonb_typeof(\"mercado\".\"versoes_dados\".\"manifesto\") = 'object'"
+        },
+        "estado_publicacao": {
+          "name": "estado_publicacao",
+          "value": "(\"mercado\".\"versoes_dados\".\"estado\" = 'preparacao' AND \"mercado\".\"versoes_dados\".\"publicado_em\" IS NULL) OR (\"mercado\".\"versoes_dados\".\"estado\" = 'publicada' AND \"mercado\".\"versoes_dados\".\"publicado_em\" IS NOT NULL AND isfinite(\"mercado\".\"versoes_dados\".\"publicado_em\"))"
+        }
+      },
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {
+    "mercado": "mercado"
+  },
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

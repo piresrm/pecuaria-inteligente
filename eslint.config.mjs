@@ -20,7 +20,12 @@ export default defineConfig(
     languageOptions: { globals: globals.node },
   },
   {
-    files: ['vitest.config.ts', 'packages/contracts/**/*.ts', 'packages/domain/**/*.ts'],
+    files: [
+      'vitest.config.ts',
+      'packages/contracts/**/*.ts',
+      'packages/domain/**/*.ts',
+      'apps/api/**/*.ts',
+    ],
     extends: [js.configs.recommended, ...tseslint.configs.recommendedTypeChecked],
     languageOptions: {
       parserOptions: { projectService: true, tsconfigRootDir: import.meta.dirname },

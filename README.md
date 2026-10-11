@@ -98,25 +98,25 @@ A visão de longo prazo continua abrangendo toda a cadeia pecuária brasileira. 
 
 ## Estado atual
 
-Estão implementados os contratos compartilhados em `packages/contracts/` e o domínio puro em `packages/domain/`, com filtros, indicadores decimais, calendário civil, apresentação localizada e testes executáveis. Os contratos oferecem tipos, validação estrutural e semântica e serialização determinística. A aplicação completa da v0.1 permanece em desenvolvimento; este README distingue a entrega atual das funcionalidades previstas no *roadmap*.
+Estão implementados os contratos compartilhados em `packages/contracts/`, o domínio puro em `packages/domain/` e o esquema PostgreSQL em `apps/api/`, com filtros, indicadores decimais, calendário civil, apresentação localizada, migrações e testes executáveis. Os contratos oferecem tipos, validação estrutural e semântica e serialização determinística. A aplicação completa da v0.1 permanece em desenvolvimento; este README distingue a entrega atual das funcionalidades previstas no *roadmap*.
 
-A arquitetura da v0.1 foi definida e aprovada. TypeScript, React, Tailwind CSS, Vite e Fastify em Node.js foram escolhidos em conversa. O ambiente adotado usa Node.js 24 LTS, TypeScript 6.0.3 e npm com espaços de trabalho; Prettier e ESLint verificam os contratos, o domínio e suas configurações; os demais módulos serão incorporados progressivamente.
+A arquitetura da v0.1 foi definida e aprovada. TypeScript, React, Tailwind CSS, Vite e Fastify em Node.js foram escolhidos em conversa. O ambiente adotado usa Node.js 24 LTS, TypeScript 6.0.3 e npm com espaços de trabalho; Prettier e ESLint verificam os contratos, o domínio, o módulo de banco e suas configurações; os demais módulos serão incorporados progressivamente.
 
-O banco escolhido é PostgreSQL 18.6, com persistência em volume no Docker Compose. O acesso aos dados usará Drizzle ORM com o *driver* `pg`; as migrações serão geradas, revisadas e versionadas com Drizzle Kit. O [modelo físico](docs/superpowers/specs/2026-10-07-modelo-fisico-postgresql-v0.1-design.md) define sete tabelas, cadastros e preços por versão, precisão decimal, publicação atômica e retenção de todas as versões durante a entrega acadêmica.
+O banco escolhido é PostgreSQL 18.6, com persistência em volume no Docker Compose. O módulo de banco usa Drizzle ORM `0.45.3` com o *driver* `pg` `8.23.1`; o histórico SQL foi gerado com Drizzle Kit `0.31.11`, revisado e complementado com gatilhos e permissões. O [modelo físico](docs/superpowers/specs/2026-10-07-modelo-fisico-postgresql-v0.1-design.md) define sete tabelas, cadastros e preços por versão, precisão decimal, publicação atômica e retenção de todas as versões durante a entrega acadêmica.
 
 Os contratos implementados usam TypeBox e Ajv; o domínio calcula médias, conversões e variações com `big.js` 7.0.1. A persistência no navegador usará IndexedDB com `idb`; o gráfico será feito com Chart.js, carregado separadamente. Os [contratos e o armazenamento local](docs/superpowers/specs/2026-10-07-contratos-api-e-indexeddb-v0.1-design.md) já têm campos, limites, exemplos verificáveis e confirmação atômica especificados.
 
 A [apresentação aprovada](docs/superpowers/specs/2026-10-07-apresentacao-e-armazenamento-v0.1-design.md) terá indicadores em destaque, verde profundo, tons de terra e faixa com imagens responsivas de gado no pasto e boi no curral, sobreposição e degradê. Chrome, Edge, Firefox e Safari compõem a matriz de suporte. O orçamento total do IndexedDB será de 10.240 KiB (10 MiB), com margem para troca segura; o autor dispensou novas medições de ocupação nos demais navegadores. A interface e as imagens finais ainda não foram produzidas.
 
-O desenvolvimento seguirá TDD. Foram adotados Vitest para domínio e API, React Testing Library para componentes e Playwright para a consulta completa. Os testes de integração usarão PostgreSQL real com Testcontainers. npm organizará as dependências; GitHub Actions executará as verificações, incluindo auditoria com `npm audit` e análise obrigatória com Semgrep Community Edition. A [configuração de testes, auditoria e CI](docs/superpowers/specs/2026-10-07-testes-auditoria-e-ci-v0.1-design.md) já define projetos, isolamento, prazos, evidências e seleção de regras. Manifesto, regras próprias e casos verificados estão em [`docs/superpowers/quality/v0.1/`](docs/superpowers/quality/v0.1/); as comunitárias serão obtidas por revisão e hash para uso local, sem redistribuição no repositório.
+O desenvolvimento seguirá TDD. Foram adotados Vitest para domínio e API, React Testing Library para componentes e Playwright para a consulta completa. Os testes de integração usam PostgreSQL real com Testcontainers, em bases exclusivas e com credenciais descartáveis. npm organizará as dependências; GitHub Actions executará as verificações, incluindo auditoria com `npm audit` e análise obrigatória com Semgrep Community Edition. A [configuração de testes, auditoria e CI](docs/superpowers/specs/2026-10-07-testes-auditoria-e-ci-v0.1-design.md) já define projetos, isolamento, prazos, evidências e seleção de regras. Manifesto, regras próprias e casos verificados estão em [`docs/superpowers/quality/v0.1/`](docs/superpowers/quality/v0.1/); as comunitárias serão obtidas por revisão e hash para uso local, sem redistribuição no repositório.
 
 A execução da v0.1 e da entrega acadêmica v0.2 será local, via Docker Compose, com uma única instância e um único processo da API. Caddy servirá a interface e encaminhará `/api/` pela mesma origem HTTPS, com certificado emitido por uma autoridade local. Os controles por IP e de concorrência serão mantidos em memória; Valkey ou Redis serão avaliados em versões futuras, antes de ampliar para múltiplas instâncias.
 
 A base demonstrativa fixa foi preparada em `data/demonstrativa/v0.1/`: oito perfis, dez regiões do IMB, 246 municípios e 4.146 preços fictícios, com lacunas controladas. O histórico cobre outubro de 2025 a setembro de 2026, além da semana anterior para comparação. Fontes públicas fundamentam os parâmetros e o território; os preços são demonstrativos. A [documentação da base](docs/superpowers/specs/2026-10-07-base-demonstrativa-v0.1.md) registra pesquisa, condições comerciais, reprodução e verificação.
 
-O [plano de implementação da v0.1](docs/superpowers/plans/2026-10-07-implementacao-v0.1.md) organiza contratos, domínio, banco, API, consulta, persistência, interface, HTTPS e qualidade em tarefas verificáveis de TDD. Contratos, ambiente e domínio estão implementados; banco, API e interface serão implementados nas etapas seguintes.
+O [plano de implementação da v0.1](docs/superpowers/plans/2026-10-07-implementacao-v0.1.md) organiza contratos, domínio, banco, API, consulta, persistência, interface, HTTPS e qualidade em tarefas verificáveis de TDD. Contratos, ambiente, domínio e esquema do banco estão implementados; publicação demonstrativa, consultas da API e interface serão implementadas nas etapas seguintes.
 
-Os [exemplos documentais](docs/superpowers/contracts/v0.1/) são entradas dos testes de equivalência entre o esquema de referência, as declarações TypeBox e os validadores do servidor e do navegador. O pacote também valida calendário, cadastros, preços únicos, cobertura regional, fontes e correspondência entre resumo e histórico. A instalação e as verificações dos contratos e do domínio estão disponíveis abaixo. Rotas HTTP, banco, interface, Compose e integração contínua permanecem pendentes; a v0.1 utilizará apenas dados demonstrativos.
+Os [exemplos documentais](docs/superpowers/contracts/v0.1/) são entradas dos testes de equivalência entre o esquema de referência, as declarações TypeBox e os validadores do servidor e do navegador. O pacote também valida calendário, cadastros, preços únicos, cobertura regional, fontes e correspondência entre resumo e histórico. A instalação e as verificações dos contratos, do domínio e do banco estão disponíveis abaixo. Rotas HTTP, publicação demonstrativa, interface, Compose e integração contínua permanecem pendentes; a v0.1 utilizará apenas dados demonstrativos.
 
 ### Dados disponíveis
 
@@ -128,19 +128,21 @@ Os arquivos CSV e JSON da base fixa estão em [`data/demonstrativa/v0.1/`](data/
 
 ### Organização da implementação
 
-`packages/contracts/` e `packages/domain/` estão implementados. Os demais diretórios da tabela registram a organização prevista para as etapas seguintes.
+`packages/contracts/`, `packages/domain/`, o módulo de banco de `apps/api/` e a preparação de papéis em `infra/postgres/` estão implementados. Os demais diretórios registram a organização prevista para as etapas seguintes.
 
 | Local | Responsabilidade |
 | --- | --- |
 | `apps/web/` | Interface React, consultas, persistência no navegador e gráfico. |
-| `apps/api/` | API Fastify, repositório PostgreSQL e operações demonstrativas autorizadas. |
+| `apps/api/src/db/`, `apps/api/drizzle/` | Esquema, cliente e histórico SQL implementados; repositório de consultas e publicação ainda pendentes. |
+| `apps/api/src/operations/` | Migração implementada; operações demonstrativas serão acrescentadas depois. |
+| `apps/api/tests/integration/`, `infra/postgres/init-roles.sh` | Testes PostgreSQL isolados e preparação dos três papéis com segredos em arquivos. |
 | `packages/contracts/` | Contratos, tipos e geração dos validadores compartilhados. |
 | `packages/domain/` | Filtros e cálculos independentes da interface e do servidor. |
 | `tests/e2e/` | Verificação da consulta completa com Playwright. |
 | `infra/` e `compose.yaml` | Imagens, entrada HTTPS e configuração local dos serviços. |
 | `.github/workflows/` | Testes, compilação e verificações de qualidade e segurança. |
 
-### Ambiente e verificações dos contratos e do domínio
+### Ambiente e verificações dos módulos implementados
 
 Usar Node.js `24.21.0` e npm `11.19.0`, fixados em `.node-version` e no manifesto. Ativar essa instalação antes dos comandos; `.npmrc` rejeita versões incompatíveis. Na raiz:
 
@@ -153,21 +155,36 @@ npm run build
 npm run check
 npm run check:data
 npm test
-npm run test:unit -- --project dominio
+npm exec -- vitest run --project dominio
 npm run test:coverage
+npm run test:integration
 ```
 
-`npm ci` instala o `package-lock.json` único, incluindo dependências de desenvolvimento. O único script de instalação aprovado é o do esbuild `0.28.2`, usado pelas ferramentas. As versões verificadas incluem TypeScript `6.0.3`, TypeBox `1.3.36`, Ajv `8.20.0`, ajv-formats `3.0.1`, Vitest e cobertura V8 `5.0.3`, ESLint `10.12.0` e Prettier `3.9.9`.
+`npm ci` instala o `package-lock.json` único, incluindo dependências de desenvolvimento. Os únicos *scripts* de instalação aprovados são os do esbuild `0.28.2`, `0.25.12` e `0.18.20`, usados pelas ferramentas e pelo Drizzle Kit para preparar seus binários. Os instaladores opcionais de `cpu-features`, `protobufjs` e `ssh2` foram revisados e bloqueados explicitamente; não são necessários à integração Docker local. As versões verificadas incluem TypeScript `6.0.3`, TypeBox `1.3.36`, Ajv `8.20.0`, ajv-formats `3.0.1`, Vitest e cobertura V8 `5.0.3`, ESLint `10.12.0` e Prettier `3.9.9`.
 
 A geração produz `packages/contracts/src/generated/` com validadores estáticos autocontidos e preserva as licenças dos auxiliares puros de terceiros. Esses arquivos e `dist/` são ignorados e reproduzíveis. Testes e análise de tipos regeneram os validadores automaticamente; a compilação entrega as exportações `@pecuaria/contracts/types`, `/server` e `/browser`. Importar `/types` com `import type`; `/browser` inclui validadores, assertivas semânticas e `canonicalJson`, sem compilador dinâmico ou módulos Node.
 
-Nesta etapa, os projetos Vitest `contratos` e `dominio` estão ativos. `npm run check` verifica tipos de produção, ferramentas e testes, formatação e ESLint dos arquivos presentes. A cobertura V8 abrange os contratos e o domínio e fica em `artifacts/coverage/unit/`; ela não representa a aplicação completa. A prova isolada do pacote de navegador não substitui a futura validação funcional na matriz de navegadores.
+Nesta etapa, os projetos Vitest `contratos`, `dominio` e `banco` estão ativos. `npm test` executa as duas suítes rápidas; `npm run test:integration` executa o banco real e exige Docker disponível. `npm run check` verifica tipos de produção, ferramentas e testes, formatação e ESLint dos arquivos presentes. A cobertura V8 abrange os contratos e o domínio e fica em `artifacts/coverage/unit/`; ela não representa a aplicação completa. A prova isolada do pacote de navegador não substitui a futura validação funcional na matriz de navegadores.
 
 O pacote `@pecuaria/domain` exporta `filtrarPerfis`, `filtrarConsulta` e `calcularConsulta`, além dos tipos `Filtragem`, `ConsultaCalculada`, `LinhaPreco`, `PontoHistorico` e `Indicadores`. Recebe respostas previamente validadas dos contratos e filtros tipados; mantém decimais em cadeias e ausência em `null`. Na visão estadual, cada perfil tem dez linhas regionais e uma média; na regional, uma linha. A última data depende do perfil e do recorte, e a série conserva todas as segundas-feiras do intervalo com lacunas reais.
 
 O modo `recente` usa a janela inteira: o resumo permite tabela e comparação semanal, enquanto série e variação do período ficam pendentes até chegar o histórico ativo. O modo `periodo` exige históricos completos de todos os perfis elegíveis, da mesma versão. Combinações sem perfil elegível produzem resultado vazio com perfil ativo nulo. Intervalos inválidos ou históricos incompatíveis são rejeitados sem alterar entradas; preservar a consulta anterior é responsabilidade do futuro consumidor.
 
 Os cálculos usam um construtor isolado de `big.js`, com entradas textuais e 40 casas nas divisões, sem arredondamento intermediário para as casas de exibição. `@pecuaria/domain/presentation` aplica duas casas para preços, uma para percentuais e empate para longe de zero, sem converter decimais para ponto flutuante. `tools/quality/check-data.mjs`, executado por `npm run check:data`, verifica os seis SHA-256, reproduz o CSV integralmente, confere calendário, território, lacunas e os nove cenários com aritmética racional independente. A projeção `packages/domain/src/fixtures.ts` é exclusiva dos testes e fica fora da compilação de produção; os arquivos fixos permanecem intactos.
+
+### Migrações e integração PostgreSQL
+
+`npm run test:integration -- schema` seleciona os testes estruturais. Cada arquivo de integração com banco cria um contêiner PostgreSQL `18.6-bookworm`, fixado pelo índice `sha256:afc7e2d441324c0388fa80c3d24f733b4194a4eb7f47dd8ee2b08eb1a24a647c`, com base exclusiva, segredos temporários e encerramento dos seus recursos. Não usa volumes acadêmicos. O início do contêiner tem prazo de 60 segundos, a preparação de 120 segundos e cada teste de 30 segundos; indisponibilidade do Docker falha a execução.
+
+O esquema `mercado` mantém sete tabelas, chaves compostas por versão, decimais e datas civis textuais no Drizzle. Consultas SQL personalizadas usam o protocolo textual padrão de `pg`: o cliente preserva `DATE` como texto com conversor local ao conjunto de conexões, sem alterar conversores globais ou monetários. O protocolo binário não foi validado e fica fora desse contrato. Gatilhos impedem conteúdo mutável, confirmação de preparação incompleta e truncamento. A finalização confere metadados e contagens do manifesto e atribui o instante no servidor. A igualdade integral com os arquivos e a receita será responsabilidade da futura operação demonstrativa; contagens SQL não substituem essa conferência.
+
+`infra/postgres/init-roles.sh` prepara os papéis `mercado_consulta`, `mercado_publicador` e `mercado_migracao` na inicialização de uma base nova. Exige `POSTGRES_USER`, `POSTGRES_DB`, `CONSULTA_PASSWORD_FILE`, `PUBLICADOR_PASSWORD_FILE` e `MIGRACAO_PASSWORD_FILE`; os três últimos apontam para segredos distintos, montados apenas nos serviços autorizados. A consulta tem leitura; o publicador insere conteúdo em preparação e altera apenas colunas de finalização e o ponteiro; a migração é proprietária do esquema. A integração executa esse mesmo script e testa conexões reais dos três papéis.
+
+Para uma base já provisionada com esses papéis, definir `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER=mercado_migracao` e `DB_PASSWORD_FILE` no ambiente local e executar `npm run db:migrate`. O comando lê explicitamente o arquivo do segredo, aplica o histórico com o migrador oficial do Drizzle e fecha as conexões, inclusive após falha. Não publica dados demonstrativos. `npm run db:generate -- --name descricao` gera a próxima migração a partir do esquema; revisar SQL e metadados antes de aplicar. Funções, gatilhos e concessões usam migrações personalizadas; não editar histórico já aplicado nem sincronizar tabelas diretamente.
+
+Por incompatibilidades das declarações do Drizzle `0.45.3` com TypeScript `6.0.3` e referências a outros *drivers* opcionais, `skipLibCheck` está ativo somente na configuração da API. Código, testes e configurações próprios continuam sob `strict`, `noUncheckedIndexedAccess` e `exactOptionalPropertyTypes`; contratos e domínio mantêm a checagem integral das declarações. Reavaliar essa limitação ao atualizar dependências.
+
+A auditoria inicial do banco identificou quatro ocorrências moderadas na cadeia de desenvolvimento do Drizzle Kit, associadas a [GHSA-67mh-4wv8-2f99](https://github.com/advisories/GHSA-67mh-4wv8-2f99), sem ocorrências altas ou críticas. A geração usa transformação de código e gravação de arquivos; não inicia o servidor de desenvolvimento afetado. A migração usa o migrador do ORM. Drizzle Kit e suas dependências de desenvolvimento devem ficar fora da futura imagem de consulta; a auditoria será repetida na integração de segurança.
 
 ## Qualidade e critérios de sucesso
 
@@ -190,7 +207,7 @@ A documentação da v0.1 está em `docs/superpowers/specs/`:
 - [Base demonstrativa fixa](docs/superpowers/specs/2026-10-07-base-demonstrativa-v0.1.md): pesquisa pública, perfis, território, arquivos de dados, receita e cenários verificáveis.
 - [Modelo físico do PostgreSQL](docs/superpowers/specs/2026-10-07-modelo-fisico-postgresql-v0.1-design.md): tabelas, chaves, índices, precisão, publicação, imutabilidade, retenção e migrações.
 
-Os próximos passos são implementar banco, API, consulta, persistência e interface conforme o plano aprovado. O ambiente dos contratos foi instalado e verificado; a integração da aplicação e sua execução HTTPS ainda serão validadas nas etapas correspondentes. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
+Os próximos passos são implementar a publicação demonstrativa, o repositório de consultas, a API, a persistência no navegador e a interface conforme o plano aprovado. O ambiente dos contratos foi instalado e verificado; a integração da aplicação e sua execução HTTPS ainda serão validadas nas etapas correspondentes. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
 
 ## Créditos e licença
 

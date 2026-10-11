@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-Pecuária Inteligente is a Brazilian livestock market intelligence MVP covering breeding, rearing, finishing, slaughter, and dairy production. The repository has started implementation with shared contracts; the application remains under development.
+Pecuária Inteligente is a Brazilian livestock market intelligence MVP covering breeding, rearing, finishing, slaughter, and dairy production. The repository has started implementation with shared contracts, domain logic, and the PostgreSQL schema; the application remains under development.
 
 - `README.md`: product scope, planned features, roadmap, and quality criteria.
 - `ABOUT.md`: academic context, contribution preferences, and delivery checklist.
@@ -10,13 +10,15 @@ Pecuária Inteligente is a Brazilian livestock market intelligence MVP covering 
 - `packages/contracts/`: TypeBox contracts, types, server validators, pure browser validators, semantic checks, canonical JSON, and colocated tests.
 - `packages/domain/`: pure filters, calendar, decimal indicators, localized presentation, and colocated tests.
 - `tools/quality/check-data.mjs`: fixed data integrity, recipe, calendar, territory, and scenario verification.
-- Root manifests and quality configuration cover contracts and domain; application modules and CI configuration are still pending.
+- `apps/api/src/db/`, `apps/api/drizzle/`: PostgreSQL schema, connections, reviewed SQL migrations, and integration tests in `apps/api/tests/integration/`.
+- `infra/postgres/init-roles.sh`: provision three independent database roles using explicit secret files.
+- Root quality configuration covers contracts, domain, and the database module; HTTP routes, publication, web UI, and CI are still pending.
 
 Define requirements and architecture before selecting technologies. Document new module locations in `README.md`. Keep initial work focused on market monitoring; individual herd management is outside the initial scope. Do not version `PROMPTS.md`.
 
 ## Build, Test, and Development Commands
 
-Use Node.js `24.21.0` and npm `11.19.0`. From the repository root, `npm ci` installs the lockfile, `npm run build` generates contracts and compiles contracts/domain, `npm run check` verifies types/style/lint, and `npm test` runs the active contracts and domain projects. See `README.md` for the verified commands and incremental scope.
+Use Node.js `24.21.0` and npm `11.19.0`. From the repository root, `npm ci` installs the lockfile, `npm run build` generates contracts and compiles contracts/domain/database operations, `npm run check` verifies types/style/lint, and `npm test` runs the active contracts and domain projects. `npm run test:integration` requires Docker and exercises isolated PostgreSQL instances. `npm run db:generate` generates reviewed migrations; `npm run db:migrate` applies history using explicit environment configuration documented in the README. See `README.md` for the verified commands and incremental scope.
 
 Useful repository checks:
 
@@ -30,7 +32,7 @@ Do not assume commands such as `npm test` work before their configuration exists
 
 Write this contributor guide in English. Existing product documentation uses Brazilian Portuguese; follow its language when updating those files. Use hierarchical Markdown headings, short paragraphs, descriptive names, and fenced blocks for command examples.
 
-TypeScript uses strict checking, `noUncheckedIndexedAccess`, and `exactOptionalPropertyTypes`. Prettier uses two spaces, semicolons, single quotes, LF, and preserved Markdown prose wrapping. ESLint applies type-aware rules; browser contract code must remain pure.
+TypeScript uses strict checking, `noUncheckedIndexedAccess`, and `exactOptionalPropertyTypes`. Prettier uses two spaces, semicolons, single quotes, LF, and preserved Markdown prose wrapping. ESLint applies type-aware rules; browser contract code must remain pure. Only the API enables `skipLibCheck` for upstream Drizzle declaration incompatibilities; all project TypeScript retains the strict checks.
 
 ## Testing Guidelines
 
