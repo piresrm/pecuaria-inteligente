@@ -3,6 +3,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { readExceptionGroups } from './exceptions.mjs';
 
 const readJson = (path, label) => {
   try {
@@ -127,7 +128,7 @@ export function evaluateAudit({
   if (!Number.isInteger(rawExitCode) || rawExitCode !== 0)
     throw new Error(`npm audit terminou com código bruto ${rawExitCode}`);
   const report = readJson(rawPath, 'relatório bruto do npm audit');
-  const exceptions = readJson(exceptionsPath, 'exceções de auditoria');
+  const exceptions = readExceptionGroups(exceptionsPath).audit;
   const counts = report?.metadata?.vulnerabilities;
   if (
     !counts ||
@@ -142,7 +143,6 @@ export function evaluateAudit({
     Array.isArray(report.vulnerabilities)
   )
     throw new Error('inventário detalhado ausente ou inválido');
-  if (!Array.isArray(exceptions)) throw new Error('exceções devem ser uma lista');
   const findings = expand(report, packageLock);
   const packageCounts = Object.values(report.vulnerabilities).reduce(
     (acc, item) => {
@@ -158,7 +158,7 @@ export function evaluateAudit({
     counts.total !== countsTotal ||
     Object.values(packageCounts).reduce((a, b) => a + b, 0) !==
       Object.keys(report.vulnerabilities).length ||
-    Object.entries(packageCounts).some(([key, value]) => value > counts[key])
+    Object.entries(packageCounts).some(([key, value]) => value !== counts[key])
   )
     throw new Error('inventário de metadados e pacotes inconsistente');
   const exceptionFindings = exceptions.map((exception) =>

@@ -2,6 +2,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { readExceptionGroups } from '../quality/exceptions.mjs';
 import { evaluateSemgrep } from './avaliar.mjs';
 import { listScanTargets } from './alvos.mjs';
 import { runSemgrepContainer } from './executor.mjs';
@@ -11,9 +12,7 @@ const manifestPath = resolve(root, 'tools/semgrep/manifesto.json');
 const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
 const cacheRoot = resolve(root, '.cache/semgrep', manifest.origem.revisao);
 const exceptionsPath = resolve(root, 'docs/qualidade/excecoes.json');
-const exceptions = JSON.parse(await readFile(exceptionsPath, 'utf8'));
-
-if (!Array.isArray(exceptions)) throw new Error('exceções Semgrep devem ser uma lista');
+const exceptions = readExceptionGroups(exceptionsPath).semgrep;
 const configs = [resolve(root, manifest.regrasProprias.arquivoPlanejado)];
 for (const rule of manifest.regrasComunitarias) {
   const path = resolve(cacheRoot, rule.caminhoOrigem);

@@ -40,3 +40,11 @@ A saída bruta `npm audit --include=dev --audit-level=high --json` reportou 4 mo
 ## Limites e contrato de integração
 
 A configuração da CI está escrita, mas não houve execução de GitHub Actions. A execução E2E e o artefato `artifacts/e2e/` dependem do executor `npm run test:e2e` da T10; a ausência atual desse script nesta base não foi tratada como aprovação nem substituída por chamada direta ao Playwright. A primeira execução dos jobs requer a integração dos branches T9/T10/T11 e publicação pelo controlador. Nenhuma proteção remota ou branch foi alterada.
+
+## Correções da revisão independente
+
+O avaliador de `npm audit` agora exige igualdade entre as contagens de cada severidade no resumo e o inventário detalhado. O caso RED de metadados `high=1,total=1` com lista de vulnerabilidades vazia foi rejeitado; a suíte focada passou 8/8.
+
+O arquivo global de exceções é validado integralmente pelos dois esquemas aprovados e encaminha cada entrada somente ao gate correspondente. `id`/`pacote`/`versao` identificam auditoria; `regraId` identifica Semgrep. Entradas ambíguas, desconhecidas, com campos extras ou campos obrigatórios ausentes são rejeitadas. Teste focal com lista mista comprovou que cada gate aplica somente sua exceção; um achado Semgrep adicional sem correspondência continua bloqueando.
+
+Evidência da revisão: o teste da lista mista falhou com exit 1 ao substituir temporariamente o roteamento por um placeholder que entregava toda a lista aos dois avaliadores, e passou ao restaurar o roteamento. Logs focados RED/GREEN em `.local/task-11/shared-exceptions-{red,green}.log`. Os testes combinados de auditoria, roteamento e Semgrep passaram 18/18; build, scanners e suítes globais não foram executados nesta rodada.

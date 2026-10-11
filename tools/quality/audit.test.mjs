@@ -69,6 +69,17 @@ describe('evaluateAudit', () => {
     });
     assert.throws(() => evaluateAudit(paths), /inconsistente/i);
   });
+  it('rejeita metadados que declaram achado ausente do inventário detalhado', async () => {
+    const paths = await fixture({
+      raw: {
+        metadata: {
+          vulnerabilities: { high: 1, critical: 0, moderate: 0, low: 0, info: 0, total: 1 },
+        },
+        vulnerabilities: {},
+      },
+    });
+    assert.throws(() => evaluateAudit(paths), /inconsistente/i);
+  });
   it('bloqueia achado alto não previsto', async () => {
     const paths = await fixture({
       raw: report({ high: 1, critical: 0, moderate: 0, low: 0, info: 0, total: 1 }),
