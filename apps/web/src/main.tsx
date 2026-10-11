@@ -13,6 +13,7 @@ const cycle = new VerificationScheduler({
     await coordinator.verificar();
     return Object.keys(coordinator.state.erros).length === 0 && !coordinator.state.pendente;
   },
+  lastVerification: () => coordinator.state.ultimaVerificacao,
   visible: () => document.visibilityState === 'visible',
   online: () => navigator.onLine,
   onAge: (stale) => coordinator.setStale(stale),

@@ -267,3 +267,41 @@ it('falha de rede durante leitura do corpo também segue duas tentativas; contra
   await result;
   expect(fetch).toHaveBeenCalledTimes(3);
 });
+
+it('interrompe retry automático se a conexão cair durante a espera; tentativa explícita continua permitida', async () => {
+  vi.useFakeTimers();
+  let online = true;
+  const fetch = vi.fn<typeof globalThis.fetch>(() => Promise.reject(new TypeError('rede')));
+  const c = new MercadoClient({ fetch, online: () => online, random: () => 0.5 });
+  const result = expect(c.resumo()).rejects.toThrow();
+  await vi.advanceTimersByTimeAsync(0);
+  expect(fetch).toHaveBeenCalledTimes(1);
+  online = false;
+  await vi.runAllTimersAsync();
+  await result;
+  expect(fetch).toHaveBeenCalledTimes(1);
+  await expect(c.resumo()).rejects.toThrow();
+  expect(fetch).toHaveBeenCalledTimes(2);
+  c.dispose();
+});
+it('revalida conexão quando retry enfileirado finalmente recebe uma vaga', async () => {
+  vi.useFakeTimers();
+  const { RequestScheduler } = await import('./scheduler');
+  const scheduler = new RequestScheduler();
+  let online = true;
+  const fetch = vi.fn<typeof globalThis.fetch>(() => Promise.reject(new TypeError('rede')));
+  const c = new MercadoClient({ fetch, scheduler, online: () => online, random: () => 0.5 });
+  const result = expect(c.resumo()).rejects.toThrow();
+  await vi.advanceTimersByTimeAsync(0);
+  const releases: (() => void)[] = [];
+  const hold = () => new Promise<void>((resolve) => releases.push(resolve));
+  const blockers = [scheduler.run('one', 'consulta', hold), scheduler.run('two', 'consulta', hold)];
+  await vi.advanceTimersByTimeAsync(2000);
+  online = false;
+  for (const release of releases) release();
+  await Promise.all(blockers);
+  await vi.runAllTimersAsync();
+  await result;
+  expect(fetch).toHaveBeenCalledTimes(1);
+  c.dispose();
+});

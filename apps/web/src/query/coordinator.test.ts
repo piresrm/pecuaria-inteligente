@@ -2,6 +2,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import type { Filtros, Resumo, Historico } from '@pecuaria/contracts/types';
 import { QueryCoordinator } from './coordinator';
+import { VerificationScheduler } from './scheduler';
 import type { Recurso } from './state';
 import resumoJson from '../../../../docs/superpowers/contracts/v0.1/resumo.exemplo.json';
 import historicoJson from '../../../../docs/superpowers/contracts/v0.1/historico.exemplo.json';
@@ -213,4 +214,97 @@ it('resposta bem-sucedida atrasada não substitui perfil/filtros da consulta mai
   expect(c.state.exibido).toBe(displayed);
   expect(c.state.exibido?.perfilAtivoId).toBe(next.perfilId);
   expect(c.state.exibido?.filtros.regiaoId).toBe('centro-goiano');
+});
+
+it('idade usa sucesso do bootstrap concluído depois da construção do ciclo', async () => {
+  vi.useFakeTimers();
+  let clock = 0;
+  const h = controlled<Recurso<Historico>>();
+  const c = new QueryCoordinator(
+    {
+      resumo: () => Promise.resolve(recurso(resumo)),
+      historico: () => h.promise,
+    },
+    () => clock,
+  );
+  const cycle = new VerificationScheduler({
+    verify: () => Promise.resolve(false),
+    lastVerification: () => c.state.ultimaVerificacao,
+    visible: () => true,
+    online: () => false,
+    now: () => clock,
+    onAge: (stale) => c.setStale(stale),
+  });
+  try {
+    const initial = c.iniciar();
+    await vi.advanceTimersByTimeAsync(0);
+    clock = 60000;
+    h.resolve(recurso(historico));
+    await initial;
+    cycle.start();
+    clock = 900001;
+    await vi.advanceTimersByTimeAsync(30000);
+    expect(c.state.desatualizado).toBe(false);
+    expect(c.state.ultimaVerificacao).toBe(60000);
+    clock = 960001;
+    await vi.advanceTimersByTimeAsync(30000);
+    expect(c.state.desatualizado).toBe(true);
+  } finally {
+    cycle.dispose();
+    c.dispose();
+    vi.useRealTimers();
+  }
+});
+it('reconstrução fora do ciclo renova idade e retorno; filtro local preserva a referência', async () => {
+  vi.useFakeTimers();
+  const { baseFixa } = await import('../../../../packages/domain/src/fixtures');
+  const { MercadoError } = await import('./client');
+  let clock = 0;
+  const next = { ...baseFixa.resumo, versaoDados: 'reconstruida' };
+  let summaries = 0;
+  const c = new QueryCoordinator(
+    {
+      resumo: () => Promise.resolve(recurso(summaries++ === 0 ? baseFixa.resumo : next)),
+      historico: (id, version) => {
+        const h = baseFixa.historicos.find((h) => h.perfilId === id)!;
+        if (version !== next.versaoDados && id !== historico.perfilId)
+          return Promise.reject(new MercadoError('versão removida', 409));
+        return Promise.resolve(recurso({ ...h, versaoDados: version }));
+      },
+    },
+    () => clock,
+  );
+  const verify = vi.fn(() => Promise.resolve(false));
+  const cycle = new VerificationScheduler({
+    verify,
+    lastVerification: () => c.state.ultimaVerificacao,
+    visible: () => true,
+    online: () => true,
+    now: () => clock,
+    onAge: (stale) => c.setStale(stale),
+  });
+  try {
+    await c.consultar(filtros, historico.perfilId);
+    cycle.start();
+    clock = 1000000;
+    await vi.advanceTimersByTimeAsync(30000);
+    expect(c.state.desatualizado).toBe(true);
+    const requested = { ...filtros, grupoRacial: 'Mestiço' as const };
+    await c.consultar(requested, 'bezerro-macho-mestico');
+    expect(c.state.exibido?.resumo.dados.versaoDados).toBe(next.versaoDados);
+    await vi.advanceTimersByTimeAsync(30000);
+    expect(c.state.desatualizado).toBe(false);
+    clock = 1030000;
+    await cycle.visibilityChanged();
+    expect(verify).not.toHaveBeenCalled();
+    clock = 1900001;
+    await c.consultar({ ...requested, regiaoId: 'centro-goiano' }, 'bezerro-macho-mestico');
+    await vi.advanceTimersByTimeAsync(30000);
+    expect(c.state.ultimaVerificacao).toBe(1000000);
+    expect(c.state.desatualizado).toBe(true);
+  } finally {
+    cycle.dispose();
+    c.dispose();
+    vi.useRealTimers();
+  }
 });

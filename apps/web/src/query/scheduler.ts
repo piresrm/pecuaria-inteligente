@@ -83,6 +83,7 @@ export class RequestScheduler {
 }
 interface CycleOptions {
   verify: () => Promise<boolean>;
+  lastVerification: () => number | null;
   visible: () => boolean;
   online: () => boolean;
   random?: () => number;
@@ -95,13 +96,17 @@ export class VerificationScheduler {
   private ageTimer: ReturnType<typeof setTimeout> | undefined;
   private pending: Promise<void> | undefined;
   private failures = 0;
-  private last: number;
+  private startedAt: number;
   private stopped = false;
   constructor(private options: CycleOptions) {
-    this.last = this.now();
+    this.startedAt = this.now();
   }
   private now() {
     return this.options.now?.() ?? performance.now();
+  }
+  private elapsed() {
+    // Successful verification has one owner; construction is only the no-success baseline.
+    return this.now() - (this.options.lastVerification() ?? this.startedAt);
   }
   start() {
     this.schedule();
@@ -110,7 +115,7 @@ export class VerificationScheduler {
   private age() {
     clearTimeout(this.ageTimer);
     if (this.stopped) return;
-    this.options.onAge?.(this.now() - this.last > 900000);
+    this.options.onAge?.(this.elapsed() > 900000);
     this.ageTimer = setTimeout(() => this.age(), 30000);
   }
   private schedule() {
@@ -134,7 +139,6 @@ export class VerificationScheduler {
       try {
         if (await this.options.verify()) {
           this.failures = 0;
-          this.last = this.now();
         } else this.failures++;
       } catch {
         this.failures++;
@@ -148,7 +152,7 @@ export class VerificationScheduler {
   }
   visibilityChanged(): Promise<void> {
     clearTimeout(this.timer);
-    if (this.options.visible() && this.now() - this.last >= 60000) return this.trigger(false);
+    if (this.options.visible() && this.elapsed() >= 60000) return this.trigger(false);
     this.schedule();
     return Promise.resolve();
   }

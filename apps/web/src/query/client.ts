@@ -45,6 +45,9 @@ export class MercadoClient {
   private now() {
     return this.options.now?.() ?? performance.now();
   }
+  private online() {
+    return this.options.online?.() ?? navigator.onLine;
+  }
   private wallNow() {
     return this.options.wallNow?.() ?? Date.now();
   }
@@ -147,16 +150,19 @@ export class MercadoClient {
     const backgroundSignal = priority === 'fundo' ? this.background.signal : undefined;
     let saved = await this.validLocal(kind, local, validate);
     let recovered = false;
+    let retryError: MercadoError | undefined;
     for (let attempt = 0; ;) {
       if (this.disposed || backgroundSignal?.aborted) throw new CancelledError();
       if (this.now() < this.blockedUntil)
         throw new MercadoError('Aguarde para tentar novamente', 429, this.blockedUntil);
+      if (retryError && !this.online()) throw retryError;
       try {
         return await this.queue.run(url, priority, async (signal) => {
           // Recheck after admission: another resource may have established a joint-IP deadline.
           if (this.now() < this.blockedUntil)
             throw new MercadoError('Aguarde para tentar novamente', 429, this.blockedUntil);
           if (backgroundSignal?.aborted || this.disposed) throw new CancelledError();
+          if (retryError && !this.online()) throw retryError;
           const timeout = new AbortController();
           const abort = () => timeout.abort(new CancelledError());
           signal.addEventListener('abort', abort, { once: true });
@@ -229,7 +235,7 @@ export class MercadoClient {
           !(error instanceof MercadoError) ||
           !(error.status === null || error.status === 429 || error.status === 503) ||
           attempt >= 2 ||
-          !(this.options.online?.() ?? navigator.onLine)
+          !this.online()
         )
           throw error;
         const localDelay =
@@ -237,6 +243,7 @@ export class MercadoClient {
           (0.8 + 0.4 * (this.options.random?.() ?? Math.random()));
         const delay = Math.max(localDelay, this.blockedUntil - this.now());
         if (delay > 60000) throw error;
+        retryError = error;
         attempt++;
         await new Promise<void>((resolve, reject) => {
           const cancel = () => {

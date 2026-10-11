@@ -42,7 +42,6 @@ export class QueryCoordinator {
       assertResumo(summary.dados);
       if (!this.current(generation)) return;
       this.summary = summary;
-      const verifiedAt = this.now();
       await this.consultar(
         {
           categoria: null,
@@ -56,7 +55,7 @@ export class QueryCoordinator {
         summary.dados.perfis[0]?.id ?? null,
       );
       if (this.current(generation + 1) && Object.keys(this.state.erros).length === 0)
-        this.update({ ultimaVerificacao: verifiedAt, desatualizado: false });
+        this.update({ ultimaVerificacao: this.now(), desatualizado: false });
     } catch (error) {
       if (!this.current(generation)) return;
       this.update({

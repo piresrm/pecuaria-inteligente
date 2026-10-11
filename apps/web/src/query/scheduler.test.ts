@@ -40,9 +40,11 @@ it('não acumula ciclos ocultos; falhas 10/20/30min, sucesso 5min, retorno após
   vi.useFakeTimers();
   let visible = true;
   let online = true;
+  let lastVerification = performance.now();
   const verify = vi.fn().mockResolvedValue(false);
   const s = new VerificationScheduler({
     verify,
+    lastVerification: () => lastVerification,
     visible: () => visible,
     online: () => online,
     random: () => 0.5,
@@ -59,7 +61,10 @@ it('não acumula ciclos ocultos; falhas 10/20/30min, sucesso 5min, retorno após
   await vi.advanceTimersByTimeAsync(3600000);
   expect(verify).toHaveBeenCalledTimes(3);
   visible = true;
-  verify.mockResolvedValue(true);
+  verify.mockImplementation(() => {
+    lastVerification = performance.now();
+    return Promise.resolve(true);
+  });
   await s.visibilityChanged();
   expect(verify).toHaveBeenCalledTimes(4);
   online = false;
@@ -78,6 +83,7 @@ it('alerta depois de 15 minutos sem sucesso, sem relógio civil como ordem', asy
   const stale: boolean[] = [];
   const s = new VerificationScheduler({
     verify: () => Promise.resolve(false),
+    lastVerification: () => null,
     visible: () => true,
     online: () => true,
     now: () => clock,
