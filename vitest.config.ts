@@ -6,6 +6,7 @@ export default defineConfig({
       'packages/contracts/vitest.config.ts',
       'packages/domain/vitest.config.ts',
       'apps/api/vitest.integration.config.ts',
+      'apps/api/vitest.config.ts',
     ],
     pool: 'forks',
     isolate: true,
@@ -16,7 +17,11 @@ export default defineConfig({
     ...(process.env.CI ? { maxWorkers: 2 } : {}),
     coverage: {
       provider: 'v8',
-      include: ['packages/contracts/src/**/*.ts', 'packages/domain/src/**/*.ts'],
+      include: [
+        'packages/contracts/src/**/*.ts',
+        'packages/domain/src/**/*.ts',
+        'apps/api/src/**/*.ts',
+      ],
       exclude: ['**/*.d.ts', '**/*.test.ts', '**/generated/**', '**/fixtures.ts'],
       reporter: ['text', 'json-summary', 'lcov', 'html'],
       reportsDirectory: 'artifacts/coverage/unit',

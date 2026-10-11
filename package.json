@@ -14,8 +14,8 @@
   ],
   "scripts": {
     "test": "npm run test:unit",
-    "test:unit": "vitest run --project contratos --project dominio",
-    "test:coverage": "vitest run --project contratos --project dominio --coverage",
+    "test:unit": "vitest run --project contratos --project dominio --project api",
+    "test:coverage": "vitest run --project contratos --project dominio --coverage --project api",
     "check": "npm run check:types && npm run check:format && npm run check:lint",
     "check:types": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p packages/contracts/tsconfig.json && tsc --noEmit -p packages/domain/tsconfig.json && tsc --noEmit -p apps/api/tsconfig.json",
     "check:format": "prettier --check package.json package-lock.json tsconfig.json tsconfig.base.json .prettierrc.json eslint.config.mjs vitest.config.ts packages/contracts packages/domain tools/quality apps/api",
@@ -28,7 +28,9 @@
     "check:data": "node tools/quality/check-data.mjs",
     "test:integration": "vitest run --project banco",
     "db:generate": "npm exec --workspace @pecuaria/api -- drizzle-kit generate",
-    "db:migrate": "tsx apps/api/src/operations/migrate-cli.ts"
+    "db:migrate": "tsx apps/api/src/operations/migrate-cli.ts",
+    "demo:prepare": "tsx apps/api/src/operations/prepare.ts",
+    "demo:publish": "tsx apps/api/src/operations/publish.ts"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

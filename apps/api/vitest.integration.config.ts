@@ -1,5 +1,10 @@
 import { defineProject } from 'vitest/config';
 export default defineProject({
+  resolve: {
+    alias: {
+      '@pecuaria/contracts/server': `${import.meta.dirname}/../../packages/contracts/src/server.ts`,
+    },
+  },
   test: {
     name: 'banco',
     root: import.meta.dirname,

@@ -10,15 +10,16 @@ Pecuária Inteligente is a Brazilian livestock market intelligence MVP covering 
 - `packages/contracts/`: TypeBox contracts, types, server validators, pure browser validators, semantic checks, canonical JSON, and colocated tests.
 - `packages/domain/`: pure filters, calendar, decimal indicators, localized presentation, and colocated tests.
 - `tools/quality/check-data.mjs`: fixed data integrity, recipe, calendar, territory, and scenario verification.
+- `apps/api/src/demo/`, `apps/api/src/operations/`: demonstration validation, recipe generation, initial preparation, explicit publication, and migration commands.
 - `apps/api/src/db/`, `apps/api/drizzle/`: PostgreSQL schema, connections, reviewed SQL migrations, and integration tests in `apps/api/tests/integration/`.
 - `infra/postgres/init-roles.sh`: provision three independent database roles using explicit secret files.
-- Root quality configuration covers contracts, domain, and the database module; HTTP routes, publication, web UI, and CI are still pending.
+- Root quality configuration covers contracts, domain, and the database module; HTTP routes, web UI, and CI are still pending.
 
 Define requirements and architecture before selecting technologies. Document new module locations in `README.md`. Keep initial work focused on market monitoring; individual herd management is outside the initial scope. Do not version `PROMPTS.md`.
 
 ## Build, Test, and Development Commands
 
-Use Node.js `24.21.0` and npm `11.19.0`. From the repository root, `npm ci` installs the lockfile, `npm run build` generates contracts and compiles contracts/domain/database operations, `npm run check` verifies types/style/lint, and `npm test` runs the active contracts and domain projects. `npm run test:integration` requires Docker and exercises isolated PostgreSQL instances. `npm run db:generate` generates reviewed migrations; `npm run db:migrate` applies history using explicit environment configuration documented in the README. See `README.md` for the verified commands and incremental scope.
+Use Node.js `24.21.0` and npm `11.19.0`. From the repository root, `npm ci` installs the lockfile, `npm run build` generates contracts and compiles contracts/domain/database and demonstration operations, `npm run check` verifies types/style/lint, and `npm test` runs the active contracts, domain, and API projects. `npm run test:integration` requires Docker and exercises isolated PostgreSQL instances. `npm run db:generate` generates reviewed migrations; `npm run db:migrate` applies history using explicit environment configuration documented in the README. See `README.md` for the verified commands and incremental scope.
 
 Useful repository checks:
 
@@ -38,7 +39,7 @@ TypeScript uses strict checking, `noUncheckedIndexedAccess`, and `exactOptionalP
 
 Follow the Red–Green–Refactor TDD cycle specified in `ABOUT.md`. Add unit or integration tests for implemented behavior, especially ingestion, normalization, and critical calculations. Verify formulas, units, and input assumptions.
 
-Vitest contracts and domain tests use colocated `.test.ts` files with explicit imports and no retries. Add the remaining projects as their modules arrive; never pass an empty suite. Coverage V8 reports the implemented scope without an arbitrary threshold. Academic delivery requires executable, passing automated tests.
+Vitest contracts, domain, and API tests use colocated `.test.ts` files with explicit imports and no retries. Add the remaining projects as their modules arrive; never pass an empty suite. Coverage V8 reports the implemented scope without an arbitrary threshold. Academic delivery requires executable, passing automated tests.
 
 ## Commit & Pull Request Guidelines
 

@@ -98,7 +98,7 @@ A visão de longo prazo continua abrangendo toda a cadeia pecuária brasileira. 
 
 ## Estado atual
 
-Estão implementados os contratos compartilhados em `packages/contracts/`, o domínio puro em `packages/domain/` e o esquema PostgreSQL em `apps/api/`, com filtros, indicadores decimais, calendário civil, apresentação localizada, migrações e testes executáveis. Os contratos oferecem tipos, validação estrutural e semântica e serialização determinística. A aplicação completa da v0.1 permanece em desenvolvimento; este README distingue a entrega atual das funcionalidades previstas no *roadmap*.
+Estão implementados os contratos compartilhados em `packages/contracts/`, o domínio puro em `packages/domain/` e o esquema PostgreSQL com publicação demonstrativa em `apps/api/`, com filtros, indicadores decimais, calendário civil, apresentação localizada, migrações e testes executáveis. Os contratos oferecem tipos, validação estrutural e semântica e serialização determinística. A aplicação completa da v0.1 permanece em desenvolvimento; este README distingue a entrega atual das funcionalidades previstas no *roadmap*.
 
 A arquitetura da v0.1 foi definida e aprovada. TypeScript, React, Tailwind CSS, Vite e Fastify em Node.js foram escolhidos em conversa. O ambiente adotado usa Node.js 24 LTS, TypeScript 6.0.3 e npm com espaços de trabalho; Prettier e ESLint verificam os contratos, o domínio, o módulo de banco e suas configurações; os demais módulos serão incorporados progressivamente.
 
@@ -114,9 +114,9 @@ A execução da v0.1 e da entrega acadêmica v0.2 será local, via Docker Compos
 
 A base demonstrativa fixa foi preparada em `data/demonstrativa/v0.1/`: oito perfis, dez regiões do IMB, 246 municípios e 4.146 preços fictícios, com lacunas controladas. O histórico cobre outubro de 2025 a setembro de 2026, além da semana anterior para comparação. Fontes públicas fundamentam os parâmetros e o território; os preços são demonstrativos. A [documentação da base](docs/superpowers/specs/2026-10-07-base-demonstrativa-v0.1.md) registra pesquisa, condições comerciais, reprodução e verificação.
 
-O [plano de implementação da v0.1](docs/superpowers/plans/2026-10-07-implementacao-v0.1.md) organiza contratos, domínio, banco, API, consulta, persistência, interface, HTTPS e qualidade em tarefas verificáveis de TDD. Contratos, ambiente, domínio e esquema do banco estão implementados; publicação demonstrativa, consultas da API e interface serão implementadas nas etapas seguintes.
+O [plano de implementação da v0.1](docs/superpowers/plans/2026-10-07-implementacao-v0.1.md) organiza contratos, domínio, banco, API, consulta, persistência, interface, HTTPS e qualidade em tarefas verificáveis de TDD. Contratos, ambiente, domínio, esquema do banco e publicação demonstrativa estão implementados; consultas da API e interface serão implementadas nas etapas seguintes.
 
-Os [exemplos documentais](docs/superpowers/contracts/v0.1/) são entradas dos testes de equivalência entre o esquema de referência, as declarações TypeBox e os validadores do servidor e do navegador. O pacote também valida calendário, cadastros, preços únicos, cobertura regional, fontes e correspondência entre resumo e histórico. A instalação e as verificações dos contratos, do domínio e do banco estão disponíveis abaixo. Rotas HTTP, publicação demonstrativa, interface, Compose e integração contínua permanecem pendentes; a v0.1 utilizará apenas dados demonstrativos.
+Os [exemplos documentais](docs/superpowers/contracts/v0.1/) são entradas dos testes de equivalência entre o esquema de referência, as declarações TypeBox e os validadores do servidor e do navegador. O pacote também valida calendário, cadastros, preços únicos, cobertura regional, fontes e correspondência entre resumo e histórico. A instalação e as verificações dos contratos, do domínio e do banco estão disponíveis abaixo. Rotas HTTP, interface, Compose e integração contínua permanecem pendentes; a v0.1 utilizará apenas dados demonstrativos.
 
 ### Dados disponíveis
 
@@ -128,13 +128,14 @@ Os arquivos CSV e JSON da base fixa estão em [`data/demonstrativa/v0.1/`](data/
 
 ### Organização da implementação
 
-`packages/contracts/`, `packages/domain/`, o módulo de banco de `apps/api/` e a preparação de papéis em `infra/postgres/` estão implementados. Os demais diretórios registram a organização prevista para as etapas seguintes.
+`packages/contracts/`, `packages/domain/`, os módulos de banco e publicação demonstrativa de `apps/api/` e a preparação de papéis em `infra/postgres/` estão implementados. Os demais diretórios registram a organização prevista para as etapas seguintes.
 
 | Local | Responsabilidade |
 | --- | --- |
 | `apps/web/` | Interface React, consultas, persistência no navegador e gráfico. |
-| `apps/api/src/db/`, `apps/api/drizzle/` | Esquema, cliente e histórico SQL implementados; repositório de consultas e publicação ainda pendentes. |
-| `apps/api/src/operations/` | Migração implementada; operações demonstrativas serão acrescentadas depois. |
+| `apps/api/src/db/`, `apps/api/drizzle/` | Esquema, cliente, histórico SQL e publicação transacional implementados; repositório de consultas pendente. |
+| `apps/api/src/demo/` | Leitura dos seis arquivos, SHA-256, validação e reprodução da receita fora da transação. |
+| `apps/api/src/operations/` | Migração, preparação inicial e publicação explícita implementadas. |
 | `apps/api/tests/integration/`, `infra/postgres/init-roles.sh` | Testes PostgreSQL isolados e preparação dos três papéis com segredos em arquivos. |
 | `packages/contracts/` | Contratos, tipos e geração dos validadores compartilhados. |
 | `packages/domain/` | Filtros e cálculos independentes da interface e do servidor. |
@@ -156,6 +157,7 @@ npm run check
 npm run check:data
 npm test
 npm exec -- vitest run --project dominio
+npm exec -- vitest run --project api
 npm run test:coverage
 npm run test:integration
 ```
@@ -164,7 +166,7 @@ npm run test:integration
 
 A geração produz `packages/contracts/src/generated/` com validadores estáticos autocontidos e preserva as licenças dos auxiliares puros de terceiros. Esses arquivos e `dist/` são ignorados e reproduzíveis. Testes e análise de tipos regeneram os validadores automaticamente; a compilação entrega as exportações `@pecuaria/contracts/types`, `/server` e `/browser`. Importar `/types` com `import type`; `/browser` inclui validadores, assertivas semânticas e `canonicalJson`, sem compilador dinâmico ou módulos Node.
 
-Nesta etapa, os projetos Vitest `contratos`, `dominio` e `banco` estão ativos. `npm test` executa as duas suítes rápidas; `npm run test:integration` executa o banco real e exige Docker disponível. `npm run check` verifica tipos de produção, ferramentas e testes, formatação e ESLint dos arquivos presentes. A cobertura V8 abrange os contratos e o domínio e fica em `artifacts/coverage/unit/`; ela não representa a aplicação completa. A prova isolada do pacote de navegador não substitui a futura validação funcional na matriz de navegadores.
+Nesta etapa, os projetos Vitest `contratos`, `dominio`, `api` e `banco` estão ativos. `npm test` executa as três suítes rápidas; `npm run test:integration` executa o banco real e exige Docker disponível. `npm run check` verifica tipos de produção, ferramentas e testes, formatação e ESLint dos arquivos presentes. A cobertura V8 abrange os contratos, o domínio e os módulos implementados da API e fica em `artifacts/coverage/unit/`; ela não representa a aplicação completa. A prova isolada do pacote de navegador não substitui a futura validação funcional na matriz de navegadores.
 
 O pacote `@pecuaria/domain` exporta `filtrarPerfis`, `filtrarConsulta` e `calcularConsulta`, além dos tipos `Filtragem`, `ConsultaCalculada`, `LinhaPreco`, `PontoHistorico` e `Indicadores`. Recebe respostas previamente validadas dos contratos e filtros tipados; mantém decimais em cadeias e ausência em `null`. Na visão estadual, cada perfil tem dez linhas regionais e uma média; na regional, uma linha. A última data depende do perfil e do recorte, e a série conserva todas as segundas-feiras do intervalo com lacunas reais.
 
@@ -176,11 +178,27 @@ Os cálculos usam um construtor isolado de `big.js`, com entradas textuais e 40 
 
 `npm run test:integration -- schema` seleciona os testes estruturais. Cada arquivo de integração com banco cria um contêiner PostgreSQL `18.6-bookworm`, fixado pelo índice `sha256:afc7e2d441324c0388fa80c3d24f733b4194a4eb7f47dd8ee2b08eb1a24a647c`, com base exclusiva, segredos temporários e encerramento dos seus recursos. Não usa volumes acadêmicos. O início do contêiner tem prazo de 60 segundos, a preparação de 120 segundos e cada teste de 30 segundos; indisponibilidade do Docker falha a execução.
 
-O esquema `mercado` mantém sete tabelas, chaves compostas por versão, decimais e datas civis textuais no Drizzle. Consultas SQL personalizadas usam o protocolo textual padrão de `pg`: o cliente preserva `DATE` como texto com conversor local ao conjunto de conexões, sem alterar conversores globais ou monetários. O protocolo binário não foi validado e fica fora desse contrato. Gatilhos impedem conteúdo mutável, confirmação de preparação incompleta e truncamento. A finalização confere metadados e contagens do manifesto e atribui o instante no servidor. A igualdade integral com os arquivos e a receita será responsabilidade da futura operação demonstrativa; contagens SQL não substituem essa conferência.
+O esquema `mercado` mantém sete tabelas, chaves compostas por versão, decimais e datas civis textuais no Drizzle. Consultas SQL personalizadas usam o protocolo textual padrão de `pg`: o cliente preserva `DATE` como texto com conversor local ao conjunto de conexões, sem alterar conversores globais ou monetários. O protocolo binário não foi validado e fica fora desse contrato. Gatilhos impedem conteúdo mutável, confirmação de preparação incompleta e truncamento. A finalização confere metadados e contagens do manifesto e atribui o instante no servidor. A operação demonstrativa confere a igualdade integral dos preços e das lacunas com a receita antes da carga; contagens SQL não substituem essa conferência.
 
 `infra/postgres/init-roles.sh` prepara os papéis `mercado_consulta`, `mercado_publicador` e `mercado_migracao` na inicialização de uma base nova. Exige `POSTGRES_USER`, `POSTGRES_DB`, `CONSULTA_PASSWORD_FILE`, `PUBLICADOR_PASSWORD_FILE` e `MIGRACAO_PASSWORD_FILE`; os três últimos apontam para segredos distintos, montados apenas nos serviços autorizados. A consulta tem leitura; o publicador insere conteúdo em preparação e altera apenas colunas de finalização e o ponteiro; a migração é proprietária do esquema. A integração executa esse mesmo script e testa conexões reais dos três papéis.
 
 Para uma base já provisionada com esses papéis, definir `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER=mercado_migracao` e `DB_PASSWORD_FILE` no ambiente local e executar `npm run db:migrate`. O comando lê explicitamente o arquivo do segredo, aplica o histórico com o migrador oficial do Drizzle e fecha as conexões, inclusive após falha. Não publica dados demonstrativos. `npm run db:generate -- --name descricao` gera a próxima migração a partir do esquema; revisar SQL e metadados antes de aplicar. Funções, gatilhos e concessões usam migrações personalizadas; não editar histórico já aplicado nem sincronizar tabelas diretamente.
+
+### Preparação e publicação demonstrativa
+
+Após provisionar os papéis e aplicar as migrações, definir `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER=mercado_publicador` e `DB_PASSWORD_FILE`. Os comandos aceitam um diretório explícito; sem argumento, usam a base fixa do repositório.
+
+```bash
+npm run demo:prepare
+npm run demo:publish -- /caminho/do/novo/conjunto
+npm run test:integration -- publication
+```
+
+`demo:prepare` publica a primeira base ou preserva uma publicação atual compatível. Compatibilidade exige versão finalizada, instante finito, formato de arquivos `1`, natureza `demonstrativa` e território `imb-regplan-2018`; uma publicação incompatível causa erro. `demo:publish` publica explicitamente um conjunto novo. Ambos validam os arquivos antes de abrir conexão e encerram as conexões também após falha. A saída informa `versaoDados`, `publicadoEm` e `resultado` (`publicada`, `existente` ou `preservada`).
+
+`validarBase(diretorio)` em `apps/api/src/demo/validate.ts` retorna arquivos, cadastros, preços, receita e SHA-256 dos bytes de `SHA256SUMS`. Confere os seis arquivos, cadastros congelados completos, calendário, decimais, unicidade, condições, referências, contagens, estrutura dos nove cenários e igualdade integral com a receita. O primeiro conjunto contém 4.146 preços; conjuntos novos seguem suas próprias contagens e lacunas. Os resultados numéricos dos cenários são conferidos pelo oráculo independente `check:data` e pelos testes de domínio; hash e estrutura válidos de um novo conjunto não substituem essa conferência acadêmica.
+
+`publicarBase(db, base, modo)` em `apps/api/src/db/publication.ts` usa uma transação Drizzle `READ COMMITTED`: bloqueia primeiro o ponteiro único, verifica identidade, insere preparação e conteúdo, solicita a finalização no servidor e troca o ponteiro antes de confirmar. O gatilho atribui `publicadoEm` em UTC com milissegundos. Repetir uma versão com o mesmo hash conserva seu instante e o ponteiro atual, inclusive quando ela é antiga; hash diferente causa conflito. Todas as versões publicadas ficam retidas. Falha na carga ou confirmação sem finalização desfaz toda a preparação.
 
 Por incompatibilidades das declarações do Drizzle `0.45.3` com TypeScript `6.0.3` e referências a outros *drivers* opcionais, `skipLibCheck` está ativo somente na configuração da API. Código, testes e configurações próprios continuam sob `strict`, `noUncheckedIndexedAccess` e `exactOptionalPropertyTypes`; contratos e domínio mantêm a checagem integral das declarações. Reavaliar essa limitação ao atualizar dependências.
 
