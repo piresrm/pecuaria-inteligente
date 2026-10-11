@@ -98,9 +98,9 @@ A visão de longo prazo continua abrangendo toda a cadeia pecuária brasileira. 
 
 ## Estado atual
 
-Estão implementados os contratos compartilhados em `packages/contracts/`, o domínio puro em `packages/domain/` e o esquema PostgreSQL com publicação demonstrativa em `apps/api/`, com filtros, indicadores decimais, calendário civil, apresentação localizada, migrações e testes executáveis. Os contratos oferecem tipos, validação estrutural e semântica e serialização determinística. A aplicação completa da v0.1 permanece em desenvolvimento; este README distingue a entrega atual das funcionalidades previstas no *roadmap*.
+Estão implementados os contratos compartilhados em `packages/contracts/`, o domínio puro em `packages/domain/` e a API Fastify com consultas versionadas, revalidação HTTP e publicação demonstrativa em `apps/api/`, com filtros, indicadores decimais, calendário civil, apresentação localizada, migrações e testes executáveis. Os contratos oferecem tipos, validação estrutural e semântica e serialização determinística. A aplicação completa da v0.1 permanece em desenvolvimento; este README distingue a entrega atual das funcionalidades previstas no *roadmap*.
 
-A arquitetura da v0.1 foi definida e aprovada. TypeScript, React, Tailwind CSS, Vite e Fastify em Node.js foram escolhidos em conversa. O ambiente adotado usa Node.js 24 LTS, TypeScript 6.0.3 e npm com espaços de trabalho; Prettier e ESLint verificam os contratos, o domínio, o módulo de banco e suas configurações; os demais módulos serão incorporados progressivamente.
+A arquitetura da v0.1 foi definida e aprovada. TypeScript, React, Tailwind CSS, Vite e Fastify em Node.js foram escolhidos em conversa. O ambiente adotado usa Node.js 24 LTS, TypeScript 6.0.3 e npm com espaços de trabalho; Prettier e ESLint verificam os contratos, o domínio, a API e suas configurações; os demais módulos serão incorporados progressivamente.
 
 O banco escolhido é PostgreSQL 18.6, com persistência em volume no Docker Compose. O módulo de banco usa Drizzle ORM `0.45.3` com o *driver* `pg` `8.23.1`; o histórico SQL foi gerado com Drizzle Kit `0.31.11`, revisado e complementado com gatilhos e permissões. O [modelo físico](docs/superpowers/specs/2026-10-07-modelo-fisico-postgresql-v0.1-design.md) define sete tabelas, cadastros e preços por versão, precisão decimal, publicação atômica e retenção de todas as versões durante a entrega acadêmica.
 
@@ -114,9 +114,9 @@ A execução da v0.1 e da entrega acadêmica v0.2 será local, via Docker Compos
 
 A base demonstrativa fixa foi preparada em `data/demonstrativa/v0.1/`: oito perfis, dez regiões do IMB, 246 municípios e 4.146 preços fictícios, com lacunas controladas. O histórico cobre outubro de 2025 a setembro de 2026, além da semana anterior para comparação. Fontes públicas fundamentam os parâmetros e o território; os preços são demonstrativos. A [documentação da base](docs/superpowers/specs/2026-10-07-base-demonstrativa-v0.1.md) registra pesquisa, condições comerciais, reprodução e verificação.
 
-O [plano de implementação da v0.1](docs/superpowers/plans/2026-10-07-implementacao-v0.1.md) organiza contratos, domínio, banco, API, consulta, persistência, interface, HTTPS e qualidade em tarefas verificáveis de TDD. Contratos, ambiente, domínio, esquema do banco e publicação demonstrativa estão implementados; consultas da API e interface serão implementadas nas etapas seguintes.
+O [plano de implementação da v0.1](docs/superpowers/plans/2026-10-07-implementacao-v0.1.md) organiza contratos, domínio, banco, API, consulta, persistência, interface, HTTPS e qualidade em tarefas verificáveis de TDD. Contratos, ambiente, domínio, esquema do banco, publicação demonstrativa e consultas versionadas da API estão implementados; controles concretos de entrada/admissão e interface serão implementados nas etapas seguintes.
 
-Os [exemplos documentais](docs/superpowers/contracts/v0.1/) são entradas dos testes de equivalência entre o esquema de referência, as declarações TypeBox e os validadores do servidor e do navegador. O pacote também valida calendário, cadastros, preços únicos, cobertura regional, fontes e correspondência entre resumo e histórico. A instalação e as verificações dos contratos, do domínio e do banco estão disponíveis abaixo. Rotas HTTP, interface, Compose e integração contínua permanecem pendentes; a v0.1 utilizará apenas dados demonstrativos.
+Os [exemplos documentais](docs/superpowers/contracts/v0.1/) são entradas dos testes de equivalência entre o esquema de referência, as declarações TypeBox e os validadores do servidor e do navegador. O pacote também valida calendário, cadastros, preços únicos, cobertura regional, fontes e correspondência entre resumo e histórico. A instalação e as verificações dos contratos, do domínio e da API estão disponíveis abaixo. Controles concretos de entrada/admissão, interface, Compose e integração contínua permanecem pendentes; a v0.1 utilizará apenas dados demonstrativos.
 
 ### Dados disponíveis
 
@@ -128,14 +128,16 @@ Os arquivos CSV e JSON da base fixa estão em [`data/demonstrativa/v0.1/`](data/
 
 ### Organização da implementação
 
-`packages/contracts/`, `packages/domain/`, os módulos de banco e publicação demonstrativa de `apps/api/` e a preparação de papéis em `infra/postgres/` estão implementados. Os demais diretórios registram a organização prevista para as etapas seguintes.
+`packages/contracts/`, `packages/domain/`, os módulos de banco, publicação demonstrativa e consultas HTTP de `apps/api/` e a preparação de papéis em `infra/postgres/` estão implementados. Os demais diretórios registram a organização prevista para as etapas seguintes.
 
 | Local | Responsabilidade |
 | --- | --- |
 | `apps/web/` | Interface React, consultas, persistência no navegador e gráfico. |
-| `apps/api/src/db/`, `apps/api/drizzle/` | Esquema, cliente, histórico SQL e publicação transacional implementados; repositório de consultas pendente. |
+| `apps/api/src/db/`, `apps/api/drizzle/` | Esquema, cliente, histórico SQL, publicação transacional e repositório de consultas implementados. |
 | `apps/api/src/demo/` | Leitura dos seis arquivos, SHA-256, validação e reprodução da receita fora da transação. |
 | `apps/api/src/operations/` | Migração, preparação inicial e publicação explícita implementadas. |
+| `apps/api/src/http/`, `apps/api/src/app.ts` | Consultas GET, validação bruta e estrita, erros públicos e HTTP condicional. |
+| `apps/api/src/control/`, `apps/api/src/server.ts` | Cache versionado e interfaces obrigatórias de entrada/admissão; ligação concreta pendente. |
 | `apps/api/tests/integration/`, `infra/postgres/init-roles.sh` | Testes PostgreSQL isolados e preparação dos três papéis com segredos em arquivos. |
 | `packages/contracts/` | Contratos, tipos e geração dos validadores compartilhados. |
 | `packages/domain/` | Filtros e cálculos independentes da interface e do servidor. |
@@ -184,6 +186,23 @@ O esquema `mercado` mantém sete tabelas, chaves compostas por versão, decimais
 
 Para uma base já provisionada com esses papéis, definir `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER=mercado_migracao` e `DB_PASSWORD_FILE` no ambiente local e executar `npm run db:migrate`. O comando lê explicitamente o arquivo do segredo, aplica o histórico com o migrador oficial do Drizzle e fecha as conexões, inclusive após falha. Não publica dados demonstrativos. `npm run db:generate -- --name descricao` gera a próxima migração a partir do esquema; revisar SQL e metadados antes de aplicar. Funções, gatilhos e concessões usam migrações personalizadas; não editar histórico já aplicado nem sincronizar tabelas diretamente.
 
+### Consultas versionadas e HTTP condicional
+
+A API usa Fastify `5.12.5` e `@fastify/type-provider-typebox` `6.1.0`. Estão implementados `GET /api/v1/mercado/resumo` sem parâmetros e `GET /api/v1/mercado/historico?perfilId=bezerro-macho-nelore&versaoDados=go-reposicao-demo-2026-10-07-r1`. O resumo entrega cadastros e as duas últimas segundas-feiras; o histórico entrega um perfil, todas as semanas da janela e a referência auxiliar, preservando preços decimais textuais e ausências explícitas. A versão solicitada nunca é substituída pela atual.
+
+`createRepository(handle)` usa credenciais de leitura e consultas SQL parametrizadas via Drizzle em `READ COMMITTED`, sempre fixando uma única versão. O resumo consulta o ponteiro real antes de selecionar o recurso em *cache*, inclusive para `304`. Uma publicação concorrente mantém a fotografia escolhida íntegra; versões antigas permanecem consultáveis. Saídas passam pelos validadores estruturais e semânticos antes do *cache* e da serialização.
+
+Respostas `200` usam JSON compacto canônico, `ETag` fraco SHA-256 dos mesmos bytes UTF-8 e `Cache-Control: public, max-age=60, must-revalidate`. `If-None-Match` aceita comparação fraca, etiquetas fortes, listas e `*`; `304` preserva etiqueta e política, sem corpo. O *cache* compartilha carregamentos equivalentes, separa operação/versão/perfil, expira em até 60 segundos e remove cargas rejeitadas. Erros públicos usam `no-store`, mensagens do contrato e nenhum detalhe interno. A consulta bruta preserva duplicatas, valida percentual/UTF-8 uma vez e limita 1.024 bytes antes da decodificação.
+
+`buildApp({ repository, entrada, banco })` monta o Fastify sem abrir porta. `entrada.verificar({ remoteAddress, forwardedFor })` e `banco.run(operation)` são controles obrigatórios; a implementação concreta de cotas, concorrência e proxies confiáveis pertence à próxima tarefa. Controles permissivos existem somente nos testes. `iniciarServidor(deps, options)` exige essas mesmas dependências; ainda não há comando de servidor pronto para uso. O consumidor que cria o conjunto de conexões deve encerrá-lo junto ao Fastify em sinais e falhas de inicialização.
+
+A rota interna `/internal/ready` consulta a publicação real e valida sua compatibilidade, sem usar o *cache*, migrar ou publicar. Retorna `200` apenas quando a leitura e os dados estão preparados; ausência, incompatibilidade ou falha de leitura retornam `503`. A futura entrada Caddy deverá encaminhar somente `/api/` à API e manter essa rota interna inacessível externamente; o ambiente HTTPS e a compressão serão validados na tarefa correspondente.
+
+```bash
+npm exec -- vitest run --project api apps/api/src/app.test.ts
+npm run test:integration -- repository api.test
+```
+
 ### Preparação e publicação demonstrativa
 
 Após provisionar os papéis e aplicar as migrações, definir `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER=mercado_publicador` e `DB_PASSWORD_FILE`. Os comandos aceitam um diretório explícito; sem argumento, usam a base fixa do repositório.
@@ -225,7 +244,7 @@ A documentação da v0.1 está em `docs/superpowers/specs/`:
 - [Base demonstrativa fixa](docs/superpowers/specs/2026-10-07-base-demonstrativa-v0.1.md): pesquisa pública, perfis, território, arquivos de dados, receita e cenários verificáveis.
 - [Modelo físico do PostgreSQL](docs/superpowers/specs/2026-10-07-modelo-fisico-postgresql-v0.1-design.md): tabelas, chaves, índices, precisão, publicação, imutabilidade, retenção e migrações.
 
-Os próximos passos são implementar a publicação demonstrativa, o repositório de consultas, a API, a persistência no navegador e a interface conforme o plano aprovado. O ambiente dos contratos foi instalado e verificado; a integração da aplicação e sua execução HTTPS ainda serão validadas nas etapas correspondentes. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
+Os próximos passos são implementar os controles concretos de entrada e admissão da API, a persistência no navegador e a interface conforme o plano aprovado. O ambiente dos contratos foi instalado e verificado; a integração da aplicação e sua execução HTTPS ainda serão validadas nas etapas correspondentes. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
 
 ## Créditos e licença
 

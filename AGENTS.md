@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-Pecuária Inteligente is a Brazilian livestock market intelligence MVP covering breeding, rearing, finishing, slaughter, and dairy production. The repository has started implementation with shared contracts, domain logic, and the PostgreSQL schema; the application remains under development.
+Pecuária Inteligente is a Brazilian livestock market intelligence MVP covering breeding, rearing, finishing, slaughter, and dairy production. The repository has started implementation with shared contracts, domain logic, PostgreSQL publication, and versioned HTTP queries; the application remains under development.
 
 - `README.md`: product scope, planned features, roadmap, and quality criteria.
 - `ABOUT.md`: academic context, contribution preferences, and delivery checklist.
@@ -13,13 +13,15 @@ Pecuária Inteligente is a Brazilian livestock market intelligence MVP covering 
 - `apps/api/src/demo/`, `apps/api/src/operations/`: demonstration validation, recipe generation, initial preparation, explicit publication, and migration commands.
 - `apps/api/src/db/`, `apps/api/drizzle/`: PostgreSQL schema, connections, reviewed SQL migrations, and integration tests in `apps/api/tests/integration/`.
 - `infra/postgres/init-roles.sh`: provision three independent database roles using explicit secret files.
-- Root quality configuration covers contracts, domain, and the database module; HTTP routes, web UI, and CI are still pending.
+- `apps/api/src/http/`, `apps/api/src/app.ts`: versioned GET routes, raw query validation, public errors, canonical JSON, conditional HTTP, and internal readiness.
+- `apps/api/src/control/`, `apps/api/src/server.ts`: versioned resource cache and mandatory entry/database admission interfaces; concrete T6 controls and executable production wiring are pending.
+- Root quality configuration covers contracts, domain, and API; web UI and CI are still pending.
 
 Define requirements and architecture before selecting technologies. Document new module locations in `README.md`. Keep initial work focused on market monitoring; individual herd management is outside the initial scope. Do not version `PROMPTS.md`.
 
 ## Build, Test, and Development Commands
 
-Use Node.js `24.21.0` and npm `11.19.0`. From the repository root, `npm ci` installs the lockfile, `npm run build` generates contracts and compiles contracts/domain/database and demonstration operations, `npm run check` verifies types/style/lint, and `npm test` runs the active contracts, domain, and API projects. `npm run test:integration` requires Docker and exercises isolated PostgreSQL instances. `npm run db:generate` generates reviewed migrations; `npm run db:migrate` applies history using explicit environment configuration documented in the README. See `README.md` for the verified commands and incremental scope.
+Use Node.js `24.21.0` and npm `11.19.0`. From the repository root, `npm ci` installs the lockfile, `npm run build` generates contracts and compiles contracts/domain/API and demonstration operations, `npm run check` verifies types/style/lint, and `npm test` runs the active contracts, domain, and API projects. `npm run test:integration` requires Docker and exercises isolated PostgreSQL instances. `npm run db:generate` generates reviewed migrations; `npm run db:migrate` applies history using explicit environment configuration documented in the README. See `README.md` for the verified commands and incremental scope.
 
 Useful repository checks:
 
