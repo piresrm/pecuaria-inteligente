@@ -16,7 +16,9 @@ Pecuária Inteligente is a Brazilian livestock market intelligence MVP covering 
 - `apps/api/src/http/`, `apps/api/src/app.ts`: versioned GET routes, raw query validation, public errors, canonical JSON, conditional HTTP, and internal readiness.
 - `apps/api/src/control/`, `apps/api/src/server.ts`: versioned resource cache, mandatory concrete IP/database controls, aggregate metrics, explicit proxy configuration, and executable lifecycle wiring.
 - `apps/web/src/query/`: pure browser HTTP client, consistent progressive query state, foreground admission, and verification scheduler.
-- `apps/web/src/{App,main}.tsx`: minimal React surface and initialization; full dashboard, IndexedDB, chart, and HTTPS integration remain pending.
+- `apps/web/src/storage/`: IndexedDB stores, UTF-8 budget, revision/generation confirmation, validated recovery, and browser persistence adapter.
+- `apps/web/src/{App,main}.tsx`: minimal React surface, initialization, and recovery/storage notices; full dashboard, chart, and HTTPS integration remain pending.
+- `apps/web/tests/storage-*`, `apps/web/storage-test.vite.config.ts`, and `tests/e2e/storage.spec.ts`: isolated storage browser-test artifact and real transaction scenarios; execution awaits trusted HTTPS T10.
 - `DESIGN.md`, `premium-ui.json`: implemented minimal visual tokens, canonical owners, and static/runtime command map.
 - Root quality configuration covers contracts, domain, API, and web; CI is still pending.
 

@@ -46,7 +46,7 @@ components:
 
 Painel de consulta para reposição em Goiás, em português brasileiro, usado em celular e computador com conexão rural limitada. Registro de produto: números, unidades e recuperação têm prioridade visual. A referência é a apresentação aprovada em [apresentação e armazenamento](docs/superpowers/specs/2026-10-07-apresentacao-e-armazenamento-v0.1-design.md): painel claro, verde profundo e detalhes de terra. Evitar estética de negociação especulativa, excesso de ornamento e animação obrigatória.
 
-Este contexto inicial registra somente os valores mínimos implementados na T7. A composição com fotografias, filtros completos, indicadores, gráfico e tabela pertence às T8–T9. Não há tela irmã anterior: `App` é a primeira superfície mínima.
+Este contexto registra os valores mínimos implementados na T7 e os estados de persistência e recuperação da T8. A composição com fotografias, filtros completos, indicadores, gráfico e tabela pertence às T8–T9. Não há tela irmã anterior: `App` é a primeira superfície mínima.
 
 ## Colors
 
@@ -70,15 +70,15 @@ A ação usa raio `DEFAULT` e altura mínima de 2,75 rem. Nenhum ornamento cria 
 
 ## Components
 
-`App` é a superfície sem fórmulas ou timers. `QueryCoordinator` mantém solicitado/exibido, geração, erros e fotografia; `MercadoClient` aceita contratos e etiquetas; `VerificationScheduler` coordena gatilhos; `RequestScheduler` admite até duas requisições. Regras de comportamento são as da [arquitetura](docs/superpowers/specs/2026-10-04-arquitetura-v0.1-design.md), sem contrato concorrente. Aviso demonstrativo sempre visível, estado com região viva, botão nativo com foco/hover/pressionado/desabilitado. Não há formulários, seletores, CRUD, autenticação nem diálogos nesta superfície.
+`App` é a superfície sem fórmulas ou timers. `QueryCoordinator` mantém solicitado/exibido, geração, erros, fotografia e aviso de armazenamento; `BrowserPersistence` confirma consultas completas e restaura dados validados, sempre com revalidação do resumo; `MercadoClient` aceita contratos e etiquetas; `VerificationScheduler` coordena gatilhos; `RequestScheduler` admite até duas requisições. Regras de comportamento são as da [arquitetura](docs/superpowers/specs/2026-10-04-arquitetura-v0.1-design.md), sem contrato concorrente. Aviso demonstrativo sempre visível, “Dados salvos — verificando atualização” durante recuperação e aviso persistente de uso em memória para quota, conflito ou indisponibilidade. Estado com região viva, botão nativo com foco/hover/pressionado/desabilitado. Não há formulários, seletores, CRUD, autenticação nem diálogos nesta superfície.
 
-| Capability           | Canonical owner                     | Source of truth                 | Allowed variants                       | Verification                       |
-| -------------------- | ----------------------------------- | ------------------------------- | -------------------------------------- | ---------------------------------- |
-| Consulta HTTP        | `apps/web/src/query/client.ts`      | Arquitetura e contratos API     | resumo / histórico                     | `client.test.ts`                   |
-| Consulta progressiva | `apps/web/src/query/coordinator.ts` | Arquitetura cliente             | resumo inicial / completa              | `coordinator.test.ts`              |
-| Atualização          | `apps/web/src/query/scheduler.ts`   | Arquitetura cache e recuperação | periódica / retorno / conexão / manual | `scheduler.test.ts`                |
-| Scrollbar            | `apps/web/src/styles.css`           | Cores neste DESIGN              | global / forced-colors                 | auditoria estática; runtime T9–T10 |
-| Estado de consulta   | `apps/web/src/App.tsx`              | Estado do coordenador           | inicial / pendente / erro / disponível | `App.test.tsx`                     |
+| Capability           | Canonical owner                     | Source of truth                 | Allowed variants                                              | Verification                       |
+| -------------------- | ----------------------------------- | ------------------------------- | ------------------------------------------------------------- | ---------------------------------- |
+| Consulta HTTP        | `apps/web/src/query/client.ts`      | Arquitetura e contratos API     | resumo / histórico                                            | `client.test.ts`                   |
+| Consulta progressiva | `apps/web/src/query/coordinator.ts` | Arquitetura cliente             | resumo inicial / completa                                     | `coordinator.test.ts`              |
+| Atualização          | `apps/web/src/query/scheduler.ts`   | Arquitetura cache e recuperação | periódica / retorno / conexão / manual                        | `scheduler.test.ts`                |
+| Scrollbar            | `apps/web/src/styles.css`           | Cores neste DESIGN              | global / forced-colors                                        | auditoria estática; runtime T9–T10 |
+| Estado de consulta   | `apps/web/src/App.tsx`              | Estado do coordenador           | inicial / pendente / erro / disponível / recuperado / memória | `App.test.tsx`                     |
 
 ## Do's and Don'ts
 

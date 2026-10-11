@@ -16,13 +16,15 @@ export function App({
       ? state.exibido
         ? 'Não foi possível verificar atualizações. Os resultados disponíveis foram preservados.'
         : 'Não foi possível carregar a consulta. Tente verificar novamente.'
-      : state.pendente || state.verificando
-        ? 'Carregando consulta…'
-        : state.etapa === 'resumo'
-          ? 'Resumo disponível. Histórico ainda carregando.'
-          : state.exibido
-            ? 'Consulta disponível.'
-            : 'Carregando consulta…';
+      : state.recuperado && state.verificando
+        ? 'Dados salvos — verificando atualização'
+        : state.pendente || state.verificando
+          ? 'Carregando consulta…'
+          : state.etapa === 'resumo'
+            ? 'Resumo disponível. Histórico ainda carregando.'
+            : state.exibido
+              ? 'Consulta disponível.'
+              : 'Carregando consulta…';
   return (
     <main>
       <header>
@@ -34,6 +36,7 @@ export function App({
         <p role="status" aria-live="polite">
           {status}
         </p>
+        {state.avisoArmazenamento && <p aria-live="polite">{state.avisoArmazenamento}</p>}
         {state.desatualizado && <p>Mais de 15 minutos sem verificar atualizações.</p>}
         <p className="price">
           {price === null ? 'Preço ainda indisponível' : `${formatarPreco(price)} / cabeça`}

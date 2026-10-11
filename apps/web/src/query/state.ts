@@ -1,4 +1,4 @@
-import type { Filtros, Historico, Resumo } from '@pecuaria/contracts/types';
+import type { ConsultaSalva, Filtros, Historico, Resumo } from '@pecuaria/contracts/types';
 import type { ConsultaCalculada } from '@pecuaria/domain';
 export interface Recurso<T> {
   dados: T;
@@ -27,6 +27,8 @@ export interface QueryState {
   erros: Record<string, string>;
   ultimaVerificacao: number | null;
   desatualizado: boolean;
+  avisoArmazenamento: string | null;
+  recuperado: boolean;
 }
 export interface MercadoGateway {
   resumo(local?: Recurso<Resumo>, prioridade?: Prioridade): Promise<Recurso<Resumo>>;
@@ -38,4 +40,15 @@ export interface MercadoGateway {
   ): Promise<Recurso<Historico>>;
   prioritize?(): void;
   dispose?(): void;
+}
+
+export interface QueryPersistence {
+  capturar(): Promise<ConsultaSalva | null>;
+  recuperar(): Promise<Fotografia | null>;
+  confirmar(
+    foto: Fotografia,
+    revisaoEsperada: number | null,
+    geracaoAtual: () => boolean,
+  ): Promise<'salva' | 'conflito' | 'memoria'>;
+  fechar?(): void;
 }

@@ -104,9 +104,9 @@ A arquitetura da v0.1 foi definida e aprovada. TypeScript, React, Tailwind CSS, 
 
 O banco escolhido é PostgreSQL 18.6, com persistência em volume no Docker Compose. O módulo de banco usa Drizzle ORM `0.45.3` com o *driver* `pg` `8.23.1`; o histórico SQL foi gerado com Drizzle Kit `0.31.11`, revisado e complementado com gatilhos e permissões. O [modelo físico](docs/superpowers/specs/2026-10-07-modelo-fisico-postgresql-v0.1-design.md) define sete tabelas, cadastros e preços por versão, precisão decimal, publicação atômica e retenção de todas as versões durante a entrega acadêmica.
 
-Os contratos implementados usam TypeBox e Ajv; o domínio calcula médias, conversões e variações com `big.js` 7.0.1. A persistência no navegador usará IndexedDB com `idb`; o gráfico será feito com Chart.js, carregado separadamente. Os [contratos e o armazenamento local](docs/superpowers/specs/2026-10-07-contratos-api-e-indexeddb-v0.1-design.md) já têm campos, limites, exemplos verificáveis e confirmação atômica especificados.
+Os contratos implementados usam TypeBox e Ajv; o domínio calcula médias, conversões e variações com `big.js` 7.0.1. A persistência no navegador usa IndexedDB com `idb` 8.0.4; o gráfico será feito com Chart.js, carregado separadamente. Os [contratos e o armazenamento local](docs/superpowers/specs/2026-10-07-contratos-api-e-indexeddb-v0.1-design.md) já têm campos, limites, exemplos verificáveis e confirmação atômica especificados.
 
-A [apresentação aprovada](docs/superpowers/specs/2026-10-07-apresentacao-e-armazenamento-v0.1-design.md) terá indicadores em destaque, verde profundo, tons de terra e faixa com imagens responsivas de gado no pasto e boi no curral, sobreposição e degradê. Chrome, Edge, Firefox e Safari compõem a matriz de suporte. O orçamento total do IndexedDB será de 10.240 KiB (10 MiB), com margem para troca segura; o autor dispensou novas medições de ocupação nos demais navegadores. A interface e as imagens finais ainda não foram produzidas.
+A [apresentação aprovada](docs/superpowers/specs/2026-10-07-apresentacao-e-armazenamento-v0.1-design.md) terá indicadores em destaque, verde profundo, tons de terra e faixa com imagens responsivas de gado no pasto e boi no curral, sobreposição e degradê. Chrome, Edge, Firefox e Safari compõem a matriz de suporte. O orçamento total do IndexedDB é de 10.240 KiB (10 MiB), contando chaves, envelopes, referência e coexistência antes da limpeza; o autor dispensou novas medições de ocupação nos demais navegadores. A interface e as imagens finais ainda não foram produzidas.
 
 O desenvolvimento seguirá TDD. Foram adotados Vitest para domínio e API, React Testing Library para componentes e Playwright para a consulta completa. Os testes de integração usam PostgreSQL real com Testcontainers, em bases exclusivas e com credenciais descartáveis. npm organizará as dependências; GitHub Actions executará as verificações, incluindo auditoria com `npm audit` e análise obrigatória com Semgrep Community Edition. A [configuração de testes, auditoria e CI](docs/superpowers/specs/2026-10-07-testes-auditoria-e-ci-v0.1-design.md) já define projetos, isolamento, prazos, evidências e seleção de regras. Manifesto, regras próprias e casos verificados estão em [`docs/superpowers/quality/v0.1/`](docs/superpowers/quality/v0.1/); as comunitárias serão obtidas por revisão e hash para uso local, sem redistribuição no repositório.
 
@@ -133,7 +133,8 @@ Os arquivos CSV e JSON da base fixa estão em [`data/demonstrativa/v0.1/`](data/
 | Local | Responsabilidade |
 | --- | --- |
 | `apps/web/src/query/` | Cliente HTTP validado, fotografia consistente, prioridade e coordenação das consultas implementados. |
-| `apps/web/src/{App,main}.tsx` | Superfície React mínima e inicialização progressiva; painel completo, persistência e gráfico pendentes. |
+| `apps/web/src/storage/` | IndexedDB, orçamento UTF-8, confirmação por revisão/geração e recuperação validada. |
+| `apps/web/src/{App,main}.tsx` | Superfície React mínima, recuperação validada e avisos de uso em memória; painel completo e gráfico pendentes. |
 | `apps/api/src/db/`, `apps/api/drizzle/` | Esquema, cliente, histórico SQL, publicação transacional e repositório de consultas implementados. |
 | `apps/api/src/demo/` | Leitura dos seis arquivos, SHA-256, validação e reprodução da receita fora da transação. |
 | `apps/api/src/operations/` | Migração, preparação inicial e publicação explícita implementadas. |
@@ -276,7 +277,11 @@ A documentação da v0.1 está em `docs/superpowers/specs/`:
 - [Base demonstrativa fixa](docs/superpowers/specs/2026-10-07-base-demonstrativa-v0.1.md): pesquisa pública, perfis, território, arquivos de dados, receita e cenários verificáveis.
 - [Modelo físico do PostgreSQL](docs/superpowers/specs/2026-10-07-modelo-fisico-postgresql-v0.1-design.md): tabelas, chaves, índices, precisão, publicação, imutabilidade, retenção e migrações.
 
-Os próximos passos são implementar a persistência no navegador e completar o painel conforme o plano aprovado. O ambiente dos contratos foi instalado e verificado; a integração da aplicação e sua execução HTTPS ainda serão validadas nas etapas correspondentes. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
+A persistência local confirma somente consultas completas, compara a revisão capturada antes da rede e aguarda o *commit* IndexedDB. Quota, orçamento insuficiente e conflito preservam a consulta salva anterior e mantêm os novos resultados em memória com aviso. A recuperação valida contratos, dependências e SHA-256, preserva dados incompatíveis e sempre revalida o resumo; não oferece funcionamento *offline* completo.
+
+Os testes rápidos de armazenamento usam `fake-indexeddb` 6.2.5 e não comprovam transações em navegador real. A suíte `tests/e2e/storage.spec.ts` aguarda o ambiente HTTPS confiável da T10. Seu artefato exclusivo é gerado por `npm exec --workspace @pecuaria/web -- vite build --config storage-test.vite.config.ts`, em `artifacts/storage-harness/`; servir esse diretório numa origem HTTPS isolada com CA confiável e executar `npm exec -- playwright test tests/e2e/storage.spec.ts` com a configuração T10 apontando `baseURL` para essa origem. O artefato de teste contém injeção de falhas e nunca integra o *build* normal da aplicação. Não usar exceções de certificado.
+
+Os próximos passos são completar o painel e verificar transações reais e recuperação no ambiente HTTPS conforme o plano aprovado. O ambiente dos contratos foi instalado e verificado; a integração da aplicação e sua execução HTTPS ainda serão validadas nas etapas correspondentes. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
 
 ## Créditos e licença
 
