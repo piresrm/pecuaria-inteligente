@@ -1,0 +1,106 @@
+@import 'tailwindcss';
+:root {
+  --primary: #174d36;
+  --earth: #80694b;
+  --background: #f8faf6;
+  --surface: #ffffff;
+  --text: #203529;
+  --border: #c4d0c3;
+  --scroll-thumb: #677e67;
+  --scroll-hover: #476247;
+  --scroll-active: #174d36;
+  font-family: system-ui, sans-serif;
+  color: var(--text);
+  background: var(--background);
+  scrollbar-color: var(--scroll-thumb) var(--background);
+  scrollbar-width: auto;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+main {
+  max-width: 64rem;
+  margin: auto;
+  padding: 1.5rem;
+}
+header {
+  border-bottom: 0.25rem solid var(--earth);
+  padding-block: 1.5rem;
+  color: var(--primary);
+}
+h1 {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  line-height: 1.2;
+}
+p {
+  line-height: 1.6;
+}
+.notice {
+  font-weight: 700;
+}
+section {
+  padding-block: 1.5rem;
+}
+[role='status'] {
+  min-height: 3.2em;
+}
+.price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  min-height: 2.5rem;
+}
+button {
+  min-height: 2.75rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--primary);
+  border-radius: 0.25rem;
+  background: var(--primary);
+  color: var(--surface);
+  cursor: pointer;
+}
+button:hover:not(:disabled) {
+  background: var(--text);
+}
+button:active:not(:disabled) {
+  outline: 2px solid var(--earth);
+  outline-offset: 2px;
+}
+button:focus-visible {
+  outline: 3px solid var(--earth);
+  outline-offset: 3px;
+}
+button:disabled {
+  background: var(--border);
+  color: var(--text);
+  border-color: var(--border);
+  cursor: default;
+}
+*::-webkit-scrollbar {
+  width: 0.8rem;
+  height: 0.8rem;
+}
+*::-webkit-scrollbar-track {
+  background: var(--background);
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--scroll-thumb);
+  border: 2px solid var(--background);
+  border-radius: 0.25rem;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--scroll-hover);
+}
+*::-webkit-scrollbar-thumb:active {
+  background: var(--scroll-active);
+}
+@media (forced-colors: active) {
+  :root {
+    scrollbar-color: auto;
+  }
+  button:focus-visible {
+    outline-color: Highlight;
+  }
+}

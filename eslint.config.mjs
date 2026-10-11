@@ -3,6 +3,8 @@ import { defineConfig } from 'eslint/config';
 import prettier from 'eslint-config-prettier';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
+import hooks from 'eslint-plugin-react-hooks';
+import refresh from 'eslint-plugin-react-refresh';
 
 export default defineConfig(
   {
@@ -79,6 +81,48 @@ export default defineConfig(
         },
       ],
     },
+  },
+  {
+    files: ['apps/web/**/*.{ts,tsx}'],
+    extends: [js.configs.recommended, ...tseslint.configs.recommendedTypeChecked],
+    languageOptions: {
+      globals: globals.browser,
+      parserOptions: { projectService: true, tsconfigRootDir: import.meta.dirname },
+    },
+  },
+  {
+    files: ['apps/web/src/**/*.{ts,tsx}'],
+    ignores: ['**/*.test.{ts,tsx}'],
+    plugins: { 'react-hooks': hooks, 'react-refresh': refresh },
+    rules: {
+      ...hooks.configs.recommended.rules,
+      ...refresh.configs.vite.rules,
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: [
+                'node:*',
+                '@pecuaria/contracts/server',
+                '@pecuaria/api',
+                '@pecuaria/api/*',
+                'ajv',
+                'ajv/*',
+                'typebox',
+                'typebox/*',
+                '**/apps/api/**',
+              ],
+              message: 'A interface deve consumir contratos puros do navegador e domínio.',
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: ['apps/web/*.config.ts', 'apps/web/tests/**/*.ts'],
+    languageOptions: { globals: globals.node },
   },
   prettier,
 );

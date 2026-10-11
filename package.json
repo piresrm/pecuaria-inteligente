@@ -14,14 +14,14 @@
   ],
   "scripts": {
     "test": "npm run test:unit",
-    "test:unit": "vitest run --project contratos --project dominio --project api",
-    "test:coverage": "vitest run --project contratos --project dominio --coverage --project api",
+    "test:unit": "vitest run --project contratos --project dominio --project api --project componentes",
+    "test:coverage": "vitest run --project contratos --project dominio --coverage --project api --project componentes",
     "check": "npm run check:types && npm run check:format && npm run check:lint",
-    "check:types": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p packages/contracts/tsconfig.json && tsc --noEmit -p packages/domain/tsconfig.json && tsc --noEmit -p apps/api/tsconfig.json",
-    "check:format": "prettier --check package.json package-lock.json tsconfig.json tsconfig.base.json .prettierrc.json eslint.config.mjs vitest.config.ts packages/contracts packages/domain tools/quality apps/api",
-    "check:lint": "eslint eslint.config.mjs vitest.config.ts packages/contracts packages/domain tools/quality apps/api",
+    "check:types": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p packages/contracts/tsconfig.json && tsc --noEmit -p packages/domain/tsconfig.json && tsc --noEmit -p apps/api/tsconfig.json && tsc --noEmit -p apps/web/tsconfig.json",
+    "check:format": "prettier --check package.json package-lock.json tsconfig.json tsconfig.base.json .prettierrc.json eslint.config.mjs vitest.config.ts packages/contracts packages/domain tools/quality apps/api apps/web DESIGN.md premium-ui.json",
+    "check:lint": "eslint eslint.config.mjs vitest.config.ts packages/contracts packages/domain tools/quality apps/api apps/web",
     "contracts:generate": "tsx packages/contracts/tools/generate-validators.ts",
-    "build": "npm run contracts:generate && tsc -p packages/contracts/tsconfig.build.json && tsc -p packages/domain/tsconfig.build.json && tsc -p apps/api/tsconfig.build.json",
+    "build": "npm run contracts:generate && tsc -p packages/contracts/tsconfig.build.json && tsc -p packages/domain/tsconfig.build.json && tsc -p apps/api/tsconfig.build.json && npm run build --workspace @pecuaria/web",
     "pretest:unit": "npm run contracts:generate",
     "pretest:coverage": "npm run contracts:generate",
     "precheck:types": "npm run contracts:generate",
@@ -31,7 +31,8 @@
     "db:generate": "npm exec --workspace @pecuaria/api -- drizzle-kit generate",
     "db:migrate": "tsx apps/api/src/operations/migrate-cli.ts",
     "demo:prepare": "tsx apps/api/src/operations/prepare.ts",
-    "demo:publish": "tsx apps/api/src/operations/publish.ts"
+    "demo:publish": "tsx apps/api/src/operations/publish.ts",
+    "web:dev": "npm run dev --workspace @pecuaria/web"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
@@ -45,7 +46,10 @@
     "typescript-eslint": "8.71.1",
     "vitest": "5.0.3",
     "tsx": "4.23.15",
-    "ajv": "8.20.0"
+    "ajv": "8.20.0",
+    "vite": "8.3.3",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "eslint-plugin-react-refresh": "0.5.7"
   },
   "allowScripts": {
     "esbuild@0.18.20": true,

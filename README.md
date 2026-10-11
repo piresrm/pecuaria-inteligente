@@ -128,11 +128,12 @@ Os arquivos CSV e JSON da base fixa estão em [`data/demonstrativa/v0.1/`](data/
 
 ### Organização da implementação
 
-`packages/contracts/`, `packages/domain/`, os módulos de banco, publicação demonstrativa e consultas HTTP de `apps/api/` e a preparação de papéis em `infra/postgres/` estão implementados. Os demais diretórios registram a organização prevista para as etapas seguintes.
+`packages/contracts/`, `packages/domain/`, os módulos de banco, publicação demonstrativa e consultas HTTP de `apps/api/` e a preparação de papéis em `infra/postgres/` estão implementados. O cliente progressivo e uma superfície React mínima em `apps/web/` também estão disponíveis. Os demais diretórios registram a organização prevista para as etapas seguintes.
 
 | Local | Responsabilidade |
 | --- | --- |
-| `apps/web/` | Interface React, consultas, persistência no navegador e gráfico. |
+| `apps/web/src/query/` | Cliente HTTP validado, fotografia consistente, prioridade e coordenação das consultas implementados. |
+| `apps/web/src/{App,main}.tsx` | Superfície React mínima e inicialização progressiva; painel completo, persistência e gráfico pendentes. |
 | `apps/api/src/db/`, `apps/api/drizzle/` | Esquema, cliente, histórico SQL, publicação transacional e repositório de consultas implementados. |
 | `apps/api/src/demo/` | Leitura dos seis arquivos, SHA-256, validação e reprodução da receita fora da transação. |
 | `apps/api/src/operations/` | Migração, preparação inicial e publicação explícita implementadas. |
@@ -144,6 +145,16 @@ Os arquivos CSV e JSON da base fixa estão em [`data/demonstrativa/v0.1/`](data/
 | `tests/e2e/` | Verificação da consulta completa com Playwright. |
 | `infra/` e `compose.yaml` | Imagens, entrada HTTPS e configuração local dos serviços. |
 | `.github/workflows/` | Testes, compilação e verificações de qualidade e segurança. |
+
+### Cliente progressivo
+
+`npm run web:dev` inicia Vite para desenvolvimento; os GET usam `/api/v1/mercado/` na mesma origem. A entrada HTTPS com API integrada pertence à etapa de infraestrutura; o Vite isolado ainda não serve uma consulta completa. `npm run build` gera validadores, compila contratos/domínio/API e depois compila a interface.
+
+O cliente valida resumo, históricos e `ETag` canônico UTF-8, compartilha consultas equivalentes e admite até duas requisições. Preserva resultados anteriores durante falhas e preparação de nova versão; somente confirma a fotografia completa após todos os históricos exigidos. Filtros locais reutilizam dados completos. `304` sem corpo validado recupera sem etiqueta; `409` busca resumo e reconstrói. Rede/429/503 têm até duas novas tentativas de 2/5 segundos com variação de até 20%, prazo de 20 segundos e respeito a `Retry-After`, inclusive na ação manual.
+
+O agendamento verifica a cada cinco minutos em aba visível, considera retorno/conexão após 60 segundos, suspende ciclos ocultos/offline e cresce para 10/20/30 minutos em falha. A UI mínima mantém aviso demonstrativo, estado, preço do perfil ativo e nova verificação. `DESIGN.md` registra os tokens mínimos derivados da apresentação aprovada; `premium-ui.json` declara os responsáveis e gates reais. Os testes de coordenação pura usam ambiente Node; interação e HTTP usam jsdom. Nenhum teste emulado comprova a matriz de navegadores ou acessibilidade visual final. Persistência de 10 MiB, painel completo, imagens, gráfico, orçamentos e execução HTTPS permanecem nas próximas tarefas.
+
+Vite `8.3.3` é dependência direta também na raiz para deduplicar a Vite transitiva do Vitest; cópias `8.3.3`/`8.3.4` provocavam conflito nas declarações de `Environment`/Rolldown. jest-dom `7.0.1` usa o entrypoint oficial de matchers explícitos e um adaptador local de tipos para `Matchers<R,T>` do Vitest `5.0.3`, pois sua integração `/vitest` ainda declara `Assertion<T>`. Não há alteração em `node_modules` nem `skipLibCheck` na interface.
 
 ### Ambiente e verificações dos módulos implementados
 
@@ -160,6 +171,7 @@ npm run check:data
 npm test
 npm exec -- vitest run --project dominio
 npm exec -- vitest run --project api
+npm exec -- vitest run --project componentes
 npm run test:coverage
 npm run test:integration
 ```
@@ -264,7 +276,7 @@ A documentação da v0.1 está em `docs/superpowers/specs/`:
 - [Base demonstrativa fixa](docs/superpowers/specs/2026-10-07-base-demonstrativa-v0.1.md): pesquisa pública, perfis, território, arquivos de dados, receita e cenários verificáveis.
 - [Modelo físico do PostgreSQL](docs/superpowers/specs/2026-10-07-modelo-fisico-postgresql-v0.1-design.md): tabelas, chaves, índices, precisão, publicação, imutabilidade, retenção e migrações.
 
-Os próximos passos são implementar a persistência no navegador e a interface conforme o plano aprovado. O ambiente dos contratos foi instalado e verificado; a integração da aplicação e sua execução HTTPS ainda serão validadas nas etapas correspondentes. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
+Os próximos passos são implementar a persistência no navegador e completar o painel conforme o plano aprovado. O ambiente dos contratos foi instalado e verificado; a integração da aplicação e sua execução HTTPS ainda serão validadas nas etapas correspondentes. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
 
 ## Créditos e licença
 

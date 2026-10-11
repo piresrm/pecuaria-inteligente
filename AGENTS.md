@@ -15,13 +15,16 @@ Pecuária Inteligente is a Brazilian livestock market intelligence MVP covering 
 - `infra/postgres/init-roles.sh`: provision three independent database roles using explicit secret files.
 - `apps/api/src/http/`, `apps/api/src/app.ts`: versioned GET routes, raw query validation, public errors, canonical JSON, conditional HTTP, and internal readiness.
 - `apps/api/src/control/`, `apps/api/src/server.ts`: versioned resource cache, mandatory concrete IP/database controls, aggregate metrics, explicit proxy configuration, and executable lifecycle wiring.
-- Root quality configuration covers contracts, domain, and API; web UI and CI are still pending.
+- `apps/web/src/query/`: pure browser HTTP client, consistent progressive query state, foreground admission, and verification scheduler.
+- `apps/web/src/{App,main}.tsx`: minimal React surface and initialization; full dashboard, IndexedDB, chart, and HTTPS integration remain pending.
+- `DESIGN.md`, `premium-ui.json`: implemented minimal visual tokens, canonical owners, and static/runtime command map.
+- Root quality configuration covers contracts, domain, API, and web; CI is still pending.
 
 Define requirements and architecture before selecting technologies. Document new module locations in `README.md`. Keep initial work focused on market monitoring; individual herd management is outside the initial scope. Do not version `PROMPTS.md`.
 
 ## Build, Test, and Development Commands
 
-Use Node.js `24.21.0` and npm `11.19.0`. From the repository root, `npm ci` installs the lockfile, `npm run build` generates contracts and compiles contracts/domain/API and demonstration operations, `npm run check` verifies types/style/lint, and `npm test` runs the active contracts, domain, and API projects. `npm run test:integration` requires Docker and exercises isolated PostgreSQL instances. `npm run db:generate` generates reviewed migrations; `npm run db:migrate` applies history using explicit environment configuration documented in the README. `npm run api:start` runs the compiled API with the explicit database and proxy environment configuration documented in the README. See `README.md` for the verified commands and incremental scope.
+Use Node.js `24.21.0` and npm `11.19.0`. From the repository root, `npm ci` installs the lockfile, `npm run build` generates contracts and compiles contracts/domain/API and demonstration operations before building web, `npm run check` verifies types/style/lint, and `npm test` runs the active contracts, domain, API, and components projects. `npm run test:integration` requires Docker and exercises isolated PostgreSQL instances. `npm run db:generate` generates reviewed migrations; `npm run db:migrate` applies history using explicit environment configuration documented in the README. `npm run api:start` runs the compiled API with the explicit database and proxy environment configuration documented in the README. `npm run web:dev` runs the development-only Vite surface; same-origin API/HTTPS integration is pending. See `README.md` for the verified commands and incremental scope.
 
 Useful repository checks:
 
@@ -41,7 +44,7 @@ TypeScript uses strict checking, `noUncheckedIndexedAccess`, and `exactOptionalP
 
 Follow the Red–Green–Refactor TDD cycle specified in `ABOUT.md`. Add unit or integration tests for implemented behavior, especially ingestion, normalization, and critical calculations. Verify formulas, units, and input assumptions.
 
-Vitest contracts, domain, and API tests use colocated `.test.ts` files with explicit imports and no retries. Add the remaining projects as their modules arrive; never pass an empty suite. Coverage V8 reports the implemented scope without an arbitrary threshold. Academic delivery requires executable, passing automated tests.
+Vitest contracts, domain, API, and components tests use colocated `.test.ts`/`.test.tsx` files with explicit imports and no runner retries. Web interactions use jsdom, while pure coordination tests may select Node for real demonstration fixtures. Add the remaining projects as their modules arrive; never pass an empty suite. Coverage V8 reports the implemented scope without an arbitrary threshold. Academic delivery requires executable, passing automated tests.
 
 ## Commit & Pull Request Guidelines
 
