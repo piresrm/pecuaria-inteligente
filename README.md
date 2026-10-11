@@ -114,9 +114,9 @@ A execução da v0.1 e da entrega acadêmica v0.2 será local, via Docker Compos
 
 A base demonstrativa fixa foi preparada em `data/demonstrativa/v0.1/`: oito perfis, dez regiões do IMB, 246 municípios e 4.146 preços fictícios, com lacunas controladas. O histórico cobre outubro de 2025 a setembro de 2026, além da semana anterior para comparação. Fontes públicas fundamentam os parâmetros e o território; os preços são demonstrativos. A [documentação da base](docs/superpowers/specs/2026-10-07-base-demonstrativa-v0.1.md) registra pesquisa, condições comerciais, reprodução e verificação.
 
-O [plano de implementação da v0.1](docs/superpowers/plans/2026-10-07-implementacao-v0.1.md) organiza contratos, domínio, banco, API, consulta, persistência, interface, HTTPS e qualidade em tarefas verificáveis de TDD. Contratos, ambiente, domínio, esquema do banco, publicação demonstrativa e consultas versionadas da API estão implementados; controles concretos de entrada/admissão e interface serão implementados nas etapas seguintes.
+O [plano de implementação da v0.1](docs/superpowers/plans/2026-10-07-implementacao-v0.1.md) organiza contratos, domínio, banco, API, consulta, persistência, interface, HTTPS e qualidade em tarefas verificáveis de TDD. Contratos, ambiente, domínio, esquema do banco, publicação demonstrativa e consultas versionadas da API estão implementados; controles concretos de entrada/admissão, configuração executável e encerramento por sinais também estão implementados; a interface será implementada nas etapas seguintes.
 
-Os [exemplos documentais](docs/superpowers/contracts/v0.1/) são entradas dos testes de equivalência entre o esquema de referência, as declarações TypeBox e os validadores do servidor e do navegador. O pacote também valida calendário, cadastros, preços únicos, cobertura regional, fontes e correspondência entre resumo e histórico. A instalação e as verificações dos contratos, do domínio e da API estão disponíveis abaixo. Controles concretos de entrada/admissão, interface, Compose e integração contínua permanecem pendentes; a v0.1 utilizará apenas dados demonstrativos.
+Os [exemplos documentais](docs/superpowers/contracts/v0.1/) são entradas dos testes de equivalência entre o esquema de referência, as declarações TypeBox e os validadores do servidor e do navegador. O pacote também valida calendário, cadastros, preços únicos, cobertura regional, fontes e correspondência entre resumo e histórico. A instalação e as verificações dos contratos, do domínio e da API estão disponíveis abaixo. Interface, Compose e integração contínua permanecem pendentes; a v0.1 utilizará apenas dados demonstrativos.
 
 ### Dados disponíveis
 
@@ -137,7 +137,7 @@ Os arquivos CSV e JSON da base fixa estão em [`data/demonstrativa/v0.1/`](data/
 | `apps/api/src/demo/` | Leitura dos seis arquivos, SHA-256, validação e reprodução da receita fora da transação. |
 | `apps/api/src/operations/` | Migração, preparação inicial e publicação explícita implementadas. |
 | `apps/api/src/http/`, `apps/api/src/app.ts` | Consultas GET, validação bruta e estrita, erros públicos e HTTP condicional. |
-| `apps/api/src/control/`, `apps/api/src/server.ts` | Cache versionado e interfaces obrigatórias de entrada/admissão; ligação concreta pendente. |
+| `apps/api/src/control/`, `apps/api/src/server.ts` | Cache versionado, cota por IP, admissão ao banco, métricas agregadas e servidor executável. |
 | `apps/api/tests/integration/`, `infra/postgres/init-roles.sh` | Testes PostgreSQL isolados e preparação dos três papéis com segredos em arquivos. |
 | `packages/contracts/` | Contratos, tipos e geração dos validadores compartilhados. |
 | `packages/domain/` | Filtros e cálculos independentes da interface e do servidor. |
@@ -194,7 +194,27 @@ A API usa Fastify `5.12.5` e `@fastify/type-provider-typebox` `6.1.0`. Estão im
 
 Respostas `200` usam JSON compacto canônico, `ETag` fraco SHA-256 dos mesmos bytes UTF-8 e `Cache-Control: public, max-age=60, must-revalidate`. `If-None-Match` aceita comparação fraca, etiquetas fortes, listas e `*`; `304` preserva etiqueta e política, sem corpo. O *cache* compartilha carregamentos equivalentes, separa operação/versão/perfil, expira em até 60 segundos e remove cargas rejeitadas. Erros públicos usam `no-store`, mensagens do contrato e nenhum detalhe interno. A consulta bruta preserva duplicatas, valida percentual/UTF-8 uma vez e limita 1.024 bytes antes da decodificação.
 
-`buildApp({ repository, entrada, banco })` monta o Fastify sem abrir porta. `entrada.verificar({ remoteAddress, forwardedFor })` e `banco.run(operation)` são controles obrigatórios; a implementação concreta de cotas, concorrência e proxies confiáveis pertence à próxima tarefa. Controles permissivos existem somente nos testes. `iniciarServidor(deps, options)` exige essas mesmas dependências; ainda não há comando de servidor pronto para uso. O consumidor que cria o conjunto de conexões deve encerrá-lo junto ao Fastify em sinais e falhas de inicialização.
+`buildApp({ repository, entrada, banco })` monta o Fastify sem abrir porta e exige os controles de entrada e admissão. `EntryControl` resolve a origem pelo socket e pela configuração explícita de *proxies*, antes de consulta, *cache*, erros, métodos desconhecidos e caminhos inválidos. `IpQuota` oferece 30 permissões iniciais e repõe duas por segundo, compartilhadas por resumo, históricos, `304` e erros; recusas por cota não debitam permissões adicionais. `DatabaseAdmission` admite até 20 operações simultâneas sem fila; toda leitura do repositório ocupa vaga, inclusive o ponteiro antes de `304`, enquanto o conteúdo já no *cache* não ocupa. Uma vaga só é liberada quando a promessa da operação realmente termina, mesmo se o consumidor cancelar a espera.
+
+A falta de cota responde `429 LIMITE_REQUISICOES` com `Retry-After` inteiro, arredondado para cima e mínimo de um segundo. Saturação do banco responde `503 SERVICO_OCUPADO`; indisponibilidade de controles responde `503 CONTROLE_INDISPONIVEL`, ambas com `Retry-After: 5`. Erros usam `no-store`. O mapa admite até 10.000 IPs; baldes com pelo menos 60 segundos inativos e completamente repostos expiram na próxima varredura, limitada a uma por segundo durante tráfego. Sem balde descartável, novas identidades recebem `503`; baldes ativos nunca são expulsos para conceder cota nova. O custo máximo de varredura é linear em 10.000 entradas; esse teto limita entradas, sem garantir um número exato de bytes do V8. Os identificadores ficam apenas na memória do processo.
+
+`API_TRUSTED_PROXIES` lista endereços exatos, canonicalizados, da futura rede Caddy. Conexões fora dessa lista usam o IP do socket e ignoram `X-Forwarded-For`. Uma conexão confiável deve encaminhar exatamente um IP válido; ausência, cadeia com vírgula, porta, escopo IPv6 ou endereço inválido respondem `503 CONTROLE_INDISPONIVEL`. IPv4 mapeado em IPv6 converge à identidade IPv4, e formas equivalentes de IPv6 compartilham a cota. Caddy deverá sobrescrever o cabeçalho e a rede deverá impedir acesso externo direto à API; essas configurações serão entregues na etapa de Compose.
+
+`iniciarAplicacao(config)` cria o conjunto de conexões, o repositório e os controles obrigatórios, verifica conectividade e inicia HTTP. `SIGTERM`, `SIGINT`, fechamento explícito e falhas de inicialização fecham Fastify e o *pool*, sem migrar nem publicar. `iniciarServidor(deps, options, lifecycle)` permite responsabilidade explícita pelos recursos ao consumidor; controles permissivos permanecem exclusivos dos testes. Métricas são contadores agregados de admissão/recusa, concorrência e latência total/máxima por ponteiro, resumo e histórico, acessíveis ao consumidor em `metrics.snapshot()`, sem IPs nem endpoint público de métricas. Não há Redis/Valkey nem coordenação de processos múltiplos.
+
+Após `npm run build`, inicie o processo com `npm run api:start`, usando a identidade de consulta e um arquivo de segredo montado. Por exemplo, para desenvolvimento local com PostgreSQL já configurado:
+
+```bash
+NODE_ENV=development \
+API_HOST=127.0.0.1 API_PORT=3000 API_PROXY_MODE=direct \
+DB_HOST=127.0.0.1 DB_PORT=5432 DB_NAME=pecuaria DB_USER=mercado_consulta \
+DB_PASSWORD_FILE=/run/secrets/consulta \
+npm run api:start
+```
+
+O modo é obrigatório: `API_PROXY_MODE=direct` serve desenvolvimento/testes explícitos; `NODE_ENV=production` exige `API_PROXY_MODE=trusted` e `API_TRUSTED_PROXIES` com os endereços efetivos do Caddy. Nenhum modo é inferido silenciosamente. `API_HOST` e `API_PORT` também são obrigatórios. `API_QUOTA_CAPACITY`, `API_QUOTA_REFILL_PER_SECOND` e `API_DATABASE_CONCURRENCY` permitem reduzir os limites no servidor, com máximos e padrões de 30, 2 e 20; o cenário validado manteve todos os padrões.
+
+`apps/api/tests/integration/controls.test.ts` exercita dez clientes sob o mesmo IP com HTTP e PostgreSQL reais: abertura, histórico, troca de perfil e revalidação automática. A rajada de 40 consultas legítimas excede a cota compartilhada; o teste registra admissões, bloqueios e métricas em `artifacts/t6/load.json`, ignorado pelo Git. Esses bloqueios são uma limitação para usuários atrás do mesmo IP e devem ser considerados na futura experiência de espera; os limites aprovados foram preservados.
 
 A rota interna `/internal/ready` consulta a publicação real e valida sua compatibilidade, sem usar o *cache*, migrar ou publicar. Retorna `200` apenas quando a leitura e os dados estão preparados; ausência, incompatibilidade ou falha de leitura retornam `503`. A futura entrada Caddy deverá encaminhar somente `/api/` à API e manter essa rota interna inacessível externamente; o ambiente HTTPS e a compressão serão validados na tarefa correspondente.
 
@@ -244,7 +264,7 @@ A documentação da v0.1 está em `docs/superpowers/specs/`:
 - [Base demonstrativa fixa](docs/superpowers/specs/2026-10-07-base-demonstrativa-v0.1.md): pesquisa pública, perfis, território, arquivos de dados, receita e cenários verificáveis.
 - [Modelo físico do PostgreSQL](docs/superpowers/specs/2026-10-07-modelo-fisico-postgresql-v0.1-design.md): tabelas, chaves, índices, precisão, publicação, imutabilidade, retenção e migrações.
 
-Os próximos passos são implementar os controles concretos de entrada e admissão da API, a persistência no navegador e a interface conforme o plano aprovado. O ambiente dos contratos foi instalado e verificado; a integração da aplicação e sua execução HTTPS ainda serão validadas nas etapas correspondentes. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
+Os próximos passos são implementar a persistência no navegador e a interface conforme o plano aprovado. O ambiente dos contratos foi instalado e verificado; a integração da aplicação e sua execução HTTPS ainda serão validadas nas etapas correspondentes. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
 
 ## Créditos e licença
 

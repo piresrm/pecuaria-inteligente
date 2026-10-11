@@ -348,3 +348,40 @@ test('rotas normais, consulta inválida e cache consomem entrada uma única vez 
   expect((await app.inject(`${historicoUrl}?${historyQuery}`)).statusCode).toBe(200);
   expect(entries).toBe(4);
 });
+
+test('controles concretos compartilham 30 fichas entre sucesso,304,erro,método e BAD_URL', async () => {
+  const { IpQuota } = await import('./control/ip-quota.js');
+  const { EntryControl } = await import('./control/entry-control.js');
+  const { DatabaseAdmission } = await import('./control/database-admission.js');
+  let now = 0;
+  const deps = {
+    repository: new MemoryRepository(),
+    entrada: new EntryControl(new IpQuota({ now: () => now }), []),
+    banco: new DatabaseAdmission(),
+  };
+  const app = await setup(deps);
+  const first = await app.inject({ url: resumoUrl, remoteAddress: '::ffff:192.0.2.1' });
+  expect(first.statusCode).toBe(200);
+  const requests = [
+    { url: resumoUrl, headers: { 'if-none-match': String(first.headers.etag) }, status: 304 },
+    { url: `${historicoUrl}?${historyQuery}`, status: 200 },
+    { url: `${resumoUrl}?bad=1`, status: 400 },
+    { url: '/api/%GG', status: 400 },
+    { url: resumoUrl, method: 'POST' as const, status: 400 },
+    { url: '/api/v1/inexistente', status: 400 },
+  ];
+  for (let n = 0; n < 29; n++) {
+    const request = requests[n % requests.length]!;
+    expect((await app.inject({ ...request, remoteAddress: '192.0.2.1' })).statusCode).toBe(
+      request.status,
+    );
+  }
+  const pointerReads = deps.repository.pointerReads;
+  const blocked = await app.inject({ url: '/api/%GG', remoteAddress: '192.0.2.1' });
+  expect(blocked.statusCode).toBe(429);
+  expect(blocked.headers['retry-after']).toBe('1');
+  expect(deps.repository.pointerReads).toBe(pointerReads);
+  now = 500;
+  expect((await app.inject({ url: '/api/%GG', remoteAddress: '192.0.2.1' })).statusCode).toBe(400);
+  expect((await app.inject({ url: resumoUrl, remoteAddress: '192.0.2.1' })).statusCode).toBe(429);
+});

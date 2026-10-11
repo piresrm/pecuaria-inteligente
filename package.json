@@ -27,6 +27,7 @@
     "precheck:types": "npm run contracts:generate",
     "check:data": "node tools/quality/check-data.mjs",
     "test:integration": "vitest run --project banco",
+    "api:start": "node apps/api/dist/server-cli.js",
     "db:generate": "npm exec --workspace @pecuaria/api -- drizzle-kit generate",
     "db:migrate": "tsx apps/api/src/operations/migrate-cli.ts",
     "demo:prepare": "tsx apps/api/src/operations/prepare.ts",

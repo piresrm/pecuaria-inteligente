@@ -11,7 +11,10 @@ export interface AppDependencies {
   entrada: EntradaControl;
   banco: BancoControl;
 }
-export async function buildApp(deps: AppDependencies): Promise<FastifyInstance> {
+export async function buildApp(
+  deps: AppDependencies,
+  lifecycle: { onClose?: () => Promise<void> } = {},
+): Promise<FastifyInstance> {
   if (!deps.entrada?.verificar || !deps.banco?.run)
     throw new TypeError('Controles obrigatórios não configurados');
   const app = Fastify({
@@ -34,6 +37,7 @@ export async function buildApp(deps: AppDependencies): Promise<FastifyInstance> 
       );
     },
   }).withTypeProvider<TypeBoxTypeProvider>();
+  if (lifecycle.onClose) app.addHook('onClose', lifecycle.onClose);
   // Shared strict Draft 7 validators never coerce/default/remove fields. Public
   // queries are checked after raw duplicate/encoding validation in the handlers.
   app.setValidatorCompiler(({ schema, httpPart }) => {

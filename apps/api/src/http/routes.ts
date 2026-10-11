@@ -3,6 +3,7 @@ import type { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import type { Resumo, Historico } from '@pecuaria/contracts/types';
 import { definitions, assertResumo, assertHistorico } from '@pecuaria/contracts/server';
 import type { AppDependencies } from '../app.js';
+import type { BancoOperacao } from '../control/metrics.js';
 import { ControleErro } from '../control/types.js';
 import { ResourceCache } from '../control/resource-cache.js';
 import { HttpError } from './errors.js';
@@ -28,7 +29,7 @@ export function registerRoutes(app: FastifyInstance, deps: AppDependencies): voi
     request.query = queryFromUrl(request.raw.url ?? request.url);
     return Promise.resolve();
   };
-  const run = async <T>(operation: () => Promise<T>): Promise<T> => {
+  const run = async <T>(operation: () => Promise<T>, name: BancoOperacao): Promise<T> => {
     let operationFailed = false;
     let operationError: unknown;
     try {
@@ -40,7 +41,7 @@ export function registerRoutes(app: FastifyInstance, deps: AppDependencies): voi
           operationError = error;
           throw error;
         }
-      });
+      }, name);
     } catch (error) {
       if (error instanceof ControleErro || (operationFailed && error === operationError))
         throw error;
@@ -50,7 +51,7 @@ export function registerRoutes(app: FastifyInstance, deps: AppDependencies): voi
   const cache = new ResourceCache<HttpResource<Resumo | Historico>>();
   const summary = (versao: string) =>
     cache.get({ operacao: 'resumo', versao }, async () => {
-      const value = await run(() => deps.repository.lerResumo(versao));
+      const value = await run(() => deps.repository.lerResumo(versao), 'resumo');
       if (!value) throw new HttpError('VERSAO_INDISPONIVEL');
       assertResumo(value);
       if (value.versaoDados !== versao) throw new TypeError('Identidade interna incompatível');
@@ -63,7 +64,7 @@ export function registerRoutes(app: FastifyInstance, deps: AppDependencies): voi
     '/api/v1/mercado/resumo',
     { schema: { querystring: definitions.ConsultaResumo }, preValidation: parse },
     async (request, reply) => {
-      const versao = await run(() => deps.repository.lerVersaoAtual());
+      const versao = await run(() => deps.repository.lerVersaoAtual(), 'ponteiro');
       if (versao === null) throw new HttpError('DADOS_INDISPONIVEIS');
       cache.selectSummaryVersion(versao);
       return sendResource(request, reply, await summary(versao));
@@ -85,8 +86,9 @@ export function registerRoutes(app: FastifyInstance, deps: AppDependencies): voi
       const historico = await cache.get(
         { operacao: 'historico', versao: query.versaoDados, perfilId: query.perfilId },
         async () => {
-          const value = await run(() =>
-            deps.repository.lerHistorico(query.versaoDados, query.perfilId),
+          const value = await run(
+            () => deps.repository.lerHistorico(query.versaoDados, query.perfilId),
+            'historico',
           );
           if (!value) throw new HttpError('PERFIL_INEXISTENTE');
           assertHistorico(value, resumo, query.perfilId);
@@ -101,9 +103,9 @@ export function registerRoutes(app: FastifyInstance, deps: AppDependencies): voi
     // cache. This endpoint performs no migration or publication.
     reply.header('Cache-Control', 'no-store');
     try {
-      const versao = await run(() => deps.repository.lerVersaoAtual());
+      const versao = await run(() => deps.repository.lerVersaoAtual(), 'ponteiro');
       if (versao === null) throw new Error('Sem publicação');
-      const value = await run(() => deps.repository.lerResumo(versao));
+      const value = await run(() => deps.repository.lerResumo(versao), 'resumo');
       assertResumo(value);
       if (value.versaoDados !== versao) throw new Error('Publicação incompatível');
       return reply.send({ ready: true });
