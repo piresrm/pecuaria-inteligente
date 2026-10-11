@@ -281,3 +281,70 @@ test('controle de entrada também precede rejeição de método e caminho públi
     expect(response.headers['retry-after']).toBe('1');
   }
 });
+
+test.each(
+  ['/api/%GG', '/api/%', '/api/v1/%C3%28'].flatMap((url) => [
+    {
+      url,
+      denial: new ControleErro('LIMITE_REQUISICOES', 2),
+      status: 429,
+      errorIndex: 3,
+      retry: '2',
+    },
+    {
+      url,
+      denial: new ControleErro('CONTROLE_INDISPONIVEL', 5),
+      status: 503,
+      errorIndex: 5,
+      retry: '5',
+    },
+    { url, denial: new Error('segredo de controle'), status: 503, errorIndex: 5, retry: '5' },
+    { url, denial: undefined, status: 400, errorIndex: 0, retry: undefined },
+  ]),
+)(
+  'URL rejeitada antes dos hooks preserva controle e erro público: $url → $status',
+  async ({ url, denial, status, errorIndex, retry }) => {
+    const repository = new MemoryRepository();
+    const deps = permissiveDependencies(repository);
+    let entries = 0;
+    deps.entrada = {
+      verificar() {
+        entries++;
+        if (denial) return Promise.reject(denial);
+        return Promise.resolve();
+      },
+    };
+    const response = await (await setup(deps)).inject(url);
+    expect(entries).toBe(1);
+    expect(response.statusCode).toBe(status);
+    expect(response.json()).toEqual(errors[errorIndex]?.corpo);
+    expect(response.headers['retry-after']).toBe(retry);
+    expect(response.headers['cache-control']).toBe('no-store');
+    expect(response.headers['content-type']).toMatch(/^application\/json/);
+    expect(response.body).not.toMatch(/FST_ERR|segredo|not a valid url/);
+    expect(repository.pointerReads + repository.summaryReads + repository.historyReads).toBe(0);
+  },
+);
+test('rotas normais, consulta inválida e cache consomem entrada uma única vez por requisição', async () => {
+  const deps = permissiveDependencies(new MemoryRepository());
+  let entries = 0;
+  deps.entrada = {
+    verificar() {
+      entries++;
+    },
+  };
+  const app = await setup(deps);
+  const first = await app.inject(resumoUrl);
+  expect(first.statusCode).toBe(200);
+  expect(entries).toBe(1);
+  const cached = await app.inject({
+    url: resumoUrl,
+    headers: { 'if-none-match': String(first.headers.etag) },
+  });
+  expect(cached.statusCode).toBe(304);
+  expect(entries).toBe(2);
+  expect((await app.inject(`${resumoUrl}?invalido=1`)).statusCode).toBe(400);
+  expect(entries).toBe(3);
+  expect((await app.inject(`${historicoUrl}?${historyQuery}`)).statusCode).toBe(200);
+  expect(entries).toBe(4);
+});

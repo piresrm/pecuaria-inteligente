@@ -6,6 +6,7 @@ import type { AppDependencies } from '../app.js';
 import { ControleErro } from '../control/types.js';
 import { ResourceCache } from '../control/resource-cache.js';
 import { HttpError } from './errors.js';
+import { verifyEntry } from './entry.js';
 import { queryFromUrl } from './query.js';
 import { matchesIfNoneMatch, serializeResource, type HttpResource } from './conditional.js';
 function sendResource<T>(
@@ -55,20 +56,7 @@ export function registerRoutes(app: FastifyInstance, deps: AppDependencies): voi
       if (value.versaoDados !== versao) throw new TypeError('Identidade interna incompatível');
       return serializeResource('resumo', value);
     });
-  const entry = async (request: FastifyRequest) => {
-    try {
-      const forwarded = request.headers['x-forwarded-for'];
-      await deps.entrada.verificar({
-        remoteAddress: request.raw.socket.remoteAddress ?? '',
-        forwardedFor: typeof forwarded === 'string' ? forwarded : forwarded?.join(','),
-      });
-    } catch (error) {
-      throw error instanceof ControleErro ? error : new ControleErro('CONTROLE_INDISPONIVEL', 5);
-    }
-  };
-  app.addHook('onRequest', async (request) => {
-    if (request.url.startsWith('/api/')) await entry(request);
-  });
+  app.addHook('onRequest', (request) => verifyEntry(request, deps.entrada));
   // Control first, then raw syntax, then existence/cache. The default query parser
   // is disabled at buildApp so nothing normalizes or decodes the raw URL earlier.
   typed.get(
