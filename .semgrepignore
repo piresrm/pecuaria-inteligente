@@ -1,0 +1,12 @@
+# Somente dependências, artefatos gerados e cache local de terceiros.
+node_modules/
+**/node_modules/
+**/dist/
+packages/contracts/src/generated/
+artifacts/
+coverage/
+.cache/
+.local/
+.git/
+.worktrees/
+worktrees/

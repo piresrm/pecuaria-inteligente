@@ -1,0 +1,151 @@
+name: Qualidade e segurança
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  qualidade:
+    name: qualidade
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: 24.21.0
+      - run: npm ci
+      - run: npm run check:format
+      - run: npm run check:types
+      - run: npm run check:lint
+      - run: npm run check:data
+      - run: npm run test:unit
+      - run: npm run test:coverage
+      - run: npm run build
+      - name: Publicar cobertura
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: coverage-${{ github.sha }}-${{ github.run_attempt }}
+          path: artifacts/coverage/unit/
+          if-no-files-found: error
+          retention-days: 14
+
+  integracao:
+    name: integracao
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: 24.21.0
+      - run: npm ci
+      - run: mkdir -p artifacts/integration
+      - run: npm run test:integration -- --reporter=default --reporter=junit --outputFile.junit=artifacts/integration/junit.xml
+        env:
+          CI: true
+      - name: Publicar evidências de integração
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: integration-${{ github.sha }}-${{ github.run_attempt }}
+          path: artifacts/integration/
+          if-no-files-found: error
+          retention-days: 14
+
+  e2e:
+    name: e2e
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: 24.21.0
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium firefox webkit
+      - run: npm run test:e2e
+        env:
+          CI: true
+      - name: Publicar evidências do navegador
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: e2e-${{ github.sha }}-${{ github.run_attempt }}
+          path: artifacts/e2e/
+          if-no-files-found: error
+          retention-days: 14
+
+  auditoria:
+    name: auditoria
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: 24.21.0
+      - run: npm ci
+      - run: npm run security:audit
+      - name: Publicar auditoria bruta e decisão
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: dependency-audit-${{ github.sha }}-${{ github.run_attempt }}
+          path: artifacts/security/npm-audit-*
+          if-no-files-found: error
+          retention-days: 30
+
+  semgrep:
+    name: semgrep
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: 24.21.0
+      - run: npm ci
+      - run: npm run security:rules:prepare
+      - run: npm run security:rules:test
+      - run: npm run security:semgrep
+      - name: Publicar relatório bruto, pins e decisões
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: semgrep-${{ github.sha }}-${{ github.run_attempt }}
+          path: artifacts/security/semgrep-*
+          if-no-files-found: error
+          retention-days: 30
+
+  aprovacao:
+    name: aprovacao
+    if: always()
+    needs: [qualidade, integracao, e2e, auditoria, semgrep]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Exigir sucesso de todos os trabalhos
+        env:
+          QUALIDADE: ${{ needs.qualidade.result }}
+          INTEGRACAO: ${{ needs.integracao.result }}
+          E2E: ${{ needs.e2e.result }}
+          AUDITORIA: ${{ needs.auditoria.result }}
+          SEMGREP: ${{ needs.semgrep.result }}
+        run: |
+          set -euo pipefail
+          printf 'qualidade=%s integracao=%s e2e=%s auditoria=%s semgrep=%s\n' "$QUALIDADE" "$INTEGRACAO" "$E2E" "$AUDITORIA" "$SEMGREP"
+          if [[ "$QUALIDADE" != success || "$INTEGRACAO" != success || "$E2E" != success || "$AUDITORIA" != success || "$SEMGREP" != success ]]; then
+            echo 'A aprovação exige que os cinco trabalhos concluam com sucesso.' >&2
+            exit 1
+          fi

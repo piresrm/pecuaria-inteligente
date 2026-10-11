@@ -1,0 +1,40 @@
+rules:
+- id: pi-react-raw-html
+  languages:
+  - typescript
+  - javascript
+  severity: ERROR
+  message: Renderizar dados de mercado como texto; não usar HTML bruto.
+  pattern-either:
+  - pattern: <$TAG ... dangerouslySetInnerHTML={$VALUE} ... />
+  - pattern: '{..., dangerouslySetInnerHTML: $VALUE, ...}'
+- id: pi-compose-privileged
+  languages:
+  - yaml
+  severity: ERROR
+  message: Os serviços da aplicação não podem usar modo privilegiado.
+  paths:
+    include:
+    - '**/compose.yaml'
+    - '**/compose.*.yaml'
+    - compose.yaml
+    - compose.*.yaml
+  pattern: 'privileged: true'
+- id: pi-compose-host-socket
+  languages:
+  - yaml
+  severity: ERROR
+  message: Os serviços da aplicação não podem montar o socket Docker do hospedeiro.
+  paths:
+    include:
+    - '**/compose.yaml'
+    - '**/compose.*.yaml'
+    - compose.yaml
+    - compose.*.yaml
+  patterns:
+  - pattern-either:
+    - pattern: "volumes:\n  - ...\n  - $HOST\n  - ...\n"
+    - pattern: 'source: $HOST'
+  - metavariable-regex:
+      metavariable: $HOST
+      regex: ^['"]?/(?:var/)?run/docker\.sock(?::|['"]?$)

@@ -258,6 +258,14 @@ A auditoria inicial do banco identificou quatro ocorrências moderadas na cadeia
 
 ## Qualidade e critérios de sucesso
 
+### Segurança e integração contínua
+
+`npm run security:audit` mantém o JSON bruto do `npm audit --include=dev --audit-level=high` e sua decisão em `artifacts/security/`; achados altos ou críticos sem exceção revisada e vigente bloqueiam o comando. Severidades moderadas e baixas permanecem registradas no relatório. A lista de exceções começa vazia em `docs/qualidade/excecoes.json`.
+
+`npm run security:rules:prepare` baixa as dez regras Semgrep da revisão indicada em `tools/semgrep/manifesto.json`, confere os hashes e a licença e mantém as cópias somente em `.cache/semgrep/`. `npm run security:rules:test` testa as três regras próprias e as regras selecionadas contra 28 casos fixos. `npm run security:semgrep` analisa fontes, testes, configurações, workflows, arquivos Docker e Compose com Semgrep CE 1.179.0 em imagem fixada por digest. Os relatórios brutos, inventários e decisões ficam em `artifacts/security/`.
+
+O workflow `.github/workflows/ci.yml` define trabalhos separados de qualidade, integração PostgreSQL, navegador, auditoria de dependências e Semgrep. O trabalho estável `aprovacao` falha se qualquer gate terminar com falha, cancelado ou pulado. A configuração foi criada nesta etapa; a primeira execução em GitHub ainda depende da integração e publicação da branch.
+
 - Permitir localizar uma cotação e entender seu contexto sem ambiguidade.
 - Comparar apenas dados compatíveis, sinalizando diferenças relevantes.
 - Reproduzir os indicadores a partir das entradas e fórmulas documentadas.
