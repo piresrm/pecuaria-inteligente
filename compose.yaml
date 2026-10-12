@@ -1,0 +1,146 @@
+name: pecuaria-inteligente
+x-health: &health
+  interval: 5s
+  timeout: 3s
+  retries: 12
+x-db: &db
+  DB_HOST: postgres
+  DB_PORT: '5432'
+  DB_NAME: mercado
+services:
+  postgres:
+    user: ${RUNTIME_UID:-1000}:${RUNTIME_GID:-1000}
+    image: postgres:18.6-bookworm@sha256:afc7e2d441324c0388fa80c3d24f733b4194a4eb7f47dd8ee2b08eb1a24a647c
+    environment:
+      POSTGRES_USER: administrador
+      POSTGRES_DB: mercado
+      POSTGRES_PASSWORD_FILE: /run/secrets/admin
+      MIGRACAO_PASSWORD_FILE: /run/secrets/migracao
+      PUBLICADOR_PASSWORD_FILE: /run/secrets/publicador
+      CONSULTA_PASSWORD_FILE: /run/secrets/consulta
+    secrets: [admin, migracao, publicador, consulta]
+    volumes:
+      - banco:/var/lib/postgresql
+      - ./infra/postgres/init-roles.sh:/docker-entrypoint-initdb.d/10-roles.sh:ro
+    networks: [local]
+    healthcheck:
+      <<: *health
+      test: [CMD-SHELL, 'pg_isready -U administrador -d mercado']
+    restart: unless-stopped
+  migrar:
+    user: ${RUNTIME_UID:-1000}:${RUNTIME_GID:-1000}
+    build:
+      context: .
+      dockerfile: infra/operations.Dockerfile
+    command: [apps/api/dist/operations/migrate-cli.js]
+    environment:
+      <<: *db
+      DB_USER: mercado_migracao
+      DB_PASSWORD_FILE: /run/secrets/migracao
+    secrets: [migracao]
+    networks: [local]
+    depends_on:
+      postgres: { condition: service_healthy }
+    restart: 'no'
+  preparar:
+    user: ${RUNTIME_UID:-1000}:${RUNTIME_GID:-1000}
+    build:
+      context: .
+      dockerfile: infra/operations.Dockerfile
+    command: [apps/api/dist/operations/prepare.js]
+    environment:
+      <<: *db
+      DB_USER: mercado_publicador
+      DB_PASSWORD_FILE: /run/secrets/publicador
+    secrets: [publicador]
+    networks: [local]
+    depends_on:
+      migrar: { condition: service_completed_successfully }
+    restart: 'no'
+  api:
+    user: ${RUNTIME_UID:-1000}:${RUNTIME_GID:-1000}
+    build:
+      context: .
+      dockerfile: infra/api.Dockerfile
+    environment:
+      <<: *db
+      NODE_ENV: production
+      DB_USER: mercado_consulta
+      DB_PASSWORD_FILE: /run/secrets/consulta
+      API_HOST: 0.0.0.0
+      API_PORT: '3000'
+      API_PROXY_MODE: trusted
+      API_TRUSTED_PROXIES: ${CADDY_IP:-172.30.10.2}
+    secrets: [consulta]
+    networks: [local]
+    depends_on:
+      preparar: { condition: service_completed_successfully }
+    healthcheck:
+      <<: *health
+      test:
+        [
+          CMD,
+          node,
+          -e,
+          'fetch("http://127.0.0.1:3000/internal/ready").then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))',
+        ]
+    restart: unless-stopped
+    security_opt: [no-new-privileges:true]
+  entrada:
+    build:
+      context: .
+      dockerfile: infra/web.Dockerfile
+      target: runtime
+    ports:
+      - 127.0.0.1:${HTTP_PORT:-80}:80
+      - 127.0.0.1:${HTTPS_PORT:-443}:443
+    volumes:
+      - caddy-data:/data
+      - caddy-config:/config
+    networks:
+      local:
+        ipv4_address: ${CADDY_IP:-172.30.10.2}
+      ingresso: {}
+    depends_on:
+      api: { condition: service_healthy }
+    healthcheck:
+      <<: *health
+      test:
+        [
+          CMD-SHELL,
+          'curl --fail --silent --show-error --max-time 3 --cacert /data/caddy/pki/authorities/local/root.crt https://localhost/health >/dev/null',
+        ]
+    restart: unless-stopped
+  publicar:
+    user: ${RUNTIME_UID:-1000}:${RUNTIME_GID:-1000}
+    profiles: [operacoes]
+    build:
+      context: .
+      dockerfile: infra/operations.Dockerfile
+    command: [apps/api/dist/operations/publish.js]
+    environment:
+      <<: *db
+      DB_USER: mercado_publicador
+      DB_PASSWORD_FILE: /run/secrets/publicador
+    secrets: [publicador]
+    networks: [local]
+    depends_on:
+      api: { condition: service_healthy }
+    restart: 'no'
+networks:
+  ingresso: {}
+  local:
+    internal: true
+    ipam:
+      config:
+        - subnet: ${LOCAL_SUBNET:-172.30.10.0/24}
+          ip_range: ${LOCAL_DYNAMIC_RANGE:-172.30.10.128/25}
+volumes:
+  banco:
+  caddy-data:
+  caddy-config:
+secrets:
+  admin: { file: '${SECRETS_DIR:-.local/secrets}/admin' }
+  migracao: { file: '${SECRETS_DIR:-.local/secrets}/migracao' }
+  publicador: { file: '${SECRETS_DIR:-.local/secrets}/publicador' }
+  consulta: { file: '${SECRETS_DIR:-.local/secrets}/consulta' }

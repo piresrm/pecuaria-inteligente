@@ -17,9 +17,9 @@
     "test:unit": "vitest run --project contratos --project dominio --project api --project componentes",
     "test:coverage": "vitest run --project contratos --project dominio --coverage --project api --project componentes",
     "check": "npm run check:types && npm run check:format && npm run check:lint",
-    "check:types": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p packages/contracts/tsconfig.json && tsc --noEmit -p packages/domain/tsconfig.json && tsc --noEmit -p apps/api/tsconfig.json && tsc --noEmit -p apps/web/tsconfig.json",
-    "check:format": "prettier --check package.json package-lock.json tsconfig.json tsconfig.base.json .prettierrc.json eslint.config.mjs vitest.config.ts packages/contracts packages/domain tools/quality tools/assets docs/imagens/origens.json apps/api apps/web DESIGN.md premium-ui.json",
-    "check:lint": "eslint eslint.config.mjs vitest.config.ts packages/contracts packages/domain tools/quality tools/assets apps/api apps/web",
+    "check:types": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p packages/contracts/tsconfig.json && tsc --noEmit -p packages/domain/tsconfig.json && tsc --noEmit -p apps/api/tsconfig.json && tsc --noEmit -p apps/web/tsconfig.json && tsc --noEmit -p tests/e2e/tsconfig.json",
+    "check:format": "prettier --check package.json package-lock.json tsconfig.json tsconfig.base.json .prettierrc.json eslint.config.mjs vitest.config.ts packages/contracts packages/domain tools/quality tools/assets docs/imagens/origens.json apps/api apps/web DESIGN.md premium-ui.json playwright.config.ts tests/e2e compose.yaml compose.test.yaml",
+    "check:lint": "eslint eslint.config.mjs vitest.config.ts packages/contracts packages/domain tools/quality tools/assets apps/api apps/web playwright.config.ts tests/e2e",
     "contracts:generate": "tsx packages/contracts/tools/generate-validators.ts",
     "build": "npm run contracts:generate && tsc -p packages/contracts/tsconfig.build.json && tsc -p packages/domain/tsconfig.build.json && tsc -p apps/api/tsconfig.build.json && npm run build --workspace @pecuaria/web",
     "pretest:unit": "npm run contracts:generate",
@@ -34,7 +34,15 @@
     "demo:publish": "tsx apps/api/src/operations/publish.ts",
     "assets:generate": "node tools/assets/generate.mjs",
     "web:dev": "npm run dev --workspace @pecuaria/web",
-    "check:bundle": "node tools/quality/check-bundle.mjs"
+    "check:bundle": "node tools/quality/check-bundle.mjs",
+    "local:prepare": "node tools/quality/local-prepare.mjs",
+    "local:up": "node tools/quality/local-compose.mjs up",
+    "local:down": "node tools/quality/local-compose.mjs down",
+    "local:ca": "node tools/quality/trust-ca.mjs",
+    "test:e2e": "node tools/quality/e2e.mjs",
+    "test:e2e:run": "playwright test",
+    "test:local": "node --test tools/quality/*.test.mjs",
+    "local:publish": "node tools/quality/local-compose.mjs publish"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
@@ -52,7 +60,10 @@
     "typescript": "6.0.3",
     "typescript-eslint": "8.71.1",
     "vite": "8.3.3",
-    "vitest": "5.0.3"
+    "vitest": "5.0.3",
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.63.0",
+    "playwright-core": "1.63.0"
   },
   "allowScripts": {
     "esbuild@0.18.20": true,

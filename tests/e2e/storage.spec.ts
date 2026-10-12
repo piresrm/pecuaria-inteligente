@@ -1,5 +1,6 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures';
 import type {} from '../../apps/web/tests/storage-browser';
+test.use({ baseURL: process.env.STORAGE_BASE_URL ?? 'https://localhost:8443' });
 // Serve artifacts/storage-harness on an isolated HTTPS origin with a trusted CA (T10).
 // The fixture bundles real storage modules; only this test artifact exposes fault injection.
 test.beforeEach(async ({ page }) => {
@@ -31,9 +32,9 @@ for (const write of [1, 2, 3])
         'original',
       );
     });
-test('fechamento interrompe confirmação sem anunciar salvamento', async ({ page }) => {
+test('fechamento com transação pendente interrompida não anuncia salvamento', async ({ page }) => {
   await page.evaluate(() => window.storageHarness.save('original', null));
-  await page.evaluate(() => window.storageHarness.close());
+  await page.evaluate(() => window.storageHarness.closeDuringWrite());
   expect(await page.evaluate(() => window.storageHarness.save('nova', 1))).toBe('memoria');
   await page.reload();
   await page.waitForFunction(() => Boolean(window.storageHarness));
@@ -70,16 +71,12 @@ test('leitura concorrente obtém ponteiro e dependências de uma mesma confirma�
   page,
 }) => {
   await page.evaluate(() => window.storageHarness.save('original', null));
-  const snapshots = await page.evaluate(async () => {
-    const reads = Array.from({ length: 12 }, () => window.storageHarness.read());
-    await window.storageHarness.save('nova', 1);
-    return Promise.all(reads);
-  });
-  for (const s of snapshots) {
-    expect(s).not.toBeNull();
-    expect(s?.resumo.versaoDados).toBe(s?.consulta.versaoDados);
-    expect(s?.historicos[0]?.versaoDados).toBe(s?.consulta.versaoDados);
-  }
+  const result = await page.evaluate(() => window.storageHarness.readWhileWriting());
+  expect(result.queuedBetweenReads).toBe(true);
+  expect(result.snapshot?.consulta.versaoDados).toBe('original');
+  expect(result.snapshot?.resumo.versaoDados).toBe('original');
+  expect(result.snapshot?.historicos[0]?.versaoDados).toBe('original');
+  expect(result.after?.consulta.versaoDados).toBe('nova');
 });
 test('orçamento insuficiente mantém consulta salva e candidato em memória', async ({ page }) => {
   await page.evaluate(() => window.storageHarness.save('original', null));

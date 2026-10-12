@@ -3,6 +3,7 @@ import type { FastifyInstance, FastifyListenOptions } from 'fastify';
 import { buildApp, type AppDependencies } from './app.js';
 import type { ServerConfig } from './config.js';
 import { createDatabase } from './db/client.js';
+import { abrirConexaoInicial } from './db/startup.js';
 import { createRepository } from './db/repository.js';
 import { IpQuota } from './control/ip-quota.js';
 import { EntryControl } from './control/entry-control.js';
@@ -82,7 +83,7 @@ export async function iniciarAplicacao(
       metrics,
     );
     await banco.run(async () => {
-      await handle.pool.query('SELECT 1');
+      await abrirConexaoInicial(handle.pool, () => startupCancelled);
     });
     if (startupCancelled) throw new Error('Inicialização cancelada');
     ownershipTransferred = true;

@@ -114,9 +114,9 @@ A execução da v0.1 e da entrega acadêmica v0.2 será local, via Docker Compos
 
 A base demonstrativa fixa foi preparada em `data/demonstrativa/v0.1/`: oito perfis, dez regiões do IMB, 246 municípios e 4.146 preços fictícios, com lacunas controladas. O histórico cobre outubro de 2025 a setembro de 2026, além da semana anterior para comparação. Fontes públicas fundamentam os parâmetros e o território; os preços são demonstrativos. A [documentação da base](docs/superpowers/specs/2026-10-07-base-demonstrativa-v0.1.md) registra pesquisa, condições comerciais, reprodução e verificação.
 
-O [plano de implementação da v0.1](docs/superpowers/plans/2026-10-07-implementacao-v0.1.md) organiza contratos, domínio, banco, API, consulta, persistência, interface, HTTPS e qualidade em tarefas verificáveis de TDD. Contratos, ambiente, domínio, esquema do banco, publicação demonstrativa e consultas versionadas da API estão implementados; controles concretos de entrada/admissão, configuração executável e encerramento por sinais também estão implementados; o cliente progressivo, a persistência e o painel de consulta também estão implementados.
+O [plano de implementação da v0.1](docs/superpowers/plans/2026-10-07-implementacao-v0.1.md) organiza contratos, domínio, banco, API, consulta, persistência, interface, HTTPS e qualidade em tarefas verificáveis de TDD. Contratos, ambiente, domínio, esquema do banco, publicação demonstrativa e consultas versionadas da API estão implementados; controles concretos de entrada/admissão, configuração executável e encerramento por sinais também estão implementados; o cliente progressivo, a persistência, o painel de consulta e a execução local com HTTPS também estão implementados.
 
-Os [exemplos documentais](docs/superpowers/contracts/v0.1/) são entradas dos testes de equivalência entre o esquema de referência, as declarações TypeBox e os validadores do servidor e do navegador. O pacote também valida calendário, cadastros, preços únicos, cobertura regional, fontes e correspondência entre resumo e histórico. A instalação e as verificações dos contratos, do domínio e da API estão disponíveis abaixo. Compose integrado e integração contínua permanecem pendentes nesta etapa; a v0.1 utilizará apenas dados demonstrativos.
+Os [exemplos documentais](docs/superpowers/contracts/v0.1/) são entradas dos testes de equivalência entre o esquema de referência, as declarações TypeBox e os validadores do servidor e do navegador. O pacote também valida calendário, cadastros, preços únicos, cobertura regional, fontes e correspondência entre resumo e histórico. A instalação e as verificações dos contratos, do domínio e da API estão disponíveis abaixo. A integração contínua permanece pendente nesta etapa; a v0.1 utilizará apenas dados demonstrativos.
 
 ### Dados disponíveis
 
@@ -152,11 +152,11 @@ Os arquivos CSV e JSON da base fixa estão em [`data/demonstrativa/v0.1/`](data/
 
 ### Cliente progressivo
 
-`npm run web:dev` inicia Vite para desenvolvimento; os GET usam `/api/v1/mercado/` na mesma origem. A entrada HTTPS com API integrada pertence à etapa de infraestrutura; o Vite isolado ainda não serve uma consulta completa. `npm run build` gera validadores, compila contratos/domínio/API e depois compila a interface.
+`npm run web:dev` inicia Vite para desenvolvimento; os GET usam `/api/v1/mercado/` na mesma origem. A consulta integrada usa Caddy/Compose descritos abaixo; o Vite isolado serve apenas desenvolvimento. `npm run build` gera validadores, compila contratos/domínio/API e depois compila a interface.
 
 O cliente valida resumo, históricos e `ETag` canônico UTF-8, compartilha consultas equivalentes e admite até duas requisições. Preserva resultados anteriores durante falhas e preparação de nova versão; somente confirma a fotografia completa após todos os históricos exigidos. Filtros locais reutilizam dados completos. `304` sem corpo validado recupera sem etiqueta; `409` busca resumo e reconstrói. Rede/429/503 têm até duas novas tentativas de 2/5 segundos com variação de até 20%, prazo de 20 segundos e respeito a `Retry-After`, inclusive na ação manual.
 
-O agendamento verifica a cada cinco minutos em aba visível, considera retorno/conexão após 60 segundos, suspende ciclos ocultos/offline e cresce para 10/20/30 minutos em falha. O painel mantém aviso demonstrativo, estado, filtros, indicadores do perfil ativo, datas, cobertura e condições comerciais. Tabelas textuais conservam todos os valores e lacunas mesmo quando o gráfico falha; repetir o gráfico não consulta preços novamente. `DESIGN.md` registra os tokens da apresentação aprovada; `premium-ui.json` declara os responsáveis e gates. Os testes de coordenação pura usam ambiente Node; interação e HTTP usam jsdom, com doubles explícitos de mídia na suíte de App. Nenhum teste emulado comprova canvas, fotografia, contraste ou a matriz de navegadores. A verificação integrada em HTTPS e a matriz final de desempenho permanecem nas tarefas 10 e 12.
+O agendamento verifica a cada cinco minutos em aba visível, considera retorno/conexão após 60 segundos, suspende ciclos ocultos/offline e cresce para 10/20/30 minutos em falha. O painel mantém aviso demonstrativo, estado, filtros, indicadores do perfil ativo, datas, cobertura e condições comerciais. Tabelas textuais conservam todos os valores e lacunas mesmo quando o gráfico falha; repetir o gráfico não consulta preços novamente. `DESIGN.md` registra os tokens da apresentação aprovada; `premium-ui.json` declara os responsáveis e gates. Os testes de coordenação pura usam ambiente Node; interação e HTTP usam jsdom, com doubles explícitos de mídia na suíte de App. Nenhum teste emulado comprova canvas, fotografia, contraste ou a matriz de navegadores. A verificação integrada em HTTPS e a matriz final de desempenho do painel integrado permanecem na tarefa 12.
 
 Vite `8.3.3` é dependência direta também na raiz para deduplicar a Vite transitiva do Vitest; cópias `8.3.3`/`8.3.4` provocavam conflito nas declarações de `Environment`/Rolldown. jest-dom `7.0.1` usa o entrypoint oficial de matchers explícitos e um adaptador local de tipos para `Matchers<R,T>` do Vitest `5.0.3`, pois sua integração `/vitest` ainda declara `Assertion<T>`. Não há alteração em `node_modules` nem `skipLibCheck` na interface.
 
@@ -220,7 +220,7 @@ Respostas `200` usam JSON compacto canônico, `ETag` fraco SHA-256 dos mesmos by
 
 A falta de cota responde `429 LIMITE_REQUISICOES` com `Retry-After` inteiro, arredondado para cima e mínimo de um segundo. Saturação do banco responde `503 SERVICO_OCUPADO`; indisponibilidade de controles responde `503 CONTROLE_INDISPONIVEL`, ambas com `Retry-After: 5`. Erros usam `no-store`. O mapa admite até 10.000 IPs; baldes com pelo menos 60 segundos inativos e completamente repostos expiram na próxima varredura, limitada a uma por segundo durante tráfego. Sem balde descartável, novas identidades recebem `503`; baldes ativos nunca são expulsos para conceder cota nova. O custo máximo de varredura é linear em 10.000 entradas; esse teto limita entradas, sem garantir um número exato de bytes do V8. Os identificadores ficam apenas na memória do processo.
 
-`API_TRUSTED_PROXIES` lista endereços exatos, canonicalizados, da futura rede Caddy. Conexões fora dessa lista usam o IP do socket e ignoram `X-Forwarded-For`. Uma conexão confiável deve encaminhar exatamente um IP válido; ausência, cadeia com vírgula, porta, escopo IPv6 ou endereço inválido respondem `503 CONTROLE_INDISPONIVEL`. IPv4 mapeado em IPv6 converge à identidade IPv4, e formas equivalentes de IPv6 compartilham a cota. Caddy deverá sobrescrever o cabeçalho e a rede deverá impedir acesso externo direto à API; essas configurações serão entregues na etapa de Compose.
+`API_TRUSTED_PROXIES` lista endereços exatos, canonicalizados, da rede Caddy. Conexões fora dessa lista usam o IP do socket e ignoram `X-Forwarded-For`. Uma conexão confiável deve encaminhar exatamente um IP válido; ausência, cadeia com vírgula, porta, escopo IPv6 ou endereço inválido respondem `503 CONTROLE_INDISPONIVEL`. IPv4 mapeado em IPv6 converge à identidade IPv4, e formas equivalentes de IPv6 compartilham a cota. Caddy sobrescreve o cabeçalho e a configuração Compose mantém a API sem portas publicadas, conforme a seção de execução local.
 
 `iniciarAplicacao(config)` cria o conjunto de conexões, o repositório e os controles obrigatórios, verifica conectividade e inicia HTTP. `SIGTERM`, `SIGINT`, fechamento explícito e falhas de inicialização fecham Fastify e o _pool_, sem migrar nem publicar. `iniciarServidor(deps, options, lifecycle)` permite responsabilidade explícita pelos recursos ao consumidor; controles permissivos permanecem exclusivos dos testes. Métricas são contadores agregados de admissão/recusa, concorrência e latência total/máxima por ponteiro, resumo e histórico, acessíveis ao consumidor em `metrics.snapshot()`, sem IPs nem endpoint público de métricas. Não há Redis/Valkey nem coordenação de processos múltiplos.
 
@@ -238,7 +238,7 @@ O modo é obrigatório: `API_PROXY_MODE=direct` serve desenvolvimento/testes exp
 
 `apps/api/tests/integration/controls.test.ts` exercita dez clientes sob o mesmo IP com HTTP e PostgreSQL reais: abertura, histórico, troca de perfil e revalidação automática. A rajada de 40 consultas legítimas excede a cota compartilhada; o teste registra admissões, bloqueios e métricas em `artifacts/t6/load.json`, ignorado pelo Git. Esses bloqueios são uma limitação para usuários atrás do mesmo IP e devem ser considerados na futura experiência de espera; os limites aprovados foram preservados.
 
-A rota interna `/internal/ready` consulta a publicação real e valida sua compatibilidade, sem usar o _cache_, migrar ou publicar. Retorna `200` apenas quando a leitura e os dados estão preparados; ausência, incompatibilidade ou falha de leitura retornam `503`. A futura entrada Caddy deverá encaminhar somente `/api/` à API e manter essa rota interna inacessível externamente; o ambiente HTTPS e a compressão serão validados na tarefa correspondente.
+A rota interna `/internal/ready` consulta a publicação real e valida sua compatibilidade, sem usar o _cache_, migrar ou publicar. Retorna `200` apenas quando a leitura e os dados estão preparados; ausência, incompatibilidade ou falha de leitura retornam `503`. A entrada Caddy encaminha somente `/api/` à API e responde `404` à rota interna; a seção de execução local descreve HTTPS e compressão.
 
 ```bash
 npm exec -- vitest run --project api apps/api/src/app.test.ts
@@ -265,6 +265,50 @@ Por incompatibilidades das declarações do Drizzle `0.45.3` com TypeScript `6.0
 
 A auditoria inicial do banco identificou quatro ocorrências moderadas na cadeia de desenvolvimento do Drizzle Kit, associadas a [GHSA-67mh-4wv8-2f99](https://github.com/advisories/GHSA-67mh-4wv8-2f99), sem ocorrências altas ou críticas. A geração usa transformação de código e gravação de arquivos; não inicia o servidor de desenvolvimento afetado. A migração usa o migrador do ORM. Drizzle Kit e suas dependências de desenvolvimento devem ficar fora da futura imagem de consulta; a auditoria será repetida na integração de segurança.
 
+## Execução local com Compose e HTTPS
+
+Docker Engine `29.8.2` e Compose `5.6.0` são as referências verificadas. Os comandos locais usam o UID/GID não privilegiado do proprietário dos segredos, sem ampliar suas permissões. Na raiz, com Node.js e npm adotados:
+
+```sh
+npm run local:prepare
+npm run local:up
+npm run local:ca
+docker compose cp entrada:/data/caddy/pki/authorities/local/root.crt .local/root.crt
+```
+
+`local:prepare` cria quatro arquivos independentes em `.local/secrets/`, com diretório `0700` e arquivos `0600`; preserva arquivos existentes. A API recebe apenas o segredo de consulta; migração e publicação recebem suas credenciais próprias. PostgreSQL e consumidores usam `RUNTIME_UID:RUNTIME_GID`, obtidos do usuário do host, inclusive UID 1001 em CI. Antes de iniciar, o executor confere tipo de arquivo, modo `0600`, proprietário UID/GID e leitura dos quatro segredos, sem registrar seus conteúdos. Para instalação nova, o *entrypoint* oficial cria o volume com essa identidade; manter os mesmos identificadores nos próximos inícios. Volume criado por outra identidade exige decisão explícita de migração manual; os comandos não ajustam seu proprietário nem removem volumes existentes para corrigir permissões. `local:up` valida a configuração efetiva, constrói imagens e aguarda prontidão por até 180 segundos. O fluxo exige PostgreSQL saudável, migração e preparação concluídas, API pronta e entrada saudável. As operações têm prazo externo de 120 segundos; abertura inicial de conexão tem prazo de cinco segundos por tentativa e até cinco tentativas, com dois segundos entre elas. Nenhuma consulta ou escrita é repetida automaticamente por esse mecanismo.
+
+A origem é `https://localhost`; HTTP redireciona com `308`. Somente `127.0.0.1:80` e `127.0.0.1:443` são publicadas. API, PostgreSQL e administração Caddy não têm portas publicadas. API e PostgreSQL pertencem exclusivamente à rede dedicada interna; o Caddy também participa da rede de ingresso que viabiliza as duas portas de *loopback*; o Caddy tem IP previsível `172.30.10.2`, exclusivo na lista de proxies confiáveis. A faixa dinâmica `172.30.10.128/25` exclui esse endereço, evitando colisão com os demais serviços. O projeto E2E mantém o mesmo isolamento entre endereço fixo e faixa dinâmica em sua sub-rede própria. Cabeçalhos de origem são sobrescritos, `/api/` mantém o caminho, `/internal/ready` não é encaminhado e não há registro de acesso com IP. No Linux, o administrador do host pode alcançar IPs internos da bridge Docker; essa configuração não constitui isolamento contra o próprio host. O *healthcheck* do Caddy usa `curl` `8.22.0` (`8.22.0-r0`, incluído na imagem com *digest* fixado), com CA explícita e prazo de três segundos. A API mantém gzip, ETag fraco, revalidação e erros sem cache através da entrada. HTML revalida, ativos identificados por hash têm validade de um ano e a CSP admite recursos locais e impede incorporação externa.
+
+O certificado copiado é público; as chaves da CA permanecem no volume exclusivo de Caddy. Para confiar deliberadamente na CA no Ubuntu, executar manualmente:
+
+```sh
+sudo install -m 0644 .local/root.crt /usr/local/share/ca-certificates/pecuaria-inteligente-local.crt
+sudo update-ca-certificates
+```
+
+Importar também esse certificado como autoridade no gerenciador de certificados do navegador utilizado, quando ele mantiver armazenamento próprio, habilitando confiança para identificar sites. Para remover, excluir a mesma autoridade no navegador e executar:
+
+```sh
+sudo rm /usr/local/share/ca-certificates/pecuaria-inteligente-local.crt
+sudo update-ca-certificates --fresh
+```
+
+A instalação de confiança no computador é uma ação manual; nenhum script local modifica automaticamente esses armazenamentos. O cliente Node pode usar `NODE_EXTRA_CA_CERTS` apontando para `.local/root.crt`. Não desativar a validação TLS. Referências: [HTTPS local do Caddy](https://caddyserver.com/docs/automatic-https#local-https) e [instalação de CA no Ubuntu](https://ubuntu.com/server/docs/how-to/security/install-a-root-ca-certificate-in-the-trust-store/).
+
+```sh
+npm run local:publish
+npm run local:down
+npm run test:local
+npm run test:e2e
+```
+
+`local:publish` executa o serviço do perfil `operacoes`, sem rota pública de escrita. O conjunto fixo existente é idempotente; uma nova versão exige diretório validado com identidade própria, conforme os comandos `demo:publish` já documentados. `local:down` preserva os volumes de banco e CA. O segundo início preserva a publicação compatível existente. Não usar `down --volumes` para encerrar a consulta acadêmica.
+
+`test:e2e` cria nome de projeto, rede, volumes, segredos e CA exclusivos. Constrói `infra/e2e.Dockerfile` com Playwright `1.63.0`, seus motores e as dependências oficiais necessárias, incluindo `libnss3-tools` para importar a CA em perfis NSS descartáveis. A confiança fica somente nesse contêiner: Node usa a CA explícita, Chromium e Firefox têm perfis próprios e WebKit usa o armazenamento de CA do contêiner. O script de confiança exige contêiner e perfil interno `/home/node`; não pode executá-lo no host. O executor aguarda prontidão por até 180 segundos, verifica reinício/publicação/indisponibilidade, executa Chromium/Firefox/WebKit e encerra somente seus recursos. Falta de Docker ou erro TLS falha a execução. Relatórios, configuração efetiva, logs e traços de falha ficam em `artifacts/e2e/<projeto>/`.
+
+O artefato de armazenamento é servido em `https://localhost:8443`, exclusivamente na imagem de teste. A imagem pública contém apenas `apps/web/dist`; não inclui o harness nem suas injeções de falha. A API usa JavaScript compilado, dependências de execução, usuário sem privilégios e um processo; não contém Drizzle Kit, esbuild ou tsx. As imagens-base têm os digests fixados na especificação de tecnologias. A matriz de motores automatizados não comprova todos os produtos Chrome/Edge/Firefox/Safari e aparelhos; a verificação visual do painel completo depende da integração da tarefa de interface.
+
 ## Qualidade e critérios de sucesso
 
 - Permitir localizar uma cotação e entender seu contexto sem ambiguidade.
@@ -288,9 +332,9 @@ A documentação da v0.1 está em `docs/superpowers/specs/`:
 
 A persistência local confirma somente consultas completas, compara a revisão capturada antes da rede e aguarda o _commit_ IndexedDB. Quota, orçamento insuficiente e conflito preservam a consulta salva anterior e mantêm os novos resultados em memória com aviso. A recuperação valida contratos, dependências e SHA-256, preserva dados incompatíveis e sempre revalida o resumo; não oferece funcionamento _offline_ completo.
 
-Os testes rápidos de armazenamento usam `fake-indexeddb` 6.2.5 e não comprovam transações em navegador real. A suíte `tests/e2e/storage.spec.ts` aguarda o ambiente HTTPS confiável da T10. Seu artefato exclusivo é gerado por `npm exec --workspace @pecuaria/web -- vite build --config storage-test.vite.config.ts`, em `artifacts/storage-harness/`; servir esse diretório numa origem HTTPS isolada com CA confiável e executar `npm exec -- playwright test tests/e2e/storage.spec.ts` com a configuração T10 apontando `baseURL` para essa origem. O artefato de teste contém injeção de falhas e nunca integra o _build_ normal da aplicação. Não usar exceções de certificado.
+Os testes rápidos de armazenamento usam `fake-indexeddb` `6.2.5` e não comprovam transações em navegador real. `npm run test:e2e` executa a suíte `tests/e2e/storage.spec.ts` em Chromium/Firefox/WebKit com CA confiável e origem HTTPS isolada. Seu artefato exclusivo é gerado com `storage-test.vite.config.ts` em `artifacts/storage-harness/`; somente a imagem de teste o serve. As injeções de falha nunca integram o _build_ normal da aplicação. Não usar exceções de certificado.
 
-O painel está implementado. Após falha de importação do gráfico, a ação Tentar carregar o gráfico repete somente o carregamento do módulo e conserva os preços e o histórico textual. Se o arquivo continuar indisponível, a mensagem de falha e as tabelas permanecem acessíveis. Os próximos passos incluem verificar transações reais, recuperação e a matriz de navegadores no ambiente HTTPS conforme o plano aprovado. O ambiente dos contratos foi instalado e verificado; a integração da aplicação e sua execução HTTPS ainda serão validadas nas etapas correspondentes. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
+O painel está implementado. Após falha de importação do gráfico, a ação Tentar carregar o gráfico repete somente o carregamento do módulo e conserva os preços e o histórico textual. Se o arquivo continuar indisponível, a mensagem de falha e as tabelas permanecem acessíveis. Os próximos passos incluem validar o painel integrado e a matriz de desempenho no ambiente HTTPS conforme o plano aprovado. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
 
 ## Créditos e licença
 
