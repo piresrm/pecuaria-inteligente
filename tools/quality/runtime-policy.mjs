@@ -4,7 +4,10 @@ export function runtimeIdentity(uid = process.getuid(), gid = process.getgid()) 
     throw new Error('Execução local exige UID sem privilégios');
   return { RUNTIME_UID: String(uid), RUNTIME_GID: String(gid) };
 }
-export function assertRuntimePolicy(effective, { inspectSecretFiles = false } = {}) {
+export function assertRuntimePolicy(
+  effective,
+  { inspectSecretFiles = false, allowNonLoopbackEntry = false } = {},
+) {
   for (const [name, service] of Object.entries(effective.services)) {
     if (service.privileged || service.volumes?.some((v) => v.source?.includes('docker.sock')))
       throw new Error(`Configuração insegura: ${name}`);
@@ -43,7 +46,7 @@ export function assertRuntimePolicy(effective, { inspectSecretFiles = false } = 
     }
   }
   const entry = effective.services.entrada;
-  if (entry.ports?.some((p) => p.host_ip !== '127.0.0.1'))
+  if (!allowNonLoopbackEntry && entry.ports?.some((p) => p.host_ip !== '127.0.0.1'))
     throw new Error('Entrada exige loopback');
   if (effective.services.api.environment.API_TRUSTED_PROXIES !== entry.networks.local.ipv4_address)
     throw new Error('IP de proxy deve ser exclusivamente o da entrada');

@@ -7,7 +7,10 @@ const configured = spawnSync('docker', ['compose', 'config', '--format', 'json']
 });
 if (configured.error) throw configured.error;
 if (configured.status !== 0) throw new Error(configured.stderr);
-assertRuntimePolicy(JSON.parse(configured.stdout), { inspectSecretFiles: true });
+assertRuntimePolicy(JSON.parse(configured.stdout), {
+  inspectSecretFiles: true,
+  allowNonLoopbackEntry: process.env.ALLOW_LAN === '1',
+});
 const action = process.argv[2];
 const args =
   action === 'up'

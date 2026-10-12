@@ -276,6 +276,16 @@ npm run local:ca
 docker compose cp entrada:/data/caddy/pki/authorities/local/root.crt .local/root.crt
 ```
 
+Por padrão, a entrada publica somente em `127.0.0.1`. Para uma avaliação
+temporária em outro dispositivo da mesma LAN, habilite explicitamente o bind:
+
+```sh
+BIND_ADDRESS=0.0.0.0 ALLOW_LAN=1 npm run local:up
+```
+
+API e PostgreSQL continuam sem portas publicadas. Use esse modo apenas em uma
+rede confiável e encerre-o com `npm run local:down` ao terminar.
+
 `local:prepare` cria quatro arquivos independentes em `.local/secrets/`, com diretório `0700` e arquivos `0600`; preserva arquivos existentes. A API recebe apenas o segredo de consulta; migração e publicação recebem suas credenciais próprias. PostgreSQL e consumidores usam `RUNTIME_UID:RUNTIME_GID`, obtidos do usuário do host, inclusive UID 1001 em CI. Antes de iniciar, o executor confere tipo de arquivo, modo `0600`, proprietário UID/GID e leitura dos quatro segredos, sem registrar seus conteúdos. Para instalação nova, o *entrypoint* oficial cria o volume com essa identidade; manter os mesmos identificadores nos próximos inícios. Volume criado por outra identidade exige decisão explícita de migração manual; os comandos não ajustam seu proprietário nem removem volumes existentes para corrigir permissões. `local:up` valida a configuração efetiva, constrói imagens e aguarda prontidão por até 180 segundos. O fluxo exige PostgreSQL saudável, migração e preparação concluídas, API pronta e entrada saudável. As operações têm prazo externo de 120 segundos; abertura inicial de conexão tem prazo de cinco segundos por tentativa e até cinco tentativas, com dois segundos entre elas. Nenhuma consulta ou escrita é repetida automaticamente por esse mecanismo.
 
 A origem é `https://localhost`; HTTP redireciona com `308`. Somente `127.0.0.1:80` e `127.0.0.1:443` são publicadas. API, PostgreSQL e administração Caddy não têm portas publicadas. API e PostgreSQL pertencem exclusivamente à rede dedicada interna; o Caddy também participa da rede de ingresso que viabiliza as duas portas de *loopback*; o Caddy tem IP previsível `172.30.10.2`, exclusivo na lista de proxies confiáveis. A faixa dinâmica `172.30.10.128/25` exclui esse endereço, evitando colisão com os demais serviços. O projeto E2E mantém o mesmo isolamento entre endereço fixo e faixa dinâmica em sua sub-rede própria. Cabeçalhos de origem são sobrescritos, `/api/` mantém o caminho, `/internal/ready` não é encaminhado e não há registro de acesso com IP. No Linux, o administrador do host pode alcançar IPs internos da bridge Docker; essa configuração não constitui isolamento contra o próprio host. O *healthcheck* do Caddy usa `curl` `8.22.0` (`8.22.0-r0`, incluído na imagem com *digest* fixado), com CA explícita e prazo de três segundos. A API mantém gzip, ETag fraco, revalidação e erros sem cache através da entrada. HTML revalida, ativos identificados por hash têm validade de um ano e a CSP admite recursos locais e impede incorporação externa.

@@ -229,6 +229,7 @@ try {
   );
   await writeFile(`${results}/api-runtime.json`, runtime);
   docker(['cp', 'entrada:/data/caddy/pki/authorities/local/root.crt', `${env.TRUST_DIR}/root.crt`]);
+  await chmod(`${env.TRUST_DIR}/root.crt`, 0o644);
   const hash = execFileSync(
     'openssl',
     ['x509', '-hash', '-noout', '-in', `${env.TRUST_DIR}/root.crt`],
