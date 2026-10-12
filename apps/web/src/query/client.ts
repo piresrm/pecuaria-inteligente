@@ -40,7 +40,7 @@ export class MercadoClient {
   private disposed = false;
   constructor(private options: ClientOptions = {}) {
     this.queue = options.scheduler ?? new RequestScheduler();
-    this.fetcher = options.fetch ?? fetch;
+    this.fetcher = options.fetch ?? fetch.bind(globalThis);
   }
   private now() {
     return this.options.now?.() ?? performance.now();
