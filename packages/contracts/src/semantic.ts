@@ -1,6 +1,6 @@
 import { canonicalJson } from './canonical.js';
 import { perfis as catalogoPerfis, regioes as catalogoRegioes } from './catalog.js';
-import { validators } from './validation.js';
+import { Resumo as validarResumo, Historico as validarHistorico } from './generated/validators.js';
 import type { Historico, Janela, ReferenciaSemanal, Resumo } from './types.js';
 
 function ensure(condition: unknown): asserts condition {
@@ -82,7 +82,7 @@ function validateRecords(
 }
 
 export function assertResumo(value: unknown): asserts value is Resumo {
-  ensure(validators.Resumo(value));
+  ensure(validarResumo(value));
   const resumo = value as Resumo;
   calendar(resumo.janela);
   ensure(canonicalJson(resumo.perfis) === canonicalJson(catalogoPerfis));
@@ -106,7 +106,7 @@ export function assertHistorico(
   perfilId: string,
 ): asserts value is Historico {
   assertResumo(resumo);
-  ensure(validators.Historico(value));
+  ensure(validarHistorico(value));
   const historico = value as Historico;
   ensure(historico.perfilId === perfilId && resumo.perfis.some((p) => p.id === perfilId));
   const fields = [

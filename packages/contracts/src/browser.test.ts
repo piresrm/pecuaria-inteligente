@@ -48,3 +48,11 @@ test('browser valida e serializa sem Node, TypeBox ou compilação dinâmica', (
   expect(api.canonicalJson(input({ b: 1, a: 'à' }))).toBe('{"a":"à","b":1}');
   expect(() => api.assertResumo(input({ ...resumo, desconhecido: true }))).toThrow();
 });
+
+test('entradas nomeadas conservam validação completa e pureza', () => {
+  const { api, input } = loadBrowser();
+  expect(api.Resumo(input(resumo))).toBe(true);
+  expect(api.Resumo(input({ ...resumo, desconhecido: true }))).toBe(false);
+  expect(api.InstanteUtc('2026-10-07T12:00:00.000Z')).toBe(true);
+  expect(api.InstanteUtc('2026-10-07T12:00:00')).toBe(false);
+});

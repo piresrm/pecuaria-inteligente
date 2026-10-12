@@ -1,0 +1,46 @@
+{
+  "schema": "pecuaria-inteligente/imagens-origens/v1",
+  "generatedAt": "2026-10-11",
+  "tool": "OpenAI image generation (built-in image_gen)",
+  "rights": "Geradas pelo recurso integrado image_gen. Não foi anexada uma fonte de imagem externa nem uma declaração de licença separada ao resultado da ferramenta.",
+  "images": [
+    {
+      "name": "pasto",
+      "source": "docs/imagens/fontes/pasto.jpg",
+      "originalArtifact": "/home/rayner/.codex/generated_images/01a12c50-56ee-7401-b4b5-8cad7890ae80/exec-b048d77b-c3ad-4cce-9661-03734d6562b8.png",
+      "sourceDimensions": "2172x724",
+      "sourceSha256": "3e67fcb814f912990c71487ed341af8db028c92c2f8aba5fad1381437c86b7fa",
+      "initialVariantBytes": 30626,
+      "prompt": "Use case: photorealistic-natural. Asset type: desktop decorative panoramic header for a Brazilian cattle market dashboard. Create an editorial natural photograph of a small herd of healthy white Nelore cattle grazing in a green pasture in Goiás, Brazil, distant low rolling terrain, warm soft morning daylight, realistic anatomy, quiet agricultural scene. Wide composition suitable for a 4:1 final crop: keep complete visible cattle in the central horizontal quarter of the image, with ample pasture around them and below, distant trees and subtle sky. Intended source width at least 1920 pixels. No people, text, logos, watermarks, price graphics, or interface elements. Do not apply green overlays; those are CSS.",
+      "tool": "image_gen__imagegen",
+      "crop": "Centro; 4:1 no desktop, sem ampliação.",
+      "outputs": [
+        "apps/web/src/assets/pasto-768.webp",
+        "apps/web/src/assets/pasto-1280.webp",
+        "apps/web/src/assets/pasto-1920.webp",
+        "apps/web/src/assets/pasto-768.jpg",
+        "apps/web/src/assets/pasto-1280.jpg",
+        "apps/web/src/assets/pasto-1920.jpg"
+      ]
+    },
+    {
+      "name": "curral",
+      "source": "docs/imagens/fontes/curral.jpg",
+      "originalArtifact": "/home/rayner/.codex/generated_images/01a12c50-56ee-7401-b4b5-8cad7890ae80/exec-4fa20f5a-e806-4158-9b85-54917070c844.png",
+      "sourceDimensions": "1672x941",
+      "sourceSha256": "e3779f748a912b1459cc16cf780f5d3e3b66c150d88a08facd0cd6b9245d50d8",
+      "initialVariantBytes": 11594,
+      "prompt": "Use case: photorealistic-natural. Asset type: mobile decorative 16:9 header for a Brazilian cattle market dashboard. An editorial natural photograph of one healthy white Nelore bull standing calmly in a rustic timber cattle corral in Goiás, Brazil. Three-quarter side view, complete head and body including legs visible with comfortable margin around the animal, realistic anatomy, soft morning light, timber fence and earth ground, quiet agricultural setting. Horizontal composition intended to crop to 16:9, source width at least 768 pixels. No people, text, logos, watermarks, price graphics or interface elements. No color overlay.",
+      "tool": "image_gen__imagegen",
+      "crop": "Centro; 16:9 para celular, sem ampliação.",
+      "outputs": [
+        "apps/web/src/assets/curral-320.webp",
+        "apps/web/src/assets/curral-480.webp",
+        "apps/web/src/assets/curral-768.webp",
+        "apps/web/src/assets/curral-320.jpg",
+        "apps/web/src/assets/curral-480.jpg",
+        "apps/web/src/assets/curral-768.jpg"
+      ]
+    }
+  ]
+}

@@ -1,4 +1,11 @@
-import { assertHistorico, assertResumo, validators } from '@pecuaria/contracts/browser';
+import {
+  assertHistorico,
+  assertResumo,
+  ConsultaSalva as validarConsultaSalva,
+  HistoricoSalvo as validarHistoricoSalvo,
+  PerfilId as validarPerfilId,
+  ResumoSalvo as validarResumoSalvo,
+} from '@pecuaria/contracts/browser';
 import type { ConsultaSalva, HistoricoSalvo, Perfil, ResumoSalvo } from '@pecuaria/contracts/types';
 import { filtrarConsulta } from '@pecuaria/domain';
 import { resourceETag } from '../query/client';
@@ -19,7 +26,7 @@ function ensure(value: unknown): asserts value {
   if (!value) throw new TypeError('Consulta salva inválida');
 }
 function perfil(id: string): Perfil['id'] {
-  ensure(validators.PerfilId(id));
+  ensure(validarPerfilId(id));
   return id as Perfil['id'];
 }
 export function criarSnapshot(foto: Fotografia, revisao: number): Snapshot {
@@ -47,7 +54,7 @@ export function criarSnapshot(foto: Fotografia, revisao: number): Snapshot {
 /** Contract, dependencies, semantic body and hashes are checked outside any transaction. */
 export async function validarSnapshot(snapshot: Snapshot): Promise<void> {
   const { consulta: c, resumo: r, historicos: hs } = snapshot;
-  ensure(validators.ConsultaSalva(c) && validators.ResumoSalvo(r));
+  ensure(validarConsultaSalva(c) && validarResumoSalvo(r));
   assertResumo(r.dados);
   ensure(
     c.schemaVersion === r.schemaVersion &&
@@ -77,7 +84,7 @@ export async function validarSnapshot(snapshot: Snapshot): Promise<void> {
   ensure(hs.length === needed.length && new Set(hs.map((h) => h.perfilId)).size === hs.length);
   ensure(r.etag === (await resourceETag('resumo', r.dados)));
   for (const h of hs) {
-    ensure(validators.HistoricoSalvo(h) && needed.includes(h.perfilId));
+    ensure(validarHistoricoSalvo(h) && needed.includes(h.perfilId));
     ensure(
       h.schemaVersion === c.schemaVersion &&
         h.versaoDados === c.versaoDados &&
@@ -129,7 +136,7 @@ export async function confirmarConsulta(
     const saved = existing.find(
       (r) => r.armazem === 'metadados' && r.chave === 'consultaSalva',
     )?.envelope;
-    if (saved !== undefined && !validators.ConsultaSalva(saved)) return 'memoria';
+    if (saved !== undefined && !validarConsultaSalva(saved)) return 'memoria';
     const captured = saved as ConsultaSalva | undefined;
     if ((captured?.revisao ?? null) !== revisaoEsperada) return 'conflito';
     const prepared = mesclarRegistros(existing, registrosSnapshot(candidate));

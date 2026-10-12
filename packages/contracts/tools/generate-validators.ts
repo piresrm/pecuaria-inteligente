@@ -6,7 +6,7 @@ import { createAjv } from '../src/compiler.js';
 import { contractSchema, definitions } from '../src/schemas.js';
 
 const require = createRequire(import.meta.url);
-const ajv = createAjv({ source: true, esm: true, lines: true });
+const ajv = createAjv({ source: true, esm: true, lines: true }, false);
 ajv.addSchema(contractSchema);
 const mapping = Object.fromEntries(
   Object.keys(definitions).map((name) => [name, `${contractSchema.$id}#/definitions/${name}`]),
@@ -38,7 +38,8 @@ const helpers = [
     license: 'ajv/LICENSE',
   },
 ];
-let prelude = '// @ts-nocheck\n// Gerado por tools/generate-validators.ts. Não editar.\n';
+let prelude =
+  '// @ts-nocheck\n// Gerado por tools/generate-validators.ts. Não editar.\ntype BrowserValidator = (value: unknown) => boolean;\n';
 for (const helper of helpers) {
   if (!generated.includes(helper.expression)) continue;
   const source = (await readFile(require.resolve(helper.module), 'utf8'))
@@ -53,6 +54,13 @@ for (const helper of helpers) {
 }
 if (/\brequire\s*\(|\beval\s*\(|\bnew Function\s*\(/u.test(generated))
   throw new Error('Validador gerado contém dependência dinâmica inesperada');
+// Não exponha o contexto interno do Ajv no contrato TypeScript do navegador.
+// Wrappers estreitos preservam o uso dos nomes individuais e a eliminação de
+// validadores não importados pelo bundler.
+generated = generated.replace(
+  /export const (\w+) = (validate\d+);/gu,
+  'const raw$1 = $2; export const $1: BrowserValidator = (value) => raw$1(value);',
+);
 const directory = join(dirname(import.meta.dirname), 'src/generated');
 await mkdir(directory, { recursive: true });
 await writeFile(join(directory, 'validators.ts'), prelude + generated + '\n');

@@ -305,3 +305,23 @@ it('revalida conexão quando retry enfileirado finalmente recebe uma vaga', asyn
   expect(fetch).toHaveBeenCalledTimes(1);
   c.dispose();
 });
+
+it('carrega resumo pelo fetch do navegador com seu receiver global preservado', async () => {
+  const { resourceETag } = await import('./client');
+  const tag = await resourceETag('resumo', resumo);
+  vi.stubGlobal('fetch', function (this: unknown, input: RequestInfo | URL) {
+    if (this !== globalThis) throw new TypeError('Illegal invocation');
+    if (input !== '/api/v1/mercado/resumo') throw new Error('Destino inesperado');
+    return Promise.resolve(new Response(JSON.stringify(resumo), { headers: { ETag: tag } }));
+  });
+  const client = new MercadoClient({ online: () => false });
+  try {
+    const result = await client.resumo();
+    expect(result.dados.versaoDados).toBe(resumo.versaoDados);
+    expect(result.dados.perfis).toEqual(resumo.perfis);
+    expect(result.etag).toBe(tag);
+  } finally {
+    client.dispose();
+    vi.unstubAllGlobals();
+  }
+});
