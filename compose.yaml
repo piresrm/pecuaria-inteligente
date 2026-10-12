@@ -111,7 +111,7 @@ services:
       test:
         [
           CMD-SHELL,
-          'curl --fail --silent --show-error --max-time 3 --cacert /data/caddy/pki/authorities/local/root.crt --resolve ${SITE_HOST:-localhost}:443:127.0.0.1 https://${SITE_HOST:-localhost}/health >/dev/null',
+          'curl --fail --silent --show-error --max-time 3 http://127.0.0.1/health >/dev/null',
         ]
     restart: unless-stopped
   publicar:
