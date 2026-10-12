@@ -9,8 +9,8 @@ import { Indicators } from './components/Indicators';
 import { PriceTable } from './components/PriceTable';
 import { QueryStatus } from './components/QueryStatus';
 import { HistoryTable } from './components/HistoryTable';
-
-const createHistoryChart = () => lazy(() => import('./chart/HistoryChart'));
+import chartModuleUrl from 'virtual:history-chart-url';
+import { createModuleLoader } from './chart/module-loader';
 
 class ChartFailure extends Component<
   { children: ReactNode; onRetry: () => void },
@@ -42,7 +42,14 @@ export function App({
   verificar?: () => Promise<void>;
 }) {
   const [state, setState] = useState(coordinator.state);
-  const [Chart, setChart] = useState(createHistoryChart);
+  const [loadChart] = useState(() =>
+    createModuleLoader(
+      () => import('./chart/HistoryChart'),
+      chartModuleUrl,
+      (url) => import(/* @vite-ignore */ url) as Promise<typeof import('./chart/HistoryChart')>,
+    ),
+  );
+  const [Chart, setChart] = useState(() => lazy(loadChart));
   const [chartRetry, setChartRetry] = useState(0);
   useEffect(() => coordinator.subscribe(setState), [coordinator]);
   const shown = state.exibido;
@@ -125,7 +132,7 @@ export function App({
                 <ChartFailure
                   key={chartRetry}
                   onRetry={() => {
-                    setChart(() => createHistoryChart());
+                    setChart(() => lazy(loadChart));
                     setChartRetry((n) => n + 1);
                   }}
                 >
