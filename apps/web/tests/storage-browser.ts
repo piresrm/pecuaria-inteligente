@@ -26,6 +26,72 @@ const harness = {
   async capture() {
     return (await (await get()).db.get('metadados', 'consultaSalva'))?.revisao ?? null;
   },
+  closeDuringWrite() {
+    // The connection closes while the transaction is active; abort models its interruption.
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    const put = IDBObjectStore.prototype.put;
+    let interrupted = false;
+    IDBObjectStore.prototype.put = function (...args: Parameters<IDBObjectStore['put']>) {
+      if (!interrupted) {
+        interrupted = true;
+        handle!.db.close();
+        this.transaction.abort();
+      }
+      return put.apply(this, args);
+    };
+    restore = () => {
+      IDBObjectStore.prototype.put = put;
+    };
+  },
+  async readWhileWriting() {
+    const h = await get();
+    const candidate = await fixture('nova');
+    candidate.consulta.revisao = 2;
+    candidate.resumo.ordemUso = 2;
+    for (const history of candidate.historicos) history.ordemUso = 2;
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    const nativeGet = IDBObjectStore.prototype.get;
+    let startWrite!: () => void;
+    const writerStarted = new Promise<void>((resolve) => {
+      startWrite = resolve;
+    });
+    let writer: Promise<void> | undefined;
+    let queuedBetweenReads = false;
+    IDBObjectStore.prototype.get = function (...args: Parameters<IDBObjectStore['get']>) {
+      const request = nativeGet.apply(this, args);
+      if (this.name === 'metadados' && !writer) {
+        request.addEventListener(
+          'success',
+          () => {
+            const tx = h.db.transaction(['metadados', 'resumos', 'historicos'], 'readwrite');
+            writer = tx.done;
+            void writer.catch(() => {});
+            const original = request.result as { versaoDados: string };
+            void tx.objectStore('resumos').put(candidate.resumo, ['1.0.0', 'nova']);
+            for (const history of candidate.historicos) {
+              void tx.objectStore('historicos').put(history, ['1.0.0', 'nova', history.perfilId]);
+              void tx
+                .objectStore('historicos')
+                .delete(['1.0.0', original.versaoDados, history.perfilId]);
+            }
+            void tx.objectStore('metadados').put(candidate.consulta, 'consultaSalva');
+            void tx.objectStore('resumos').delete(['1.0.0', original.versaoDados]);
+            startWrite();
+          },
+          { once: true },
+        );
+      } else if (this.name === 'resumos' && writer) queuedBetweenReads = true;
+      return request;
+    };
+    try {
+      const snapshot = await recuperarConsulta(h);
+      await writerStarted;
+      await writer;
+      return { snapshot, queuedBetweenReads, after: await recuperarConsulta(h) };
+    } finally {
+      IDBObjectStore.prototype.get = nativeGet;
+    }
+  },
   async close() {
     (await get()).db.close();
   },

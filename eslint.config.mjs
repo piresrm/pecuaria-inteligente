@@ -24,6 +24,8 @@ export default defineConfig(
   {
     files: [
       'vitest.config.ts',
+      'playwright.config.ts',
+      'tests/e2e/**/*.ts',
       'packages/contracts/**/*.ts',
       'packages/domain/**/*.ts',
       'apps/api/**/*.ts',

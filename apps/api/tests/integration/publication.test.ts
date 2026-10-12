@@ -235,6 +235,7 @@ async function cli(
 ): Promise<Publicacao> {
   const config = database.configs[role];
   const path = fileURLToPath(new URL(`../../src/operations/${operation}.ts`, import.meta.url));
+  const started = performance.now();
   const output = await promisify(execFile)(
     process.execPath,
     ['--import', 'tsx', path, ...(directory ? [directory] : [])],
@@ -250,7 +251,27 @@ async function cli(
         DB_PASSWORD_FILE: config.passwordFile,
       },
     },
-  );
+  ).catch((error: unknown) => {
+    if (error && typeof error === 'object') {
+      const failure = error as {
+        code?: unknown;
+        killed?: boolean;
+        signal?: string;
+        stderr?: string;
+      };
+      console.info(
+        JSON.stringify({
+          operation,
+          durationMs: performance.now() - started,
+          code: failure.code,
+          killed: failure.killed,
+          signal: failure.signal,
+          stderrBytes: failure.stderr?.length,
+        }),
+      );
+    }
+    throw error;
+  });
   return JSON.parse(output.stdout) as Publicacao;
 }
 test('comandos reais publicam, preservam preparação e encerram conexões', async () => {
