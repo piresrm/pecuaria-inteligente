@@ -1,4 +1,4 @@
-import { validators } from '@pecuaria/contracts/browser';
+import { ConsultaSalva as validarConsultaSalva } from '@pecuaria/contracts/browser';
 import { calcularConsulta } from '@pecuaria/domain';
 import type { Fotografia } from '../query/state';
 import { STORES, type StorageHandle } from './database';
@@ -29,7 +29,7 @@ export async function recuperarConsulta(storage: StorageHandle): Promise<Snapsho
       ),
     ]);
     await done;
-    if (!r || hs.some((h) => !h) || !validators.ConsultaSalva(c)) return null;
+    if (!r || hs.some((h) => !h) || !validarConsultaSalva(c)) return null;
     const s: Snapshot = { consulta: c, resumo: r, historicos: hs.filter((h) => h !== undefined) };
     // Reads used pointer keys, and validation checks every identity against that pointer.
     await validarSnapshot(s);

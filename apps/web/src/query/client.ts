@@ -2,7 +2,8 @@ import {
   assertHistorico,
   assertResumo,
   canonicalJson,
-  validators,
+  ConsultaHistorico as validarConsultaHistorico,
+  InstanteUtc as validarInstanteUtc,
 } from '@pecuaria/contracts/browser';
 import type { Historico, Resumo } from '@pecuaria/contracts/types';
 import { CancelledError, RequestScheduler } from './scheduler';
@@ -40,7 +41,7 @@ export class MercadoClient {
   private disposed = false;
   constructor(private options: ClientOptions = {}) {
     this.queue = options.scheduler ?? new RequestScheduler();
-    this.fetcher = options.fetch ?? fetch;
+    this.fetcher = options.fetch ?? fetch.bind(globalThis);
   }
   private now() {
     return this.options.now?.() ?? performance.now();
@@ -79,7 +80,7 @@ export class MercadoClient {
     if (!resumo)
       return Promise.reject(new MercadoError('Contrato: resumo da versão ainda não validado'));
     if (
-      !validators.ConsultaHistorico({ perfilId, versaoDados: versao }) ||
+      !validarConsultaHistorico({ perfilId, versaoDados: versao }) ||
       !resumo.perfis.some((p) => p.id === perfilId)
     )
       return Promise.reject(new MercadoError('Contrato: parâmetros inválidos'));
@@ -122,8 +123,8 @@ export class MercadoClient {
     try {
       validate(local.dados);
       if (
-        !validators.InstanteUtc(local.recebidoEm) ||
-        !validators.InstanteUtc(local.verificadoEm) ||
+        !validarInstanteUtc(local.recebidoEm) ||
+        !validarInstanteUtc(local.verificadoEm) ||
         local.etag !== (await resourceETag(kind, local.dados))
       )
         return undefined;

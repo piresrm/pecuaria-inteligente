@@ -19,5 +19,9 @@
     "Consulta progressiva": "apps/web/src/query/coordinator.ts",
     "Atualização": "apps/web/src/query/scheduler.ts",
     "Estado de consulta": "apps/web/src/App.tsx"
+  },
+  "ownership": {
+    "Select/Listbox": "native",
+    "Date": "native"
   }
 }

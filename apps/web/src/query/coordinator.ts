@@ -1,4 +1,8 @@
-import { assertHistorico, assertResumo, validators } from '@pecuaria/contracts/browser';
+import {
+  assertHistorico,
+  assertResumo,
+  FiltrosSalvos as validarFiltrosSalvos,
+} from '@pecuaria/contracts/browser';
 import type { Filtros, Historico, Resumo } from '@pecuaria/contracts/types';
 import { calcularConsulta, filtrarConsulta } from '@pecuaria/domain';
 import { MercadoError } from './client';
@@ -233,7 +237,7 @@ export class QueryCoordinator {
         : this.summary!;
       assertResumo(summary.dados);
       if (!current()) return;
-      if (!validators.FiltrosSalvos(request.filtros)) throw new TypeError('Filtros inválidos');
+      if (!validarFiltrosSalvos(request.filtros)) throw new TypeError('Filtros inválidos');
       const eligible = filtrarConsulta(summary.dados, request.filtros).perfis;
       const active =
         eligible.find((p) => p.id === request.perfilAtivoId)?.id ?? eligible[0]?.id ?? null;

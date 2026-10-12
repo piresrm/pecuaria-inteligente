@@ -1,4 +1,4 @@
-import { validators } from '@pecuaria/contracts/browser';
+import { ConsultaSalva as validarConsultaSalva } from '@pecuaria/contracts/browser';
 import type { Fotografia, QueryPersistence } from '../query/state';
 import { abrirArmazenamento, type StorageHandle } from './database';
 import { recuperarConsulta, restaurarFotografia } from './recovery';
@@ -36,7 +36,7 @@ export class BrowserPersistence implements QueryPersistence {
     void done.catch(() => {});
     const c = await tx.store.get('consultaSalva');
     await done;
-    if (c !== undefined && !validators.ConsultaSalva(c))
+    if (c !== undefined && !validarConsultaSalva(c))
       throw new TypeError('Referência salva inválida');
     return c ?? null;
   }
