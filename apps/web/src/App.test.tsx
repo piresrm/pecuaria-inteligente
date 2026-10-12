@@ -97,7 +97,7 @@ it('expõe filtros rotulados e limpa para a visão estadual', async () => {
   await user.click(screen.getByRole('button', { name: 'Limpar filtros' }));
   expect(c.state.solicitado?.filtros.regiaoId).toBeNull();
   expect(screen.getByRole('table', { name: /Preços de reposição/ })).toBeVisible();
-  expect(screen.getByText('12 meses · 240,00 kg de referência')).toBeVisible();
+  expect(screen.getByText('Idade de referência: 12 meses · 240,00 kg de referência')).toBeVisible();
   expect(screen.getByRole('heading', { name: 'Variação semanal' })).toBeVisible();
   expect(screen.getByText(/Cobertura regional: \d+ de 10 regiões/)).toBeVisible();
   expect(screen.getByLabelText<HTMLInputElement>('Data inicial').value).toBe('2025-10-01');
@@ -183,4 +183,81 @@ it('repete somente o gráfico após uma falha e conserva valores textuais e tabe
     chartState.fail = false;
     expectedError.mockRestore();
   }
+});
+
+async function consultaParaApresentacao(publicadoEm = '2026-10-07T12:00:00.000Z') {
+  const { act } = await import('@testing-library/react');
+  const { default: resumoBase } =
+    await import('../../../docs/superpowers/contracts/v0.1/resumo.exemplo.json');
+  const { default: historicoBase } =
+    await import('../../../docs/superpowers/contracts/v0.1/historico.exemplo.json');
+  const resumo = { ...resumoBase, publicadoEm };
+  assertResumo(resumo);
+  const meta = { etag: 'teste', recebidoEm: publicadoEm, verificadoEm: publicadoEm };
+  const c = new QueryCoordinator({
+    resumo: () => Promise.resolve({ dados: resumo, ...meta }),
+    historico: (perfilId) => {
+      const precos = resumo.precos.filter((p) => p.perfilId === perfilId);
+      const historico = {
+        ...historicoBase,
+        publicadoEm,
+        perfilId,
+        precos,
+        referenciasSemanais: historicoBase.referenciasSemanais.map((r) => ({
+          perfilId,
+          semana: r.semana,
+          regioesAusentes: resumo.regioes
+            .filter(
+              (regiao) => !precos.some((p) => p.semana === r.semana && p.regiaoId === regiao.id),
+            )
+            .map((regiao) => regiao.id),
+        })),
+      };
+      assertHistorico(historico, resumo, perfilId);
+      return Promise.resolve({ dados: historico, ...meta });
+    },
+  });
+  await act(() => c.iniciar());
+  return c;
+}
+
+it('apresenta publicação próxima à meia-noite UTC no dia e horário de Brasília', async () => {
+  const c = await consultaParaApresentacao('2026-10-08T01:00:00.000Z');
+  render(<App coordinator={c} />);
+  expect(screen.getByText(/Publicação:/)).toHaveTextContent(
+    'Publicação: 07/10/2026, 22:00 (horário de Brasília)',
+  );
+  expect(screen.getByLabelText<HTMLInputElement>('Data inicial').value).toBe('2025-10-01');
+  expect(screen.getByLabelText<HTMLInputElement>('Data final').value).toBe('2026-09-30');
+});
+
+it('distingue idade de referência do perfil e intervalo efetivamente exibido', async () => {
+  const { act } = await import('@testing-library/react');
+  const c = await consultaParaApresentacao();
+  await act(() =>
+    c.consultar(
+      {
+        ...c.state.solicitado!.filtros,
+        categoria: 'Garrote',
+        sexo: 'Macho',
+        grupoRacial: 'Nelore',
+        inicio: '2026-09-01',
+        fim: '2026-09-30',
+        modoTabela: 'periodo',
+      },
+      'garrote-macho-nelore',
+    ),
+  );
+  expect(c.state.erros).toEqual({});
+  expect(c.state.exibido?.perfilAtivoId).toBe('garrote-macho-nelore');
+  render(<App coordinator={c} />);
+  expect(screen.getByRole('region', { name: 'Histórico semanal' })).toHaveTextContent(
+    'Idade de referência: 18 meses',
+  );
+  expect(screen.getByRole('region', { name: 'Histórico semanal' })).toHaveTextContent(
+    '01/09/2026 a 30/09/2026',
+  );
+  expect(screen.getByRole('region', { name: 'Histórico semanal' })).not.toHaveTextContent(
+    '12 meses',
+  );
 });

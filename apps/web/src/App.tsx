@@ -11,6 +11,7 @@ import { QueryStatus } from './components/QueryStatus';
 import { HistoryTable } from './components/HistoryTable';
 import chartModuleUrl from 'virtual:history-chart-url';
 import { createModuleLoader } from './chart/module-loader';
+import { formatarInstanteBrasilia } from './formatters';
 
 class ChartFailure extends Component<
   { children: ReactNode; onRetry: () => void },
@@ -53,6 +54,7 @@ export function App({
   const [chartRetry, setChartRetry] = useState(0);
   useEffect(() => coordinator.subscribe(setState), [coordinator]);
   const shown = state.exibido;
+  const perfil = shown?.resumo.dados.perfis.find((p) => p.id === shown.perfilAtivoId);
   const request = Object.keys(state.erros).length ? shown : (state.solicitado ?? shown);
   const clear = () => {
     if (!shown) return;
@@ -106,26 +108,17 @@ export function App({
             <section className="history-section card" aria-labelledby="history-title">
               <div className="section-heading">
                 <div>
-                  <p className="eyebrow">
-                    Perfil ativo ·{' '}
-                    {shown.resumo.dados.perfis.find((p) => p.id === shown.perfilAtivoId)
-                      ?.categoria ?? 'Sem perfil'}
-                  </p>
+                  <p className="eyebrow">Perfil ativo · {perfil?.categoria ?? 'Sem perfil'}</p>
                   <h2 id="history-title">Histórico semanal</h2>
                 </div>
                 <p>
-                  {shown.filtros.modoTabela === 'periodo'
-                    ? 'Período selecionado'
-                    : 'Últimos 12 meses'}
+                  {formatarDataCivil(shown.filtros.inicio)} a {formatarDataCivil(shown.filtros.fim)}
                 </p>
               </div>
-              {shown.resumo.dados.perfis.find((p) => p.id === shown.perfilAtivoId) && (
+              {perfil && (
                 <p className="history-coverage">
-                  12 meses ·{' '}
-                  {shown.resumo.dados.perfis
-                    .find((p) => p.id === shown.perfilAtivoId)
-                    ?.pesoReferencia.replace('.', ',')}{' '}
-                  kg de referência
+                  Idade de referência: {perfil.idadeReferenciaMeses} meses ·{' '}
+                  {perfil.pesoReferencia.replace('.', ',')} kg de referência
                 </p>
               )}
               {shown.etapa === 'completa' && shown.resultado.serie.length > 0 && (
@@ -157,7 +150,7 @@ export function App({
               <p>Dados demonstrativos · Goiás</p>
               <p>
                 Valores à vista, sem frete nem tributos. Publicação:{' '}
-                {formatarDataCivil(shown.resumo.dados.publicadoEm.slice(0, 10))}.
+                {formatarInstanteBrasilia(shown.resumo.dados.publicadoEm)}.
               </p>
             </footer>
           </>

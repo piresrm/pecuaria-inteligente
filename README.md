@@ -136,6 +136,7 @@ Os arquivos CSV e JSON da base fixa estão em [`data/demonstrativa/v0.1/`](data/
 | `apps/web/src/storage/`                                       | IndexedDB, orçamento UTF-8, confirmação por revisão/geração e recuperação validada.                  |
 | `apps/web/src/{App,main}.tsx`                                 | Composição do painel, recuperação validada e avisos de uso em memória.                               |
 | `apps/web/src/components/`, `apps/web/src/chart/`             | Faixa responsiva, filtros, indicadores, tabelas e gráfico carregado após o histórico.                |
+| `apps/web/src/formatters.ts`                                  | Apresentação dos instantes no horário de Brasília, separada das datas civis.                         |
 | `apps/web/src/assets/`, `docs/imagens/`, `tools/assets/`      | Imagens WebP/JPEG locais, fontes, origem e transformação reproduzível com manifesto.                 |
 | `apps/api/src/db/`, `apps/api/drizzle/`                       | Esquema, cliente, histórico SQL, publicação transacional e repositório de consultas implementados.   |
 | `apps/api/src/demo/`                                          | Leitura dos seis arquivos, SHA-256, validação e reprodução da receita fora da transação.             |
