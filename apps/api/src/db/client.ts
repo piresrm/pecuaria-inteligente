@@ -10,7 +10,10 @@ export interface DatabaseHandle {
   close(): Promise<void>;
 }
 
-export function createDatabase(config: DatabaseConfig): DatabaseHandle {
+export function createDatabase(
+  config: DatabaseConfig,
+  reportIdleError: () => void = () => console.error('Conexão ociosa do banco interrompida'),
+): DatabaseHandle {
   const password = readFileSync(config.passwordFile, 'utf8').replace(/\r?\n$/, '');
   if (!password) throw new Error('O arquivo de segredo do banco está vazio.');
   const pool = new pg.Pool({
@@ -35,5 +38,9 @@ export function createDatabase(config: DatabaseConfig): DatabaseHandle {
       },
     },
   });
+  // pg removes failed idle clients itself. Handle its error event so a later
+  // request can report the public database error instead of crashing the process.
+  // No SQL is retried and no credential or connection address is logged.
+  pool.on('error', reportIdleError);
   return { db: drizzle(pool, { schema }), pool, close: () => pool.end() };
 }

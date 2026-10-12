@@ -1,6 +1,7 @@
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { databaseConfigFromEnvironment, type DatabaseConfig } from '../config.js';
 import { createDatabase } from '../db/client.js';
+import { abrirConexaoInicial } from '../db/startup.js';
 import { publicarBase, type Publicacao } from '../db/publication.js';
 import { validarBase } from '../demo/validate.js';
 
@@ -15,6 +16,7 @@ export async function executarPublicacao(
   const base = await validarBase(diretorio);
   const database = createDatabase(config);
   try {
+    await abrirConexaoInicial(database.pool);
     return await publicarBase(database, base, modo);
   } finally {
     await database.close();
