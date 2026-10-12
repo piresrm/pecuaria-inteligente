@@ -8,6 +8,28 @@ As decisões de compra, reposição e comercialização na pecuária dependem de
 
 A Pecuária Inteligente propõe reunir essas informações em uma experiência integrada, com critérios claros de comparação e identificação das fontes. O projeto é desenvolvido como um MVP acadêmico, com apoio de inteligência artificial no processo de engenharia de software. O contexto acadêmico e as orientações de desenvolvimento estão em [ABOUT.md](ABOUT.md).
 
+## Sumário
+
+- [Contexto](#contexto)
+- [Objetivo](#objetivo)
+- [Proposta de valor](#proposta-de-valor)
+- [Monitoramento de mercado e gestão do rebanho](#monitoramento-de-mercado-e-gestão-do-rebanho)
+- [Público-alvo](#público-alvo)
+- [Cobertura pretendida](#cobertura-pretendida)
+- [Funcionalidades planejadas](#funcionalidades-planejadas)
+  - [Consulta e análise](#consulta-e-análise)
+  - [Indicadores e simuladores](#indicadores-e-simuladores)
+  - [Acompanhamento personalizado](#acompanhamento-personalizado)
+  - [Apoio analítico](#apoio-analítico)
+- [Princípios dos dados](#princípios-dos-dados)
+- [Fases de *release* propostas](#fases-de-release-propostas)
+- [Estado atual](#estado-atual)
+  - [Dados disponíveis](#dados-disponíveis)
+  - [Organização planejada para a implementação](#organização-planejada-para-a-implementação)
+- [Qualidade e critérios de sucesso](#qualidade-e-critérios-de-sucesso)
+- [Limitações e próximos passos](#limitações-e-próximos-passos)
+- [Créditos e licença](#créditos-e-licença)
+
 ## Objetivo
 
 Oferecer uma plataforma brasileira única de consulta e análise de mercado pecuário, permitindo que produtores, gestores e consultores compreendam os movimentos de preços e avaliem cenários de compra e venda com base em dados rastreáveis.
