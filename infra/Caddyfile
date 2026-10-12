@@ -3,10 +3,10 @@
   auto_https disable_redirects
   skip_install_trust
 }
-http://localhost {
-  redir https://localhost{uri} 308
+http://{$SITE_HOST:localhost} {
+  redir https://{$SITE_HOST:localhost}{uri} 308
 }
-https://localhost {
+https://{$SITE_HOST:localhost} {
   tls internal
   encode gzip
   header {
@@ -20,7 +20,7 @@ https://localhost {
       header_up X-Forwarded-For {remote_host}
       header_up X-Real-IP {remote_host}
       header_up X-Forwarded-Proto https
-      header_up X-Forwarded-Host localhost
+      header_up X-Forwarded-Host {$SITE_HOST:localhost}
     }
   }
   handle /internal/* {

@@ -280,11 +280,14 @@ Por padrão, a entrada publica somente em `127.0.0.1`. Para uma avaliação
 temporária em outro dispositivo da mesma LAN, habilite explicitamente o bind:
 
 ```sh
-BIND_ADDRESS=0.0.0.0 ALLOW_LAN=1 npm run local:up
+BIND_ADDRESS=0.0.0.0 ALLOW_LAN=1 SITE_HOST=192.168.1.50 npm run local:up
 ```
 
 API e PostgreSQL continuam sem portas publicadas. Use esse modo apenas em uma
 rede confiável e encerre-o com `npm run local:down` ao terminar.
+
+Substitua `192.168.1.50` pelo endereço LAN do computador. O celular deve abrir
+`https://192.168.1.50` e confiar na CA pública copiada para `.local/root.crt`.
 
 `local:prepare` cria quatro arquivos independentes em `.local/secrets/`, com diretório `0700` e arquivos `0600`; preserva arquivos existentes. A API recebe apenas o segredo de consulta; migração e publicação recebem suas credenciais próprias. PostgreSQL e consumidores usam `RUNTIME_UID:RUNTIME_GID`, obtidos do usuário do host, inclusive UID 1001 em CI. Antes de iniciar, o executor confere tipo de arquivo, modo `0600`, proprietário UID/GID e leitura dos quatro segredos, sem registrar seus conteúdos. Para instalação nova, o *entrypoint* oficial cria o volume com essa identidade; manter os mesmos identificadores nos próximos inícios. Volume criado por outra identidade exige decisão explícita de migração manual; os comandos não ajustam seu proprietário nem removem volumes existentes para corrigir permissões. `local:up` valida a configuração efetiva, constrói imagens e aguarda prontidão por até 180 segundos. O fluxo exige PostgreSQL saudável, migração e preparação concluídas, API pronta e entrada saudável. As operações têm prazo externo de 120 segundos; abertura inicial de conexão tem prazo de cinco segundos por tentativa e até cinco tentativas, com dois segundos entre elas. Nenhuma consulta ou escrita é repetida automaticamente por esse mecanismo.
 

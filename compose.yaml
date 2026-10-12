@@ -71,6 +71,7 @@ services:
       API_PORT: '3000'
       API_PROXY_MODE: trusted
       API_TRUSTED_PROXIES: ${CADDY_IP:-172.30.10.2}
+      SITE_HOST: ${SITE_HOST:-localhost}
     secrets: [consulta]
     networks: [local]
     depends_on:
@@ -91,6 +92,8 @@ services:
       context: .
       dockerfile: infra/web.Dockerfile
       target: runtime
+    environment:
+      SITE_HOST: ${SITE_HOST:-localhost}
     ports:
       - ${BIND_ADDRESS:-127.0.0.1}:${HTTP_PORT:-80}:80
       - ${BIND_ADDRESS:-127.0.0.1}:${HTTPS_PORT:-443}:443
@@ -108,7 +111,7 @@ services:
       test:
         [
           CMD-SHELL,
-          'curl --fail --silent --show-error --max-time 3 --cacert /data/caddy/pki/authorities/local/root.crt https://localhost/health >/dev/null',
+          'curl --fail --silent --show-error --max-time 3 --cacert /data/caddy/pki/authorities/local/root.crt --resolve ${SITE_HOST:-localhost}:443:127.0.0.1 https://${SITE_HOST:-localhost}/health >/dev/null',
         ]
     restart: unless-stopped
   publicar:
