@@ -39,6 +39,8 @@
     "assets:generate": "node tools/assets/generate.mjs",
     "web:dev": "npm run dev --workspace @pecuaria/web",
     "check:bundle": "node tools/quality/check-bundle.mjs",
+    "performance:measure": "node tools/quality/performance.mjs",
+    "security": "npm run security:audit && npm run security:rules:prepare && npm run security:rules:test && npm run security:semgrep",
     "local:prepare": "node tools/quality/local-prepare.mjs",
     "local:up": "node tools/quality/local-compose.mjs up",
     "local:down": "node tools/quality/local-compose.mjs down",
