@@ -208,6 +208,43 @@ npm run test:coverage
 npm run test:integration
 ```
 
+No Linux, com GNU Make, os fluxos compostos podem ser executados pelos atalhos abaixo. O `Makefile` apenas encadeia os scripts npm; eles continuam sendo a interface canônica e permitem parâmetros explícitos quando necessários.
+
+```sh
+make verify
+make acceptance
+```
+
+`make verify` executa a conferência dos dados, qualidade estática, testes rápidos, compilação, orçamento do pacote, políticas locais e segurança. `make acceptance` acrescenta a integração PostgreSQL, a medição de desempenho e os testes E2E com Docker. Ambos param no primeiro erro.
+
+No Windows, execute a sequência equivalente com npm, nesta ordem:
+
+```powershell
+npm run check:data
+npm run check
+npm test
+npm run build
+npm run check:bundle
+npm run test:local
+npm run security
+```
+
+Para a aceitação completa no Windows, execute:
+
+```powershell
+npm run check:data
+npm run check
+npm test
+npm run test:integration
+npm run build
+npm run check:bundle
+npm run performance:measure
+npm run test:e2e
+npm run security
+```
+
+A instalação do GNU Make no Windows é opcional; ela não é necessária para usar os scripts do projeto.
+
 `npm ci` instala o `package-lock.json` único, incluindo dependências de desenvolvimento. Os únicos _scripts_ de instalação aprovados são os do esbuild `0.28.2`, `0.25.12` e `0.18.20`, usados pelas ferramentas e pelo Drizzle Kit para preparar seus binários. Os instaladores opcionais de `cpu-features`, `protobufjs` e `ssh2` foram revisados e bloqueados explicitamente; não são necessários à integração Docker local. As versões verificadas incluem Chart.js `4.5.1` (MIT), Sharp `0.35.5` (Apache-2.0, ferramenta de desenvolvimento), TypeScript `6.0.3`, TypeBox `1.3.36`, Ajv `8.20.0`, ajv-formats `3.0.1`, Vitest e cobertura V8 `5.0.3`, ESLint `10.12.0` e Prettier `3.9.9`.
 
 A geração produz `packages/contracts/src/generated/` com validadores estáticos autocontidos e preserva as licenças dos auxiliares puros de terceiros. Esses arquivos e `dist/` são ignorados e reproduzíveis. Testes e análise de tipos regeneram os validadores automaticamente; a compilação entrega as exportações `@pecuaria/contracts/types`, `/server` e `/browser`. Importar `/types` com `import type`; `/browser` inclui validadores, assertivas semânticas e `canonicalJson`, sem compilador dinâmico ou módulos Node.
@@ -291,7 +328,16 @@ A auditoria do banco identificou quatro ocorrências moderadas na cadeia de dese
 
 Docker Engine `29.8.2` e Compose `5.6.0` são as referências verificadas. Os comandos locais usam o UID/GID não privilegiado do proprietário dos segredos, sem ampliar suas permissões. Na raiz, com Node.js e npm adotados:
 
+No Linux, com GNU Make:
+
 ```sh
+make local-up
+docker compose cp entrada:/data/caddy/pki/authorities/local/root.crt .local/root.crt
+```
+
+No Windows, com PowerShell:
+
+```powershell
 npm run local:prepare
 npm run local:up
 npm run local:ca
@@ -305,8 +351,17 @@ temporária em outro dispositivo da mesma LAN, habilite explicitamente o bind:
 BIND_ADDRESS=0.0.0.0 ALLOW_LAN=1 SITE_HOST=192.168.1.50 npm run local:up
 ```
 
+No PowerShell, use:
+
+```powershell
+$env:BIND_ADDRESS = "0.0.0.0"
+$env:ALLOW_LAN = "1"
+$env:SITE_HOST = "192.168.1.50"
+npm run local:up
+```
+
 API e PostgreSQL continuam sem portas publicadas. Use esse modo apenas em uma
-rede confiável e encerre-o com `npm run local:down` ao terminar.
+rede confiável e encerre-o com `make local-down` ao terminar.
 
 Substitua `192.168.1.50` pelo endereço LAN do computador. O celular deve abrir
 `https://192.168.1.50` e confiar na CA pública copiada para `.local/root.crt`.
@@ -332,13 +387,24 @@ sudo update-ca-certificates --fresh
 A instalação de confiança no computador é uma ação manual; nenhum script local modifica automaticamente esses armazenamentos. O cliente Node pode usar `NODE_EXTRA_CA_CERTS` apontando para `.local/root.crt`. Não desativar a validação TLS. Referências: [HTTPS local do Caddy](https://caddyserver.com/docs/automatic-https#local-https) e [instalação de CA no Ubuntu](https://ubuntu.com/server/docs/how-to/security/install-a-root-ca-certificate-in-the-trust-store/).
 
 ```sh
+make local-publish
+make local-down
+npm run test:local
+npm run test:e2e
+```
+
+No Windows, execute a sequência equivalente:
+
+```powershell
+npm run local:prepare
+npm run local:up
 npm run local:publish
 npm run local:down
 npm run test:local
 npm run test:e2e
 ```
 
-`local:publish` executa o serviço do perfil `operacoes`, sem rota pública de escrita. O conjunto fixo existente é idempotente; uma nova versão exige diretório validado com identidade própria, conforme os comandos `demo:publish` já documentados. `local:down` preserva os volumes de banco e CA. O segundo início preserva a publicação compatível existente. Não usar `down --volumes` para encerrar a consulta acadêmica.
+`make local-up` encadeia `local:prepare`, `local:up` e `local:ca`. `make local-publish` faz a mesma preparação e executa o serviço do perfil `operacoes`, sem rota pública de escrita. O conjunto fixo existente é idempotente; uma nova versão exige diretório validado com identidade própria, conforme os comandos `demo:publish` já documentados. `make local-down` preserva os volumes de banco e CA. O segundo início preserva a publicação compatível existente. Não usar `down --volumes` para encerrar a consulta acadêmica.
 
 `test:e2e` cria nome de projeto, rede, volumes, segredos e CA exclusivos. Constrói `infra/e2e.Dockerfile` com Playwright `1.63.0`, seus motores e as dependências oficiais necessárias, incluindo `libnss3-tools` para importar a CA em perfis NSS descartáveis. A confiança fica somente nesse contêiner: Node usa a CA explícita, Chromium e Firefox têm perfis próprios e WebKit usa o armazenamento de CA do contêiner. O script de confiança exige contêiner e perfil interno `/home/node`; não pode executá-lo no host. O executor aguarda prontidão por até 180 segundos, verifica reinício/publicação/indisponibilidade, executa Chromium/Firefox/WebKit e encerra somente seus recursos. Falta de Docker ou erro TLS falha a execução. Relatórios, configuração efetiva, logs e traços de falha ficam em `artifacts/e2e/<projeto>/`.
 
