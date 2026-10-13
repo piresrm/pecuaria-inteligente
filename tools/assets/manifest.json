@@ -1,0 +1,172 @@
+{
+  "schema": "pecuaria-inteligente/assets/v1",
+  "transformer": {
+    "name": "sharp",
+    "version": "0.35.5",
+    "versions": {
+      "aom": "3.15.1",
+      "archive": "3.8.9",
+      "cairo": "1.18.6",
+      "cgif": "0.5.4",
+      "exif": "0.6.26",
+      "expat": "2.8.5",
+      "ffi": "3.8.0",
+      "fontconfig": "2.18.3",
+      "freetype": "2.14.3",
+      "fribidi": "1.0.17",
+      "glib": "2.90.0",
+      "harfbuzz": "14.5.0",
+      "heif": "1.23.5",
+      "highway": "1.4.0",
+      "imagequant": "2.4.1",
+      "lcms": "2.19.1",
+      "mozjpeg": "0826579",
+      "pango": "1.58.2",
+      "pixman": "0.46.4",
+      "png": "1.6.58",
+      "proxy-libintl": "0.5",
+      "rsvg": "2.63.2",
+      "tiff": "4.7.2",
+      "uhdr": "2.0.2",
+      "vips": "8.18.7",
+      "webp": "1.6.0",
+      "xml2": "2.15.4",
+      "zlib-ng": "2.3.3",
+      "sharp": "0.35.5"
+    }
+  },
+  "images": [
+    {
+      "name": "pasto",
+      "source": "docs/imagens/fontes/pasto.jpg",
+      "sourceSha256": "3e67fcb814f912990c71487ed341af8db028c92c2f8aba5fad1381437c86b7fa",
+      "sourceWidth": 2172,
+      "sourceHeight": 724,
+      "transform": {
+        "fit": "cover",
+        "position": "centre",
+        "withoutEnlargement": true,
+        "ratio": 4,
+        "webp": {
+          "quality": 25,
+          "effort": 6
+        },
+        "jpeg": {
+          "quality": 70,
+          "mozjpeg": true,
+          "progressive": true
+        }
+      },
+      "variants": [
+        {
+          "file": "apps/web/src/assets/pasto-768.webp",
+          "width": 768,
+          "height": 192,
+          "bytes": 12440,
+          "sha256": "2b869c1530af362496375defac1e2ab5ec419ba3cba0069aac8f2b4a64ee7dbd"
+        },
+        {
+          "file": "apps/web/src/assets/pasto-768.jpg",
+          "width": 768,
+          "height": 192,
+          "bytes": 25354,
+          "sha256": "8e9fe477667493feee0bc3ea6792620396f62458efbd90ca82c98d1e2827eeee"
+        },
+        {
+          "file": "apps/web/src/assets/pasto-1280.webp",
+          "width": 1280,
+          "height": 320,
+          "bytes": 30626,
+          "sha256": "5a98fedbef4bfb2a833276b2ab825eea7df05ea0590baa376e03c5babbc44cdf"
+        },
+        {
+          "file": "apps/web/src/assets/pasto-1280.jpg",
+          "width": 1280,
+          "height": 320,
+          "bytes": 63217,
+          "sha256": "c40a0d8fc3f7bf322182acbbada798bd9537f518cccdf12c0dd40ba727b831e2"
+        },
+        {
+          "file": "apps/web/src/assets/pasto-1920.webp",
+          "width": 1920,
+          "height": 480,
+          "bytes": 58178,
+          "sha256": "0940f11f500a747e8bdbb7f4032d823bb816fe2af79ed28b8a7b17ed8b30d483"
+        },
+        {
+          "file": "apps/web/src/assets/pasto-1920.jpg",
+          "width": 1920,
+          "height": 480,
+          "bytes": 124023,
+          "sha256": "c5ac232f30565c2b1e0c2ae0f2c9b3e974f7bd474758199b64a48dc448086e0f"
+        }
+      ]
+    },
+    {
+      "name": "curral",
+      "source": "docs/imagens/fontes/curral.jpg",
+      "sourceSha256": "e3779f748a912b1459cc16cf780f5d3e3b66c150d88a08facd0cd6b9245d50d8",
+      "sourceWidth": 1672,
+      "sourceHeight": 941,
+      "transform": {
+        "fit": "cover",
+        "position": "centre",
+        "withoutEnlargement": true,
+        "ratio": 1.7777777777777777,
+        "webp": {
+          "quality": 25,
+          "effort": 6
+        },
+        "jpeg": {
+          "quality": 70,
+          "mozjpeg": true,
+          "progressive": true
+        }
+      },
+      "variants": [
+        {
+          "file": "apps/web/src/assets/curral-320.webp",
+          "width": 320,
+          "height": 180,
+          "bytes": 5610,
+          "sha256": "c3bc71b6e910773695ae4ecd0efcabd9b1f2de70335424edc6626263e9fa0194"
+        },
+        {
+          "file": "apps/web/src/assets/curral-320.jpg",
+          "width": 320,
+          "height": 180,
+          "bytes": 10753,
+          "sha256": "4f6776d9c67ecb5f1d2f01c1e67d986c9718db011d5a0753774aec92ee51ef41"
+        },
+        {
+          "file": "apps/web/src/assets/curral-480.webp",
+          "width": 480,
+          "height": 270,
+          "bytes": 11594,
+          "sha256": "0f2a293d7f8758669418cc124a69910f06fbe72777a625ca7ea8a2f9286d3fbe"
+        },
+        {
+          "file": "apps/web/src/assets/curral-480.jpg",
+          "width": 480,
+          "height": 270,
+          "bytes": 22120,
+          "sha256": "2832282c741c4148894fe6dcf99b56c89c8db610f9692b98b7a9a7b3fe46144e"
+        },
+        {
+          "file": "apps/web/src/assets/curral-768.webp",
+          "width": 768,
+          "height": 432,
+          "bytes": 25350,
+          "sha256": "4addbd5ddd9ee7d09f3b99b4f590d54efce21a61a67bfe4d1c215d922d49f90e"
+        },
+        {
+          "file": "apps/web/src/assets/curral-768.jpg",
+          "width": 768,
+          "height": 432,
+          "bytes": 50007,
+          "sha256": "1b968dc8ea9b6d5527ef564300c92ab4b98966f970ff76641d8b38cf857b39da"
+        }
+      ]
+    }
+  ]
+}

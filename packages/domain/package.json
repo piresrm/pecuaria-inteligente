@@ -1,0 +1,27 @@
+{
+  "name": "@pecuaria/domain",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "24.21.0",
+    "npm": "11.19.0"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./presentation": {
+      "types": "./dist/presentation.d.ts",
+      "import": "./dist/presentation.js"
+    }
+  },
+  "dependencies": {
+    "big.js": "7.0.1",
+    "@pecuaria/contracts": "0.1.0"
+  },
+  "devDependencies": {
+    "@types/big.js": "7.0.0"
+  }
+}

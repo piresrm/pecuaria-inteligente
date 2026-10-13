@@ -1,0 +1,6 @@
+import /etc/caddy/Caddyfile.production
+https://localhost:8443 {
+  tls internal
+  root * /storage
+  file_server
+}

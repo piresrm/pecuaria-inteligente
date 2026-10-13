@@ -1,0 +1,27 @@
+{
+  "profile": "product-admin",
+  "sourceRoots": ["apps/web/src"],
+  "locale": "pt-BR",
+  "canonicalMap": "DESIGN.md",
+  "requiredCapabilities": ["Scrollbar"],
+  "requiredCommands": ["unit", "check", "build", "data"],
+  "commands": {
+    "unit": "npm run test:unit",
+    "check": "npm run check",
+    "build": "npm run build",
+    "data": "npm run check:data"
+  },
+  "evidence": {
+    "failurePaths": "apps/web/src/query/coordinator.test.ts"
+  },
+  "canonicalOwners": {
+    "Consulta HTTP": "apps/web/src/query/client.ts",
+    "Consulta progressiva": "apps/web/src/query/coordinator.ts",
+    "Atualização": "apps/web/src/query/scheduler.ts",
+    "Estado de consulta": "apps/web/src/App.tsx"
+  },
+  "ownership": {
+    "Select/Listbox": "native",
+    "Date": "native"
+  }
+}

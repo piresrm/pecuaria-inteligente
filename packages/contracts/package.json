@@ -1,0 +1,28 @@
+{
+  "name": "@pecuaria/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "24.21.0",
+    "npm": "11.19.0"
+  },
+  "exports": {
+    "./types": {
+      "types": "./dist/types.d.ts"
+    },
+    "./server": {
+      "types": "./dist/server.d.ts",
+      "import": "./dist/server.js"
+    },
+    "./browser": {
+      "types": "./dist/browser.d.ts",
+      "import": "./dist/browser.js"
+    }
+  },
+  "dependencies": {
+    "typebox": "1.3.36",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1"
+  }
+}

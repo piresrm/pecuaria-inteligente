@@ -1,0 +1,28 @@
+services:
+  entrada:
+    build:
+      target: test
+    volumes:
+      - ./infra/Caddyfile:/etc/caddy/Caddyfile.production:ro
+  publicar:
+    volumes:
+      - ${DEMO_DIR:?}:/candidate:ro
+    command: [apps/api/dist/operations/publish.js, /candidate]
+  runner:
+    profiles: [testes]
+    build:
+      context: .
+      dockerfile: infra/e2e.Dockerfile
+    environment:
+      CI: ${CI:-}
+      E2E_BASE_URL: https://localhost
+      STORAGE_BASE_URL: https://localhost:8443
+      E2E_PROJECT: ${COMPOSE_PROJECT_NAME:?}
+    volumes:
+      - ${TRUST_DIR:?}:/trust:ro
+      - ${TRUST_DIR:?}:/etc/ssl/certs:ro
+      - ${RESULTS_DIR:?}:/app/artifacts/e2e
+    network_mode: service:entrada
+    depends_on:
+      entrada: { condition: service_healthy }
+    restart: 'no'

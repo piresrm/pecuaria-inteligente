@@ -1,0 +1,158 @@
+{
+  "versaoFormato": "1",
+  "consultadoEm": "2026-10-07",
+  "executor": {
+    "versao": "1.179.0",
+    "imagem": "semgrep/semgrep:1.179.0@sha256:93963d9295a366f59e4850127b1550400ee7b388f04fe144e4a1f6325d96e01b"
+  },
+  "origem": {
+    "repositorio": "https://github.com/semgrep/semgrep-rules",
+    "revisao": "a84ff9cc2453ca91d581380de4b8b3f272f6f4be",
+    "dataRevisao": "2026-09-22T15:34:05Z",
+    "licenca": {
+      "nome": "Semgrep Rules License v1.0",
+      "url": "https://semgrep.dev/legal/rules-license/",
+      "arquivoOrigem": "LICENSE",
+      "sha256Arquivo": "1a6466ae5f1c68631bbd13e3f1aa8f380d84219853c08f0456b853fccfacee1d",
+      "redistribuir": false
+    }
+  },
+  "regrasComunitarias": [
+    {
+      "id": "eval-detected",
+      "caminhoOrigem": "javascript/browser/security/eval-detected.yaml",
+      "urlOrigem": "https://github.com/semgrep/semgrep-rules/blob/a84ff9cc2453ca91d581380de4b8b3f272f6f4be/javascript/browser/security/eval-detected.yaml",
+      "sha256": "356589363d16cda8bd2ca1d296ce2b6953105ee4c751ddbbc9bcde5849341811",
+      "linguagens": [
+        "javascript",
+        "typescript"
+      ],
+      "severidadeSemgrep": "WARNING"
+    },
+    {
+      "id": "ajv-allerrors-true",
+      "caminhoOrigem": "javascript/ajv/security/audit/ajv-allerrors-true.yaml",
+      "urlOrigem": "https://github.com/semgrep/semgrep-rules/blob/a84ff9cc2453ca91d581380de4b8b3f272f6f4be/javascript/ajv/security/audit/ajv-allerrors-true.yaml",
+      "sha256": "6ca5fea0744a265e8625a59031acda251386341382947e1a3d1551699d2b5276",
+      "linguagens": [
+        "javascript",
+        "typescript"
+      ],
+      "severidadeSemgrep": "WARNING"
+    },
+    {
+      "id": "last-user-is-root",
+      "caminhoOrigem": "dockerfile/security/last-user-is-root.yaml",
+      "urlOrigem": "https://github.com/semgrep/semgrep-rules/blob/a84ff9cc2453ca91d581380de4b8b3f272f6f4be/dockerfile/security/last-user-is-root.yaml",
+      "sha256": "1ebbcbf8038494c1ed59808ea91d93cd762acdec0ed7f94fc6e025e922f87ec2",
+      "linguagens": [
+        "dockerfile"
+      ],
+      "severidadeSemgrep": "ERROR"
+    },
+    {
+      "id": "secret-in-build-arg",
+      "caminhoOrigem": "dockerfile/security/secret-in-build-arg.yaml",
+      "urlOrigem": "https://github.com/semgrep/semgrep-rules/blob/a84ff9cc2453ca91d581380de4b8b3f272f6f4be/dockerfile/security/secret-in-build-arg.yaml",
+      "sha256": "e7b68be0c5e059aa290d6f58459e063bfb7e6dfe3da06f05320a6beb2ffeb717",
+      "linguagens": [
+        "dockerfile"
+      ],
+      "severidadeSemgrep": "WARNING"
+    },
+    {
+      "id": "run-shell-injection",
+      "caminhoOrigem": "yaml/github-actions/security/run-shell-injection.yaml",
+      "urlOrigem": "https://github.com/semgrep/semgrep-rules/blob/a84ff9cc2453ca91d581380de4b8b3f272f6f4be/yaml/github-actions/security/run-shell-injection.yaml",
+      "sha256": "156d9ce4dad539528d9e54a2acc88fa1d7e68b70bd6f3e8db37c826fc3d4941c",
+      "linguagens": [
+        "yaml"
+      ],
+      "severidadeSemgrep": "ERROR"
+    },
+    {
+      "id": "pull-request-target-code-checkout",
+      "caminhoOrigem": "yaml/github-actions/security/pull-request-target-code-checkout.yaml",
+      "urlOrigem": "https://github.com/semgrep/semgrep-rules/blob/a84ff9cc2453ca91d581380de4b8b3f272f6f4be/yaml/github-actions/security/pull-request-target-code-checkout.yaml",
+      "sha256": "64c8c419726b8ed1854c75de04b7e8fb944e86d54990b65a98bca9c216b65ceb",
+      "linguagens": [
+        "yaml"
+      ],
+      "severidadeSemgrep": "ERROR"
+    },
+    {
+      "id": "spawn-shell-true",
+      "caminhoOrigem": "javascript/lang/security/audit/spawn-shell-true.yaml",
+      "urlOrigem": "https://github.com/semgrep/semgrep-rules/blob/a84ff9cc2453ca91d581380de4b8b3f272f6f4be/javascript/lang/security/audit/spawn-shell-true.yaml",
+      "sha256": "452fb593301edca721a151ed3c051f428ca1df1fc1af613380d58b076601b5ba",
+      "linguagens": [
+        "javascript",
+        "typescript"
+      ],
+      "severidadeSemgrep": "ERROR"
+    },
+    {
+      "id": "insecure-innerhtml",
+      "caminhoOrigem": "javascript/browser/security/insecure-innerhtml.yaml",
+      "urlOrigem": "https://github.com/semgrep/semgrep-rules/blob/a84ff9cc2453ca91d581380de4b8b3f272f6f4be/javascript/browser/security/insecure-innerhtml.yaml",
+      "sha256": "3f2854f92c3c8a1ba3a107a140a5b31789650851be57586fd21a409e129193e4",
+      "linguagens": [
+        "javascript",
+        "typescript"
+      ],
+      "severidadeSemgrep": "ERROR"
+    },
+    {
+      "id": "github-actions-mutable-action-tag",
+      "caminhoOrigem": "yaml/github-actions/security/github-actions-mutable-action-tag.yaml",
+      "urlOrigem": "https://github.com/semgrep/semgrep-rules/blob/a84ff9cc2453ca91d581380de4b8b3f272f6f4be/yaml/github-actions/security/github-actions-mutable-action-tag.yaml",
+      "sha256": "62388a265c3474244b68158523916164660719185c3c50129665ab2a548f0d33",
+      "linguagens": [
+        "yaml"
+      ],
+      "severidadeSemgrep": "WARNING"
+    },
+    {
+      "id": "missing-user",
+      "caminhoOrigem": "dockerfile/security/missing-user.yaml",
+      "urlOrigem": "https://github.com/semgrep/semgrep-rules/blob/a84ff9cc2453ca91d581380de4b8b3f272f6f4be/dockerfile/security/missing-user.yaml",
+      "sha256": "cc2f014994c12afaffeefdf14f480b398181fc65db8c8e12deb3477f27e63d97",
+      "linguagens": [
+        "dockerfile"
+      ],
+      "severidadeSemgrep": "ERROR"
+    }
+  ],
+  "regrasProprias": {
+    "arquivoReferencia": "regras-proprias.exemplo.yaml",
+    "arquivoPlanejado": "tools/semgrep/regras/projeto.yaml",
+    "ids": [
+      "pi-react-raw-html",
+      "pi-compose-privileged",
+      "pi-compose-host-socket"
+    ]
+  },
+  "casosReferencia": "casos-semgrep.json",
+  "acoesGitHub": [
+    {
+      "repositorio": "actions/checkout",
+      "versaoReferencia": "v7.0.1",
+      "revisao": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+      "url": "https://github.com/actions/checkout/releases/tag/v7.0.1"
+    },
+    {
+      "repositorio": "actions/setup-node",
+      "versaoReferencia": "v7.0.0",
+      "revisao": "820762786026740c76f36085b0efc47a31fe5020",
+      "url": "https://github.com/actions/setup-node/releases/tag/v7.0.0"
+    },
+    {
+      "repositorio": "actions/upload-artifact",
+      "versaoReferencia": "v7.0.2",
+      "revisao": "cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+      "url": "https://github.com/actions/upload-artifact/releases/tag/v7.0.2"
+    }
+  ],
+  "armazenamentoPlanejadoRegrasComunitarias": ".cache/semgrep/{revisao}/",
+  "politica": "Versionar este manifesto e regras próprias; baixar somente arquivos fixados para uso local, conferir hashes e preservar avisos. Não versionar nem anexar regras comunitárias ou seus testes aos artefatos públicos."
+}
