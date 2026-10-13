@@ -1,0 +1,50 @@
+Copyright (c) 2026 Rayner de Melo Pires. Todos os direitos reservados.
+
+LICENÇA DE AVALIAÇÃO ACADÊMICA E USO RESTRITO
+
+1. Objeto
+
+Esta licença se aplica ao código-fonte, à documentação, à interface, aos arquivos de configuração, aos materiais visuais, aos dados demonstrativos e aos demais conteúdos originais deste repositório ("Materiais"), salvo indicação expressa de licença diferente ou direitos de terceiros.
+
+2. Direitos reservados
+
+Todos os direitos autorais e demais direitos aplicáveis sobre os Materiais permanecem reservados ao autor. Nenhuma autorização de uso é concedida por implicação, tolerância, acesso ao repositório, publicação ou disponibilização dos Materiais.
+
+3. Permissão limitada para avaliação
+
+É concedida aos professores, avaliadores e membros da banca examinadora do curso de especialização do autor uma licença pessoal, não exclusiva, não transferível, gratuita e limitada para acessar, baixar, executar, reproduzir temporariamente e analisar os Materiais exclusivamente para a avaliação acadêmica do trabalho.
+
+Essa permissão inclui as cópias técnicas necessárias à avaliação, desde que elas não sejam disponibilizadas a terceiros e preservem os avisos de autoria e desta licença.
+
+4. Proibições
+
+Sem autorização prévia e escrita do autor, é proibido:
+
+- copiar, redistribuir, publicar, sublicenciar ou disponibilizar os Materiais, total ou parcialmente;
+- modificar, adaptar, traduzir, incorporar, reutilizar ou criar obras derivadas;
+- comercializar, oferecer como serviço, sublicenciar, vender ou explorar os Materiais;
+- remover avisos de autoria, licença ou identificadores;
+- usar os Materiais para treinar, avaliar ou alimentar modelos, bancos de dados ou produtos de terceiros;
+- realizar engenharia reversa, descompilação ou desmontagem, salvo quando uma norma legal imperativa determinar o contrário.
+
+As proibições alcançam o código, a interface, a documentação, os prompts, a organização da solução, os materiais visuais e os dados demonstrativos, respeitados os direitos de terceiros.
+
+5. Terceiros
+
+Esta licença não concede direitos sobre bibliotecas, imagens, fontes, dados, marcas ou outros materiais de terceiros incorporados ou referenciados no projeto. Esses itens permanecem sujeitos às licenças ou condições dos respectivos titulares.
+
+6. Ausência de garantia
+
+Os Materiais são fornecidos "no estado em que se encontram", sem garantias expressas ou implícitas de funcionamento, adequação, disponibilidade, segurança ou ausência de erros. O autor não assume responsabilidade por usos fora da avaliação autorizada.
+
+7. Encerramento
+
+A permissão termina imediatamente se o beneficiário violar esta licença. Após o encerramento da avaliação acadêmica, qualquer cópia deverá ser eliminada, salvo retenção exigida por norma institucional ou legal. O repositório e os Materiais poderão voltar a ser privados a critério do autor.
+
+8. Autorização adicional
+
+Qualquer uso fora desta licença exige autorização prévia e escrita do autor, com escopo, prazo e condições definidos expressamente.
+
+9. Lei aplicável
+
+Esta licença protege a forma expressa dos Materiais e estabelece condições de uso do conteúdo disponibilizado, devendo ser interpretada segundo as leis da República Federativa do Brasil. A nulidade de uma disposição não invalida as demais.
