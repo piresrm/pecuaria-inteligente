@@ -2,15 +2,28 @@
 
 Central brasileira de inteligência de mercado para acompanhar preços e apoiar decisões na cadeia pecuária: **cria, recria, engorda, abate e leite**.
 
+![Painel responsivo do MVP com filtros e indicadores de preços demonstrativos de reposição em Goiás](./screen-capture.jpg)
+
+*Figura 1 — Painel de consulta da Pecuária Inteligente.*
+
 ## Contexto
 
 As decisões de compra, reposição e comercialização na pecuária dependem de informações distribuídas entre diferentes regiões, categorias de animais e etapas produtivas. Uma cotação isolada não explica a rentabilidade de uma operação: é necessário considerar histórico, condições comerciais, custos e diferenças regionais.
 
 A Pecuária Inteligente propõe reunir essas informações em uma experiência integrada, com critérios claros de comparação e identificação das fontes. O projeto é desenvolvido como um MVP acadêmico, com apoio de inteligência artificial no processo de engenharia de software. O contexto acadêmico e as orientações de desenvolvimento estão em [ABOUT.md](ABOUT.md).
 
+## Como a IA acelerou este projeto
+
+A IA foi utilizada como parceira de engenharia para transformar a proposta em requisitos verificáveis, explorar alternativas arquiteturais, preparar planos de implementação e produzir incrementos pequenos com testes e documentação alinhados. Esse apoio reduziu o tempo gasto em tarefas repetitivas, ampliou a cobertura de cenários considerados e facilitou a investigação de falhas durante a implementação.
+
+As principais ferramentas foram o OpenAI Codex, com o modelo GPT-6, o plugin Superpowers para planejamento, TDD, depuração, revisão e coordenação de subagents, além de Git/GitHub para registrar as decisões e revisar as entregas por _pull requests_. A validação técnica utilizou a própria cadeia do projeto: TypeScript, npm, Vitest, Playwright, PostgreSQL, Docker Compose, `npm audit` e Semgrep.
+
+A revisão humana permaneceu essencial. O autor definiu o escopo, supervisionou os prompts, avaliou as alternativas, conferiu fontes e limitações, revisou o código e os documentos e decidiu quais resultados seriam incorporados. A IA acelerou a exploração e a execução, mas não substituiu o julgamento, a validação das evidências ou a responsabilidade pela entrega.
+
 ## Sumário
 
 - [Contexto](#contexto)
+- [Como a IA acelerou este projeto](#como-a-ia-acelerou-este-projeto)
 - [Objetivo](#objetivo)
 - [Proposta de valor](#proposta-de-valor)
 - [Monitoramento de mercado e gestão do rebanho](#monitoramento-de-mercado-e-gestão-do-rebanho)
@@ -26,6 +39,7 @@ A Pecuária Inteligente propõe reunir essas informações em uma experiência i
 - [Estado atual](#estado-atual)
   - [Dados disponíveis](#dados-disponíveis)
   - [Organização planejada para a implementação](#organização-planejada-para-a-implementação)
+- [Exemplos de interação com a API](#exemplos-de-interação-com-a-api)
 - [Qualidade e critérios de sucesso](#qualidade-e-critérios-de-sucesso)
 - [Limitações e próximos passos](#limitações-e-próximos-passos)
 - [Créditos e licença](#créditos-e-licença)
@@ -274,6 +288,28 @@ A API usa Fastify `5.12.5` e `@fastify/type-provider-typebox` `6.1.0`. Estão im
 `createRepository(handle)` usa credenciais de leitura e consultas SQL parametrizadas via Drizzle em `READ COMMITTED`, sempre fixando uma única versão. O resumo consulta o ponteiro real antes de selecionar o recurso em _cache_, inclusive para `304`. Uma publicação concorrente mantém a fotografia escolhida íntegra; versões antigas permanecem consultáveis. Saídas passam pelos validadores estruturais e semânticos antes do _cache_ e da serialização.
 
 Respostas `200` usam JSON compacto canônico, `ETag` fraco SHA-256 dos mesmos bytes UTF-8 e `Cache-Control: public, max-age=60, must-revalidate`. `If-None-Match` aceita comparação fraca, etiquetas fortes, listas e `*`; `304` preserva etiqueta e política, sem corpo. O _cache_ compartilha carregamentos equivalentes, separa operação/versão/perfil, expira em até 60 segundos e remove cargas rejeitadas. Erros públicos usam `no-store`, mensagens do contrato e nenhum detalhe interno. A consulta bruta preserva duplicatas, valida percentual/UTF-8 uma vez e limita 1.024 bytes antes da decodificação.
+
+#### Exemplos de interação com a API
+
+Depois de iniciar o ambiente local e extrair `.local/root.crt`, consulte o resumo e um histórico específico:
+
+```sh
+curl --fail --silent --show-error --cacert .local/root.crt \
+  https://localhost/api/v1/mercado/resumo
+
+curl --fail --silent --show-error --cacert .local/root.crt \
+  'https://localhost/api/v1/mercado/historico?perfilId=bezerro-macho-nelore&versaoDados=go-reposicao-demo-2026-10-07-r1'
+```
+
+Para validar o cache, repita a primeira chamada com a etiqueta retornada em `ETag`:
+
+```sh
+curl --include --silent --show-error --cacert .local/root.crt \
+  --header 'If-None-Match: W/"etiqueta-recebida"' \
+  https://localhost/api/v1/mercado/resumo
+```
+
+No PowerShell, use `curl.exe` e troque `.local/root.crt` por `.local\root.crt` quando necessário. A resposta `304` confirma que o conteúdo não mudou; `200` entrega o JSON atual.
 
 `buildApp({ repository, entrada, banco })` monta o Fastify sem abrir porta e exige os controles de entrada e admissão. `EntryControl` resolve a origem pelo socket e pela configuração explícita de _proxies_, antes de consulta, _cache_, erros, métodos desconhecidos e caminhos inválidos. `IpQuota` oferece 30 permissões iniciais e repõe duas por segundo, compartilhadas por resumo, históricos, `304` e erros; recusas por cota não debitam permissões adicionais. `DatabaseAdmission` admite até 20 operações simultâneas sem fila; toda leitura do repositório ocupa vaga, inclusive o ponteiro antes de `304`, enquanto o conteúdo já no _cache_ não ocupa. Uma vaga só é liberada quando a promessa da operação realmente termina, mesmo se o consumidor cancelar a espera.
 
