@@ -51,6 +51,15 @@ test('recusa serviços públicos com runtime raiz, portas diretas ou proxy amplo
   );
 });
 
+test('local:up reconcilia os papéis antes de iniciar as dependências', async () => {
+  const { localComposeCommands } = await import('./local-compose.mjs');
+  assert.deepEqual(localComposeCommands('up'), [
+    ['up', '-d', '--wait', '--wait-timeout', '180', 'postgres'],
+    ['exec', '-T', 'postgres', '/docker-entrypoint-initdb.d/10-roles.sh'],
+    ['up', '-d', '--build', '--wait', '--wait-timeout', '180'],
+  ]);
+});
+
 test('preparação cria segredos independentes0600 e não sobrescreve os existentes', async () => {
   const { mkdtemp, readFile, rm, stat } = await import('node:fs/promises');
   const { tmpdir } = await import('node:os');

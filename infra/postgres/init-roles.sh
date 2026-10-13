@@ -1,7 +1,8 @@
 #!/bin/sh
 set -eu
-# Run only during initial database provisioning by the PostgreSQL entrypoint.
-# Each service receives only its own secret file; no role inherits another role.
+# Run during initial database provisioning and explicit local credential
+# reconciliation. Each service receives only its own secret file; no role
+# inherits another role.
 : "${POSTGRES_USER:?}" "${POSTGRES_DB:?}" "${MIGRACAO_PASSWORD_FILE:?}" "${PUBLICADOR_PASSWORD_FILE:?}" "${CONSULTA_PASSWORD_FILE:?}"
 PI_MIGRACAO_PASSWORD=$(cat "$MIGRACAO_PASSWORD_FILE")
 PI_PUBLICADOR_PASSWORD=$(cat "$PUBLICADOR_PASSWORD_FILE")
@@ -12,9 +13,27 @@ psql --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" --set ON_ERROR_STOP=1 <
 \getenv migracao_password PI_MIGRACAO_PASSWORD
 \getenv publicador_password PI_PUBLICADOR_PASSWORD
 \getenv consulta_password PI_CONSULTA_PASSWORD
-SELECT format('CREATE ROLE mercado_migracao LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS PASSWORD %L', :'migracao_password') \gexec
-SELECT format('CREATE ROLE mercado_publicador LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS PASSWORD %L', :'publicador_password') \gexec
-SELECT format('CREATE ROLE mercado_consulta LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS PASSWORD %L', :'consulta_password') \gexec
+SELECT format(
+  CASE WHEN EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'mercado_migracao')
+    THEN 'ALTER ROLE mercado_migracao LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS PASSWORD %L'
+    ELSE 'CREATE ROLE mercado_migracao LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS PASSWORD %L'
+  END,
+  :'migracao_password'
+) \gexec
+SELECT format(
+  CASE WHEN EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'mercado_publicador')
+    THEN 'ALTER ROLE mercado_publicador LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS PASSWORD %L'
+    ELSE 'CREATE ROLE mercado_publicador LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS PASSWORD %L'
+  END,
+  :'publicador_password'
+) \gexec
+SELECT format(
+  CASE WHEN EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'mercado_consulta')
+    THEN 'ALTER ROLE mercado_consulta LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS PASSWORD %L'
+    ELSE 'CREATE ROLE mercado_consulta LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS PASSWORD %L'
+  END,
+  :'consulta_password'
+) \gexec
 REVOKE ALL ON DATABASE :"DBNAME" FROM PUBLIC;
 GRANT CONNECT ON DATABASE :"DBNAME" TO mercado_migracao, mercado_publicador, mercado_consulta;
 GRANT CREATE ON DATABASE :"DBNAME" TO mercado_migracao;

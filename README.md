@@ -2,15 +2,28 @@
 
 Central brasileira de inteligência de mercado para acompanhar preços e apoiar decisões na cadeia pecuária: **cria, recria, engorda, abate e leite**.
 
+![Painel responsivo do MVP com filtros e indicadores de preços demonstrativos de reposição em Goiás](./screen-capture.jpg)
+
+*Figura 1 — Painel de consulta da Pecuária Inteligente.*
+
 ## Contexto
 
 As decisões de compra, reposição e comercialização na pecuária dependem de informações distribuídas entre diferentes regiões, categorias de animais e etapas produtivas. Uma cotação isolada não explica a rentabilidade de uma operação: é necessário considerar histórico, condições comerciais, custos e diferenças regionais.
 
 A Pecuária Inteligente propõe reunir essas informações em uma experiência integrada, com critérios claros de comparação e identificação das fontes. O projeto é desenvolvido como um MVP acadêmico, com apoio de inteligência artificial no processo de engenharia de software. O contexto acadêmico e as orientações de desenvolvimento estão em [ABOUT.md](ABOUT.md).
 
+## Como a IA acelerou este projeto
+
+A IA foi utilizada como parceira de engenharia para transformar a proposta em requisitos verificáveis, explorar alternativas arquiteturais, preparar planos de implementação e produzir incrementos pequenos com testes e documentação alinhados. Esse apoio reduziu o tempo gasto em tarefas repetitivas, ampliou a cobertura de cenários considerados e facilitou a investigação de falhas durante a implementação.
+
+As principais ferramentas foram o OpenAI Codex, com o modelo GPT-6, o plugin Superpowers para planejamento, TDD, depuração, revisão e coordenação de subagents, além de Git/GitHub para registrar as decisões e revisar as entregas por _pull requests_. A validação técnica utilizou a própria cadeia do projeto: TypeScript, npm, Vitest, Playwright, PostgreSQL, Docker Compose, `npm audit` e Semgrep.
+
+A revisão humana permaneceu essencial. O autor definiu o escopo, supervisionou os prompts, avaliou as alternativas, conferiu fontes e limitações, revisou o código e os documentos e decidiu quais resultados seriam incorporados. A IA acelerou a exploração e a execução, mas não substituiu o julgamento, a validação das evidências ou a responsabilidade pela entrega.
+
 ## Sumário
 
 - [Contexto](#contexto)
+- [Como a IA acelerou este projeto](#como-a-ia-acelerou-este-projeto)
 - [Objetivo](#objetivo)
 - [Proposta de valor](#proposta-de-valor)
 - [Monitoramento de mercado e gestão do rebanho](#monitoramento-de-mercado-e-gestão-do-rebanho)
@@ -26,6 +39,7 @@ A Pecuária Inteligente propõe reunir essas informações em uma experiência i
 - [Estado atual](#estado-atual)
   - [Dados disponíveis](#dados-disponíveis)
   - [Organização planejada para a implementação](#organização-planejada-para-a-implementação)
+- [Exemplos de interação com a API](#exemplos-de-interação-com-a-api)
 - [Qualidade e critérios de sucesso](#qualidade-e-critérios-de-sucesso)
 - [Limitações e próximos passos](#limitações-e-próximos-passos)
 - [Créditos e licença](#créditos-e-licença)
@@ -120,17 +134,17 @@ A visão de longo prazo continua abrangendo toda a cadeia pecuária brasileira. 
 
 ## Estado atual
 
-Estão implementados os contratos compartilhados em `packages/contracts/`, o domínio puro em `packages/domain/` e a API Fastify com consultas versionadas, revalidação HTTP e publicação demonstrativa em `apps/api/`, com filtros, indicadores decimais, calendário civil, apresentação localizada, migrações e testes executáveis. Os contratos oferecem tipos, validação estrutural e semântica e serialização determinística. A aplicação completa da v0.1 permanece em desenvolvimento; este README distingue a entrega atual das funcionalidades previstas no _roadmap_.
+Estão implementados os contratos compartilhados em `packages/contracts/`, o domínio puro em `packages/domain/` e a API Fastify com consultas versionadas, revalidação HTTP e publicação demonstrativa em `apps/api/`, com filtros, indicadores decimais, calendário civil, apresentação localizada, migrações e testes executáveis. Os contratos oferecem tipos, validação estrutural e semântica e serialização determinística. A aplicação da v0.1 está implementada e sua aceitação integrada está registrada em [`docs/qualidade/v0.1-aceitacao.md`](docs/qualidade/v0.1-aceitacao.md); este README distingue a entrega atual das funcionalidades previstas no _roadmap_.
 
-A arquitetura da v0.1 foi definida e aprovada. TypeScript, React, Tailwind CSS, Vite e Fastify em Node.js foram escolhidos em conversa. O ambiente adotado usa Node.js 24 LTS, TypeScript 6.0.3 e npm com espaços de trabalho; Prettier e ESLint verificam os contratos, o domínio, a API e suas configurações; os demais módulos serão incorporados progressivamente.
+A arquitetura da v0.1 foi definida e aprovada. TypeScript, React, Tailwind CSS, Vite e Fastify em Node.js foram escolhidos em conversa. O ambiente adotado usa Node.js 24 LTS, TypeScript 6.0.3 e npm com espaços de trabalho; Prettier e ESLint verificam os contratos, o domínio, a API, a interface e suas configurações.
 
 O banco escolhido é PostgreSQL 18.6, com persistência em volume no Docker Compose. O módulo de banco usa Drizzle ORM `0.45.3` com o _driver_ `pg` `8.23.1`; o histórico SQL foi gerado com Drizzle Kit `0.31.11`, revisado e complementado com gatilhos e permissões. O [modelo físico](docs/superpowers/specs/2026-10-07-modelo-fisico-postgresql-v0.1-design.md) define sete tabelas, cadastros e preços por versão, precisão decimal, publicação atômica e retenção de todas as versões durante a entrega acadêmica.
 
-Os contratos implementados usam TypeBox e Ajv; o domínio calcula médias, conversões e variações com `big.js` 7.0.1. A persistência no navegador usa IndexedDB com `idb` 8.0.4; o gráfico será feito com Chart.js, carregado separadamente. Os [contratos e o armazenamento local](docs/superpowers/specs/2026-10-07-contratos-api-e-indexeddb-v0.1-design.md) já têm campos, limites, exemplos verificáveis e confirmação atômica especificados.
+Os contratos implementados usam TypeBox e Ajv; o domínio calcula médias, conversões e variações com `big.js` 7.0.1. A persistência no navegador usa IndexedDB com `idb` 8.0.4; o gráfico é feito com Chart.js, carregado separadamente. Os [contratos e o armazenamento local](docs/superpowers/specs/2026-10-07-contratos-api-e-indexeddb-v0.1-design.md) têm campos, limites, exemplos verificáveis e confirmação atômica implementados e testados.
 
-A [apresentação aprovada](docs/superpowers/specs/2026-10-07-apresentacao-e-armazenamento-v0.1-design.md) terá indicadores em destaque, verde profundo, tons de terra e faixa com imagens responsivas de gado no pasto e boi no curral, sobreposição e degradê. Chrome, Edge, Firefox e Safari compõem a matriz de suporte. O orçamento total do IndexedDB é de 10.240 KiB (10 MiB), contando chaves, envelopes, referência e coexistência antes da limpeza; o autor dispensou novas medições de ocupação nos demais navegadores. O painel e as imagens responsivas locais estão implementados; a fotografia decorativa é carregada após os primeiros preços utilizáveis para preservar o orçamento essencial.
+A [apresentação aprovada](docs/superpowers/specs/2026-10-07-apresentacao-e-armazenamento-v0.1-design.md) tem indicadores em destaque, verde profundo, tons de terra e faixa com imagens responsivas de gado no pasto e boi no curral, sobreposição e degradê. Chrome, Edge, Firefox e Safari compõem a matriz de suporte declarada. O orçamento total do IndexedDB é de 10.240 KiB (10 MiB), contando chaves, envelopes, referência e coexistência antes da limpeza; o autor dispensou novas medições de ocupação nos demais navegadores. O painel e as imagens responsivas locais estão implementados; a fotografia decorativa é carregada após os primeiros preços utilizáveis para preservar o orçamento essencial.
 
-O desenvolvimento seguirá TDD. Foram adotados Vitest para domínio e API, React Testing Library para componentes e Playwright para a consulta completa. Os testes de integração usam PostgreSQL real com Testcontainers, em bases exclusivas e com credenciais descartáveis. npm organizará as dependências; GitHub Actions executará as verificações, incluindo auditoria com `npm audit` e análise obrigatória com Semgrep Community Edition. A [configuração de testes, auditoria e CI](docs/superpowers/specs/2026-10-07-testes-auditoria-e-ci-v0.1-design.md) já define projetos, isolamento, prazos, evidências e seleção de regras. Manifesto, regras próprias e casos verificados estão em [`docs/superpowers/quality/v0.1/`](docs/superpowers/quality/v0.1/); as comunitárias serão obtidas por revisão e hash para uso local, sem redistribuição no repositório.
+O desenvolvimento seguiu TDD. Foram adotados Vitest para domínio e API, React Testing Library para componentes e Playwright para a consulta completa. Os testes de integração usam PostgreSQL real com Testcontainers, em bases exclusivas e com credenciais descartáveis. npm gerencia as dependências; GitHub Actions executa as verificações, incluindo auditoria com `npm audit` e análise obrigatória com Semgrep Community Edition. A [configuração de testes, auditoria e CI](docs/superpowers/specs/2026-10-07-testes-auditoria-e-ci-v0.1-design.md) define projetos, isolamento, prazos, evidências e seleção de regras. Manifesto, regras próprias e casos verificados estão em [`docs/superpowers/quality/v0.1/`](docs/superpowers/quality/v0.1/); as comunitárias são obtidas por revisão e hash para uso local, sem redistribuição no repositório.
 
 A execução da v0.1 e da entrega acadêmica v0.2 será local, via Docker Compose, com uma única instância e um único processo da API. Caddy servirá a interface e encaminhará `/api/` pela mesma origem HTTPS, com certificado emitido por uma autoridade local. Os controles por IP e de concorrência serão mantidos em memória; Valkey ou Redis serão avaliados em versões futuras, antes de ampliar para múltiplas instâncias.
 
@@ -138,7 +152,7 @@ A base demonstrativa fixa foi preparada em `data/demonstrativa/v0.1/`: oito perf
 
 O [plano de implementação da v0.1](docs/superpowers/plans/2026-10-07-implementacao-v0.1.md) organiza contratos, domínio, banco, API, consulta, persistência, interface, HTTPS e qualidade em tarefas verificáveis de TDD. Contratos, ambiente, domínio, esquema do banco, publicação demonstrativa e consultas versionadas da API estão implementados; controles concretos de entrada/admissão, configuração executável e encerramento por sinais também estão implementados; o cliente progressivo, a persistência, o painel de consulta e a execução local com HTTPS também estão implementados.
 
-Os [exemplos documentais](docs/superpowers/contracts/v0.1/) são entradas dos testes de equivalência entre o esquema de referência, as declarações TypeBox e os validadores do servidor e do navegador. O pacote também valida calendário, cadastros, preços únicos, cobertura regional, fontes e correspondência entre resumo e histórico. A instalação e as verificações dos contratos, do domínio e da API estão disponíveis abaixo. A integração contínua permanece pendente nesta etapa; a v0.1 utilizará apenas dados demonstrativos.
+Os [exemplos documentais](docs/superpowers/contracts/v0.1/) são entradas dos testes de equivalência entre o esquema de referência, as declarações TypeBox e os validadores do servidor e do navegador. O pacote também valida calendário, cadastros, preços únicos, cobertura regional, fontes e correspondência entre resumo e histórico. A instalação e as verificações dos contratos, do domínio e da API estão disponíveis abaixo. A integração contínua está configurada no workflow do GitHub; a v0.1 utiliza apenas dados demonstrativos.
 
 ### Dados disponíveis
 
@@ -150,7 +164,7 @@ Os arquivos CSV e JSON da base fixa estão em [`data/demonstrativa/v0.1/`](data/
 
 ### Organização da implementação
 
-`packages/contracts/`, `packages/domain/`, os módulos de banco, publicação demonstrativa e consultas HTTP de `apps/api/` e a preparação de papéis em `infra/postgres/` estão implementados. O cliente progressivo, a persistência IndexedDB e o painel responsivo em `apps/web/` também estão disponíveis. Os demais diretórios registram a organização prevista para as etapas seguintes.
+`packages/contracts/`, `packages/domain/`, os módulos de banco, publicação demonstrativa e consultas HTTP de `apps/api/` e a preparação de papéis em `infra/postgres/` estão implementados. O cliente progressivo, a persistência IndexedDB e o painel responsivo em `apps/web/` também estão disponíveis. Os demais diretórios organizam a execução local, os testes, os ativos e as verificações de qualidade da entrega.
 
 | Local                                                         | Responsabilidade                                                                                     |
 | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
@@ -178,13 +192,13 @@ Os arquivos CSV e JSON da base fixa estão em [`data/demonstrativa/v0.1/`](data/
 
 O cliente valida resumo, históricos e `ETag` canônico UTF-8, compartilha consultas equivalentes e admite até duas requisições. Preserva resultados anteriores durante falhas e preparação de nova versão; somente confirma a fotografia completa após todos os históricos exigidos. Filtros locais reutilizam dados completos. `304` sem corpo validado recupera sem etiqueta; `409` busca resumo e reconstrói. Rede/429/503 têm até duas novas tentativas de 2/5 segundos com variação de até 20%, prazo de 20 segundos e respeito a `Retry-After`, inclusive na ação manual.
 
-O agendamento verifica a cada cinco minutos em aba visível, considera retorno/conexão após 60 segundos, suspende ciclos ocultos/offline e cresce para 10/20/30 minutos em falha. O painel mantém aviso demonstrativo, estado, filtros, indicadores do perfil ativo, datas, cobertura e condições comerciais. Tabelas textuais conservam todos os valores e lacunas mesmo quando o gráfico falha; repetir o gráfico não consulta preços novamente. `DESIGN.md` registra os tokens da apresentação aprovada; `premium-ui.json` declara os responsáveis e gates. Os testes de coordenação pura usam ambiente Node; interação e HTTP usam jsdom, com doubles explícitos de mídia na suíte de App. Nenhum teste emulado comprova canvas, fotografia, contraste ou a matriz de navegadores. A verificação integrada em HTTPS e a matriz final de desempenho do painel integrado permanecem na tarefa 12.
+O agendamento verifica a cada cinco minutos em aba visível, considera retorno/conexão após 60 segundos, suspende ciclos ocultos/offline e cresce para 10/20/30 minutos em falha. O painel mantém aviso demonstrativo, estado, filtros, indicadores do perfil ativo, datas, cobertura e condições comerciais. Tabelas textuais conservam todos os valores e lacunas mesmo quando o gráfico falha; repetir o gráfico não consulta preços novamente. `DESIGN.md` registra os tokens da apresentação aprovada; `premium-ui.json` declara os responsáveis e gates. Os testes de coordenação pura usam ambiente Node; interação e HTTP usam jsdom, com doubles explícitos de mídia na suíte de App. A aceitação integrada em HTTPS cobriu Chromium, Firefox e WebKit; os limites de cobertura visual, motores comerciais e desempenho estão registrados na seção de limitações.
 
 Vite `8.3.3` é dependência direta também na raiz para deduplicar a Vite transitiva do Vitest; cópias `8.3.3`/`8.3.4` provocavam conflito nas declarações de `Environment`/Rolldown. jest-dom `7.0.1` usa o entrypoint oficial de matchers explícitos e um adaptador local de tipos para `Matchers<R,T>` do Vitest `5.0.3`, pois sua integração `/vitest` ainda declara `Assertion<T>`. Não há alteração em `node_modules` nem `skipLibCheck` na interface.
 
 As imagens não usam fontes externas. `npm run assets:generate` reproduz variantes sem ampliação a partir de `docs/imagens/fontes/` e atualiza `tools/assets/manifest.json`, com versão do Sharp, dimensões, parâmetros, bytes e SHA-256; direitos e prompts estão em `docs/imagens/origens.json`. O aviso e a descrição também permanecem no HTML sem JavaScript.
 
-Após `npm run build`, `npm run check:bundle` mede HTML, JavaScript, CSS e assets do caminho estático por gzip e verifica **100 KiB = 102.400 bytes**, além de **60 KiB = 61.440 bytes** adicionais para o gráfico. Fotografias ficam em módulo separado carregado depois dos preços; a medição real de rede e tempo permanece necessária na T12.
+Após `npm run build`, `npm run check:bundle` mede HTML, JavaScript, CSS e assets do caminho estático por gzip e verifica **100 KiB = 102.400 bytes**, além de **60 KiB = 61.440 bytes** adicionais para o gráfico. Fotografias ficam em módulo separado carregado depois dos preços; as medições de rede e tempo não realizadas permanecem declaradas como limites da aceitação.
 
 ### Ambiente e verificações dos módulos implementados
 
@@ -208,11 +222,48 @@ npm run test:coverage
 npm run test:integration
 ```
 
+No Linux, com GNU Make, os fluxos compostos podem ser executados pelos atalhos abaixo. O `Makefile` apenas encadeia os scripts npm; eles continuam sendo a interface canônica e permitem parâmetros explícitos quando necessários.
+
+```sh
+make verify
+make acceptance
+```
+
+`make verify` executa a conferência dos dados, qualidade estática, testes rápidos, compilação, orçamento do pacote, políticas locais e segurança. `make acceptance` acrescenta a integração PostgreSQL, a medição de desempenho e os testes E2E com Docker. Ambos param no primeiro erro.
+
+No Windows, execute a sequência equivalente com npm, nesta ordem:
+
+```powershell
+npm run check:data
+npm run check
+npm test
+npm run build
+npm run check:bundle
+npm run test:local
+npm run security
+```
+
+Para a aceitação completa no Windows, execute:
+
+```powershell
+npm run check:data
+npm run check
+npm test
+npm run test:integration
+npm run build
+npm run check:bundle
+npm run performance:measure
+npm run test:e2e
+npm run security
+```
+
+A instalação do GNU Make no Windows é opcional; ela não é necessária para usar os scripts do projeto.
+
 `npm ci` instala o `package-lock.json` único, incluindo dependências de desenvolvimento. Os únicos _scripts_ de instalação aprovados são os do esbuild `0.28.2`, `0.25.12` e `0.18.20`, usados pelas ferramentas e pelo Drizzle Kit para preparar seus binários. Os instaladores opcionais de `cpu-features`, `protobufjs` e `ssh2` foram revisados e bloqueados explicitamente; não são necessários à integração Docker local. As versões verificadas incluem Chart.js `4.5.1` (MIT), Sharp `0.35.5` (Apache-2.0, ferramenta de desenvolvimento), TypeScript `6.0.3`, TypeBox `1.3.36`, Ajv `8.20.0`, ajv-formats `3.0.1`, Vitest e cobertura V8 `5.0.3`, ESLint `10.12.0` e Prettier `3.9.9`.
 
 A geração produz `packages/contracts/src/generated/` com validadores estáticos autocontidos e preserva as licenças dos auxiliares puros de terceiros. Esses arquivos e `dist/` são ignorados e reproduzíveis. Testes e análise de tipos regeneram os validadores automaticamente; a compilação entrega as exportações `@pecuaria/contracts/types`, `/server` e `/browser`. Importar `/types` com `import type`; `/browser` inclui validadores, assertivas semânticas e `canonicalJson`, sem compilador dinâmico ou módulos Node.
 
-Nesta etapa, os projetos Vitest `contratos`, `dominio`, `api`, `componentes` e `banco` estão ativos. `npm test` executa as quatro suítes rápidas, incluindo componentes; `npm run test:integration` executa o banco real e exige Docker disponível. `npm run check` verifica tipos de produção, ferramentas e testes, formatação e ESLint dos arquivos presentes. A cobertura V8 abrange os contratos, o domínio e os módulos implementados da API e fica em `artifacts/coverage/unit/`; ela não representa a aplicação completa. A prova isolada do pacote de navegador não substitui a futura validação funcional na matriz de navegadores.
+Os projetos Vitest `contratos`, `dominio`, `api`, `componentes` e `banco` estão ativos. `npm test` executa as quatro suítes rápidas, incluindo componentes; `npm run test:integration` executa o banco real e exige Docker disponível. `npm run check` verifica tipos de produção, ferramentas e testes, formatação e ESLint dos arquivos presentes. A cobertura V8 abrange os contratos, o domínio e os módulos implementados da API e fica em `artifacts/coverage/unit/`; ela não representa a aplicação completa. A validação funcional integrada é executada por `npm run test:e2e`, nos motores e limites declarados na aceitação.
 
 O pacote `@pecuaria/domain` exporta `filtrarPerfis`, `filtrarConsulta` e `calcularConsulta`, além dos tipos `Filtragem`, `ConsultaCalculada`, `LinhaPreco`, `PontoHistorico` e `Indicadores`. Recebe respostas previamente validadas dos contratos e filtros tipados; mantém decimais em cadeias e ausência em `null`. Na visão estadual, cada perfil tem dez linhas regionais e uma média; na regional, uma linha. A última data depende do perfil e do recorte, e a série conserva todas as segundas-feiras do intervalo com lacunas reais.
 
@@ -237,6 +288,28 @@ A API usa Fastify `5.12.5` e `@fastify/type-provider-typebox` `6.1.0`. Estão im
 `createRepository(handle)` usa credenciais de leitura e consultas SQL parametrizadas via Drizzle em `READ COMMITTED`, sempre fixando uma única versão. O resumo consulta o ponteiro real antes de selecionar o recurso em _cache_, inclusive para `304`. Uma publicação concorrente mantém a fotografia escolhida íntegra; versões antigas permanecem consultáveis. Saídas passam pelos validadores estruturais e semânticos antes do _cache_ e da serialização.
 
 Respostas `200` usam JSON compacto canônico, `ETag` fraco SHA-256 dos mesmos bytes UTF-8 e `Cache-Control: public, max-age=60, must-revalidate`. `If-None-Match` aceita comparação fraca, etiquetas fortes, listas e `*`; `304` preserva etiqueta e política, sem corpo. O _cache_ compartilha carregamentos equivalentes, separa operação/versão/perfil, expira em até 60 segundos e remove cargas rejeitadas. Erros públicos usam `no-store`, mensagens do contrato e nenhum detalhe interno. A consulta bruta preserva duplicatas, valida percentual/UTF-8 uma vez e limita 1.024 bytes antes da decodificação.
+
+#### Exemplos de interação com a API
+
+Depois de iniciar o ambiente local e extrair `.local/root.crt`, consulte o resumo e um histórico específico:
+
+```sh
+curl --fail --silent --show-error --cacert .local/root.crt \
+  https://localhost/api/v1/mercado/resumo
+
+curl --fail --silent --show-error --cacert .local/root.crt \
+  'https://localhost/api/v1/mercado/historico?perfilId=bezerro-macho-nelore&versaoDados=go-reposicao-demo-2026-10-07-r1'
+```
+
+Para validar o cache, repita a primeira chamada com a etiqueta retornada em `ETag`:
+
+```sh
+curl --include --silent --show-error --cacert .local/root.crt \
+  --header 'If-None-Match: W/"etiqueta-recebida"' \
+  https://localhost/api/v1/mercado/resumo
+```
+
+No PowerShell, use `curl.exe` e troque `.local/root.crt` por `.local\root.crt` quando necessário. A resposta `304` confirma que o conteúdo não mudou; `200` entrega o JSON atual.
 
 `buildApp({ repository, entrada, banco })` monta o Fastify sem abrir porta e exige os controles de entrada e admissão. `EntryControl` resolve a origem pelo socket e pela configuração explícita de _proxies_, antes de consulta, _cache_, erros, métodos desconhecidos e caminhos inválidos. `IpQuota` oferece 30 permissões iniciais e repõe duas por segundo, compartilhadas por resumo, históricos, `304` e erros; recusas por cota não debitam permissões adicionais. `DatabaseAdmission` admite até 20 operações simultâneas sem fila; toda leitura do repositório ocupa vaga, inclusive o ponteiro antes de `304`, enquanto o conteúdo já no _cache_ não ocupa. Uma vaga só é liberada quando a promessa da operação realmente termina, mesmo se o consumidor cancelar a espera.
 
@@ -285,13 +358,22 @@ npm run test:integration -- publication
 
 Por incompatibilidades das declarações do Drizzle `0.45.3` com TypeScript `6.0.3` e referências a outros _drivers_ opcionais, `skipLibCheck` está ativo somente na configuração da API. Código, testes e configurações próprios continuam sob `strict`, `noUncheckedIndexedAccess` e `exactOptionalPropertyTypes`; contratos e domínio mantêm a checagem integral das declarações. Reavaliar essa limitação ao atualizar dependências.
 
-A auditoria inicial do banco identificou quatro ocorrências moderadas na cadeia de desenvolvimento do Drizzle Kit, associadas a [GHSA-67mh-4wv8-2f99](https://github.com/advisories/GHSA-67mh-4wv8-2f99), sem ocorrências altas ou críticas. A geração usa transformação de código e gravação de arquivos; não inicia o servidor de desenvolvimento afetado. A migração usa o migrador do ORM. Drizzle Kit e suas dependências de desenvolvimento devem ficar fora da futura imagem de consulta; a auditoria será repetida na integração de segurança.
+A auditoria do banco identificou quatro ocorrências moderadas na cadeia de desenvolvimento do Drizzle Kit, associadas a [GHSA-67mh-4wv8-2f99](https://github.com/advisories/GHSA-67mh-4wv8-2f99), sem ocorrências altas ou críticas. A geração usa transformação de código e gravação de arquivos; não inicia o servidor de desenvolvimento afetado. A migração usa o migrador do ORM. Drizzle Kit e suas dependências de desenvolvimento ficam fora da imagem de consulta, e a auditoria de segurança mantém os achados visíveis sem mascaramento.
 
 ## Execução local com Compose e HTTPS
 
 Docker Engine `29.8.2` e Compose `5.6.0` são as referências verificadas. Os comandos locais usam o UID/GID não privilegiado do proprietário dos segredos, sem ampliar suas permissões. Na raiz, com Node.js e npm adotados:
 
+No Linux, com GNU Make:
+
 ```sh
+make local-up
+docker compose cp entrada:/data/caddy/pki/authorities/local/root.crt .local/root.crt
+```
+
+No Windows, com PowerShell:
+
+```powershell
 npm run local:prepare
 npm run local:up
 npm run local:ca
@@ -305,13 +387,22 @@ temporária em outro dispositivo da mesma LAN, habilite explicitamente o bind:
 BIND_ADDRESS=0.0.0.0 ALLOW_LAN=1 SITE_HOST=192.168.1.50 npm run local:up
 ```
 
+No PowerShell, use:
+
+```powershell
+$env:BIND_ADDRESS = "0.0.0.0"
+$env:ALLOW_LAN = "1"
+$env:SITE_HOST = "192.168.1.50"
+npm run local:up
+```
+
 API e PostgreSQL continuam sem portas publicadas. Use esse modo apenas em uma
-rede confiável e encerre-o com `npm run local:down` ao terminar.
+rede confiável e encerre-o com `make local-down` ao terminar.
 
 Substitua `192.168.1.50` pelo endereço LAN do computador. O celular deve abrir
 `https://192.168.1.50` e confiar na CA pública copiada para `.local/root.crt`.
 
-`local:prepare` cria quatro arquivos independentes em `.local/secrets/`, com diretório `0700` e arquivos `0600`; preserva arquivos existentes. A API recebe apenas o segredo de consulta; migração e publicação recebem suas credenciais próprias. PostgreSQL e consumidores usam `RUNTIME_UID:RUNTIME_GID`, obtidos do usuário do host, inclusive UID 1001 em CI. Antes de iniciar, o executor confere tipo de arquivo, modo `0600`, proprietário UID/GID e leitura dos quatro segredos, sem registrar seus conteúdos. Para instalação nova, o *entrypoint* oficial cria o volume com essa identidade; manter os mesmos identificadores nos próximos inícios. Volume criado por outra identidade exige decisão explícita de migração manual; os comandos não ajustam seu proprietário nem removem volumes existentes para corrigir permissões. `local:up` valida a configuração efetiva, constrói imagens e aguarda prontidão por até 180 segundos. O fluxo exige PostgreSQL saudável, migração e preparação concluídas, API pronta e entrada saudável. As operações têm prazo externo de 120 segundos; abertura inicial de conexão tem prazo de cinco segundos por tentativa e até cinco tentativas, com dois segundos entre elas. Nenhuma consulta ou escrita é repetida automaticamente por esse mecanismo.
+`local:prepare` cria quatro arquivos independentes em `.local/secrets/`, com diretório `0700` e arquivos `0600`; preserva arquivos existentes. A API recebe apenas o segredo de consulta; migração e publicação recebem suas credenciais próprias. PostgreSQL e consumidores usam `RUNTIME_UID:RUNTIME_GID`, obtidos do usuário do host, inclusive UID 1001 em CI. Antes de iniciar, o executor confere tipo de arquivo, modo `0600`, proprietário UID/GID e leitura dos quatro segredos, sem registrar seus conteúdos. Para instalação nova, o *entrypoint* oficial cria o volume com essa identidade; manter os mesmos identificadores nos próximos inícios. Volume criado por outra identidade exige decisão explícita de migração manual; os comandos não ajustam seu proprietário nem removem volumes existentes para corrigir permissões. `local:up` inicia o PostgreSQL, reconcilia as senhas dos três papéis de aplicação com os segredos atuais e só então inicia a migração; essa reconciliação não remove o volume nem altera os dados publicados. O comando valida a configuração efetiva, constrói imagens e aguarda prontidão por até 180 segundos. O fluxo exige PostgreSQL saudável, migração e preparação concluídas, API pronta e entrada saudável. As operações têm prazo externo de 120 segundos; abertura inicial de conexão tem prazo de cinco segundos por tentativa e até cinco tentativas, com dois segundos entre elas. Nenhuma consulta ou escrita é repetida automaticamente por esse mecanismo.
 
 A origem é `https://localhost`; HTTP redireciona com `308`. Somente `127.0.0.1:80` e `127.0.0.1:443` são publicadas. API, PostgreSQL e administração Caddy não têm portas publicadas. API e PostgreSQL pertencem exclusivamente à rede dedicada interna; o Caddy também participa da rede de ingresso que viabiliza as duas portas de *loopback*; o Caddy tem IP previsível `172.30.10.2`, exclusivo na lista de proxies confiáveis. A faixa dinâmica `172.30.10.128/25` exclui esse endereço, evitando colisão com os demais serviços. O projeto E2E mantém o mesmo isolamento entre endereço fixo e faixa dinâmica em sua sub-rede própria. Cabeçalhos de origem são sobrescritos, `/api/` mantém o caminho, `/internal/ready` não é encaminhado e não há registro de acesso com IP. No Linux, o administrador do host pode alcançar IPs internos da bridge Docker; essa configuração não constitui isolamento contra o próprio host. O *healthcheck* do Caddy usa `curl` `8.22.0` (`8.22.0-r0`, incluído na imagem com *digest* fixado), com CA explícita e prazo de três segundos. A API mantém gzip, ETag fraco, revalidação e erros sem cache através da entrada. HTML revalida, ativos identificados por hash têm validade de um ano e a CSP admite recursos locais e impede incorporação externa.
 
@@ -332,17 +423,28 @@ sudo update-ca-certificates --fresh
 A instalação de confiança no computador é uma ação manual; nenhum script local modifica automaticamente esses armazenamentos. O cliente Node pode usar `NODE_EXTRA_CA_CERTS` apontando para `.local/root.crt`. Não desativar a validação TLS. Referências: [HTTPS local do Caddy](https://caddyserver.com/docs/automatic-https#local-https) e [instalação de CA no Ubuntu](https://ubuntu.com/server/docs/how-to/security/install-a-root-ca-certificate-in-the-trust-store/).
 
 ```sh
+make local-publish
+make local-down
+npm run test:local
+npm run test:e2e
+```
+
+No Windows, execute a sequência equivalente:
+
+```powershell
+npm run local:prepare
+npm run local:up
 npm run local:publish
 npm run local:down
 npm run test:local
 npm run test:e2e
 ```
 
-`local:publish` executa o serviço do perfil `operacoes`, sem rota pública de escrita. O conjunto fixo existente é idempotente; uma nova versão exige diretório validado com identidade própria, conforme os comandos `demo:publish` já documentados. `local:down` preserva os volumes de banco e CA. O segundo início preserva a publicação compatível existente. Não usar `down --volumes` para encerrar a consulta acadêmica.
+`make local-up` encadeia `local:prepare`, `local:up` e `local:ca`. `make local-publish` faz a mesma preparação e executa o serviço do perfil `operacoes`, sem rota pública de escrita. O conjunto fixo existente é idempotente; uma nova versão exige diretório validado com identidade própria, conforme os comandos `demo:publish` já documentados. `make local-down` preserva os volumes de banco e CA. O segundo início preserva a publicação compatível existente. Não usar `down --volumes` para encerrar a consulta acadêmica.
 
 `test:e2e` cria nome de projeto, rede, volumes, segredos e CA exclusivos. Constrói `infra/e2e.Dockerfile` com Playwright `1.63.0`, seus motores e as dependências oficiais necessárias, incluindo `libnss3-tools` para importar a CA em perfis NSS descartáveis. A confiança fica somente nesse contêiner: Node usa a CA explícita, Chromium e Firefox têm perfis próprios e WebKit usa o armazenamento de CA do contêiner. O script de confiança exige contêiner e perfil interno `/home/node`; não pode executá-lo no host. O executor aguarda prontidão por até 180 segundos, verifica reinício/publicação/indisponibilidade, executa Chromium/Firefox/WebKit e encerra somente seus recursos. Falta de Docker ou erro TLS falha a execução. Relatórios, configuração efetiva, logs e traços de falha ficam em `artifacts/e2e/<projeto>/`.
 
-O artefato de armazenamento é servido em `https://localhost:8443`, exclusivamente na imagem de teste. A imagem pública contém apenas `apps/web/dist`; não inclui o harness nem suas injeções de falha. A API usa JavaScript compilado, dependências de execução, usuário sem privilégios e um processo; não contém Drizzle Kit, esbuild ou tsx. As imagens-base têm os digests fixados na especificação de tecnologias. A matriz de motores automatizados não comprova todos os produtos Chrome/Edge/Firefox/Safari e aparelhos; a verificação visual do painel completo depende da integração da tarefa de interface.
+O artefato de armazenamento é servido em `https://localhost:8443`, exclusivamente na imagem de teste. A imagem pública contém apenas `apps/web/dist`; não inclui o harness nem suas injeções de falha. A API usa JavaScript compilado, dependências de execução, usuário sem privilégios e um processo; não contém Drizzle Kit, esbuild ou tsx. As imagens-base têm os digests fixados na especificação de tecnologias. A matriz automatizada cobre Chromium, Firefox e WebKit; não comprova todos os produtos Chrome/Edge/Firefox/Safari, aparelhos físicos ou ocupação de IndexedDB em outros motores. Esses limites permanecem registrados na aceitação.
 
 ## Qualidade e critérios de sucesso
 
@@ -352,7 +454,7 @@ O artefato de armazenamento é servido em `https://localhost:8443`, exclusivamen
 
 `npm run security:rules:prepare` baixa as dez regras Semgrep da revisão indicada em `tools/semgrep/manifesto.json`, confere os hashes e a licença e mantém as cópias somente em `.cache/semgrep/`. `npm run security:rules:test` testa as três regras próprias e as regras selecionadas contra 28 casos fixos. `npm run security:semgrep` analisa fontes, testes, configurações, workflows, arquivos Docker e Compose com Semgrep CE 1.179.0 em imagem fixada por digest. Os relatórios brutos, inventários e decisões ficam em `artifacts/security/`.
 
-O workflow `.github/workflows/ci.yml` define trabalhos separados de qualidade, integração PostgreSQL, navegador, auditoria de dependências e Semgrep. O trabalho estável `aprovacao` falha se qualquer gate terminar com falha, cancelado ou pulado. A configuração foi criada nesta etapa; a primeira execução em GitHub ainda depende da integração e publicação da branch.
+O workflow `.github/workflows/ci.yml` define trabalhos separados de qualidade, integração PostgreSQL, navegador, auditoria de dependências e Semgrep. O trabalho estável `aprovacao` falha se qualquer gate terminar com falha, cancelado ou pulado. A configuração está publicada e pronta para executar esses gates nos eventos do GitHub.
 
 - Permitir localizar uma cotação e entender seu contexto sem ambiguidade.
 - Comparar apenas dados compatíveis, sinalizando diferenças relevantes.
@@ -377,7 +479,7 @@ A persistência local confirma somente consultas completas, compara a revisão c
 
 Os testes rápidos de armazenamento usam `fake-indexeddb` `6.2.5` e não comprovam transações em navegador real. `npm run test:e2e` executa a suíte `tests/e2e/storage.spec.ts` em Chromium/Firefox/WebKit com CA confiável e origem HTTPS isolada. Seu artefato exclusivo é gerado com `storage-test.vite.config.ts` em `artifacts/storage-harness/`; somente a imagem de teste o serve. As injeções de falha nunca integram o _build_ normal da aplicação. Não usar exceções de certificado.
 
-O painel está implementado. Após falha de importação do gráfico, a ação Tentar carregar o gráfico repete somente o carregamento do módulo e conserva os preços e o histórico textual. Se o arquivo continuar indisponível, a mensagem de falha e as tabelas permanecem acessíveis. Os próximos passos incluem validar o painel integrado e a matriz de desempenho no ambiente HTTPS conforme o plano aprovado. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
+O painel está implementado. Após falha de importação do gráfico, a ação Tentar carregar o gráfico repete somente o carregamento do módulo e conserva os preços e o histórico textual. Se o arquivo continuar indisponível, a mensagem de falha e as tabelas permanecem acessíveis. A aceitação integrada validou o fluxo HTTPS, a recuperação e a consulta nos motores Playwright disponíveis; permanecem como limites as metas de rede, tempo de resposta, inferências para Safari/Edge e aparelhos físicos e a ocupação do IndexedDB em outros motores. A validação de fontes reais será realizada para a v0.3, após a submissão acadêmica. Modelos preditivos, quando investigados, deverão ser avaliados com dados históricos e comunicar incerteza.
 
 ## Créditos e licença
 

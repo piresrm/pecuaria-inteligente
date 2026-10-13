@@ -4,10 +4,6 @@ Este diretório contém um miniprojeto de software desenvolvido com o apoio de I
 
 O objetivo não é construir um sistema complexo e completo, mas um MVP que permita explorar e aplicar as capacidades da GenAI em diferentes estágios do SDLC, com foco no aprendizado e na experimentação. O sucesso do miniprojeto está em uma fundação sólida: uma ideia bem delineada, uma arquitetura clara e escalável, e um controle de versão robusto e eficiente.
 
-> **NOTA**
->
-> O arquivo `PROMPTS.md` não é versionado neste repositório. Registrar prompts não é uma estratégia confiável de documentação: o resultado produzido por um LLM depende do modelo utilizado, das personalizações do usuário e de configurações de sessão que não ficam registradas em lugar algum. Isso significa que os mesmos prompts, aplicados em outro contexto, muito provavelmente produzirão resultados diferentes — tornando o arquivo pouco útil tanto como referência quanto como forma de reproduzir o trabalho.
-
 ---
 
 ## Fluxo de Trabalho com a IA
@@ -61,19 +57,16 @@ Após o encerramento do período de avaliação acadêmica, este repositório po
 
 ---
 
-## Checklist de Submissão
+## Checklist de Submissão Final
 
-Para que o miniprojeto seja considerado completo e pronto para avaliação, deve atender aos seguintes requisitos:
+Antes de enviar o link do repositório para avaliação, conferir todos os itens abaixo:
 
-- [ ] Repositório público, acessível para revisão, sem informações sensíveis expostas.
-- [ ] Histórico de commits consistente.
-- [ ] `README.md` detalhado, contendo:
-  - Título e breve descrição do projeto;
-  - Instruções de configuração do ambiente e execução local;
-  - Exemplos de uso ou de interação com a aplicação/API;
-  - Lista de tecnologias utilizadas, incluindo modelos de IA e assistentes de código;
-  - Seção "Limitações e Próximos Passos", discutindo o que não foi implementado e como o projeto poderia ser expandido.
-  - Créditos e licença.
-- [ ] Arquivo de gerenciamento de dependências (ex.: `requirements.txt`, `package.json`).
-- [ ] Testes automatizados (unitários ou de integração) executáveis e passando com sucesso.
-- [ ] Release ou tag (ex.: `v1.0.0`) marcando a versão de entrega no GitHub.
+- [ ] **Repositório público e acessível:** o projeto está público no GitHub, todos os arquivos necessários estão presentes e o `.gitignore` não exclui nenhum artefato essencial.
+- [ ] **README.md completo e profissional:** contém descrição, configuração, execução, exemplos de uso ou interação com a aplicação/API, tecnologias utilizadas — incluindo modelos de IA e assistentes de código —, seção de limitações e próximos passos, créditos e licença; a formatação Markdown foi revisada no renderizador.
+- [ ] **Histórico de commits consistente:** os commits são claros, descritivos, seguem Conventional Commits e há pelo menos cinco commits significativos demonstrando a evolução do projeto.
+- [ ] **Gerenciamento de dependências:** o arquivo adequado ao ecossistema, como `package.json` e `package-lock.json`, está versionado e lista as bibliotecas necessárias com versões definidas.
+- [ ] **Testes automatizados:** existem testes unitários e/ou de integração, eles passam com sucesso e o README explica como executá-los.
+- [ ] **Variáveis de ambiente e credenciais:** chaves, senhas e demais credenciais sensíveis foram removidas do código e do histórico; a configuração usa variáveis de ambiente ou arquivos ignorados, como `.env`.
+- [ ] **Branch principal limpo:** `main` está sem commits de trabalho em andamento e sem arquivos temporários ou artefatos indevidos.
+- [ ] **Release ou tag:** uma release ou tag, como `v1.0.0`, marca a versão submetida no GitHub.
+- [ ] **Licença:** `LICENSE.txt` está presente e define os termos de uso do código conforme a seção de licença acima.

@@ -24,7 +24,7 @@ Pecuária Inteligente is a Brazilian livestock market intelligence MVP covering 
 - `tools/quality/{local-prepare,local-compose,e2e,trust-ca}.mjs`: local operations and isolated CA/browser orchestration; host trust stores are never modified automatically.
 - Root quality configuration covers contracts, domain, API, and web; CI is still pending.
 
-Define requirements and architecture before selecting technologies. Document new module locations in `README.md`. Keep initial work focused on market monitoring; individual herd management is outside the initial scope. Do not version `PROMPTS.md`.
+Define requirements and architecture before selecting technologies. Document new module locations in `README.md`. Keep initial work focused on market monitoring; individual herd management is outside the initial scope. Version `PROMPTS.md` as the academic record of the AI-assisted development process.
 
 ## Build, Test, and Development Commands
 
