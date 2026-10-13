@@ -41,19 +41,7 @@ O GitHub será utilizado como repositório central de código, documentação e 
 
 ## Licença e Visibilidade do Repositório
 
-O repositório permanecerá **privado** até que a primeira release seja publicada. Antes de torná-lo público para avaliação, é obrigatório garantir que o arquivo `LICENSE.txt` esteja presente no repositório, com o seguinte conteúdo:
-
-```
-Copyright (c) 2026 [Seu Nome Completo]. Todos os direitos reservados.
-
-TERMOS DE USO E AVALIAÇÃO ACADÊMICA:
-
-Este repositório contém software proprietário e confidencial, disponibilizado publicamente EXCLUSIVAMENTE para fins de avaliação acadêmica pelos professores e membros da banca examinadora do curso de especialização do autor.
-
-Fica estritamente PROIBIDA a cópia, redistribuição, modificação, comercialização, engenharia reversa ou reuso total ou parcial deste código-fonte, de sua interface ou de suas funcionalidades por qualquer terceiro não autorizado.
-
-Após o encerramento do período de avaliação acadêmica, este repositório poderá ser tornado privado novamente a critério do autor.
-```
+O repositório permanecerá **privado** até que a primeira release seja publicada. Antes de torná-lo público para avaliação, é obrigatório garantir que o arquivo [`LICENSE.txt`](LICENSE.txt) esteja presente no repositório, com uma licença própria de avaliação acadêmica e uso restrito. Ela reserva os direitos sobre os materiais do projeto e concede à banca somente o uso necessário à avaliação, preservando direitos de terceiros e exceções legais.
 
 ---
 

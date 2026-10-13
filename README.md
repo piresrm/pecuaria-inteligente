@@ -483,6 +483,6 @@ O painel está implementado. Após falha de importação do gráfico, a ação T
 
 ## Créditos e licença
 
-Projeto mantido neste repositório por seu autor, no contexto de formação em Engenharia de Software Apoiada por GenAI. Fontes de dados e contribuições deverão receber os créditos correspondentes à medida que forem incorporadas.
+Projeto mantido neste repositório por seu autor, no contexto da **Especialização em Engenharia de Software: Automação e Inovação com Inteligência Artificial Generativa**. Fontes de dados e contribuições deverão receber os créditos correspondentes à medida que forem incorporadas.
 
-Os termos de uso e avaliação acadêmica estão previstos em [ABOUT.md](ABOUT.md). O arquivo de licença deverá ser formalizado antes da publicação pública do repositório.
+Os termos de uso e avaliação acadêmica estão definidos em [`LICENSE.txt`](LICENSE.txt). A licença reserva os direitos sobre os materiais do projeto e concede à banca examinadora o uso necessário exclusivamente para avaliação acadêmica. Usos fora desse escopo dependem de autorização prévia e escrita do autor.
