@@ -4,10 +4,6 @@ Este diretório contém um miniprojeto de software desenvolvido com o apoio de I
 
 O objetivo não é construir um sistema complexo e completo, mas um MVP que permita explorar e aplicar as capacidades da GenAI em diferentes estágios do SDLC, com foco no aprendizado e na experimentação. O sucesso do miniprojeto está em uma fundação sólida: uma ideia bem delineada, uma arquitetura clara e escalável, e um controle de versão robusto e eficiente.
 
-> **NOTA**
->
-> O arquivo `PROMPTS.md` não é versionado neste repositório. Registrar prompts não é uma estratégia confiável de documentação: o resultado produzido por um LLM depende do modelo utilizado, das personalizações do usuário e de configurações de sessão que não ficam registradas em lugar algum. Isso significa que os mesmos prompts, aplicados em outro contexto, muito provavelmente produzirão resultados diferentes — tornando o arquivo pouco útil tanto como referência quanto como forma de reproduzir o trabalho.
-
 ---
 
 ## Fluxo de Trabalho com a IA
