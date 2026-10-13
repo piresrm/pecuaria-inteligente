@@ -20,7 +20,7 @@
 **Estilo**: Escreva ABOUT.md em português e AGENTS.md em inglês. Organize regras por assunto.  
 **Tom**: Use instruções práticas e verificáveis.  
 **Audiência**: Autor, colaboradores e agentes de desenvolvimento.  
-**Resposta**: Defina *branches* de trabalho, PRs para `main`, *Conventional Commits* em português e identificação do modelo realmente utilizado no rodapé. Preserve credenciais fora do Git, mantenha PROMPTS.md local e não invente comandos de teste antes da configuração.
+**Resposta**: Defina *branches* de trabalho, PRs para `main`, *Conventional Commits* em português e identificação do modelo realmente utilizado no rodapé. Preserve credenciais fora do Git e não invente comandos de teste antes da configuração.
 
 ## 3. Especificação dos requisitos
 
@@ -83,7 +83,7 @@
 **Estilo**: Use JSON Schema e exemplos completos, com validação estrutural e semântica.  
 **Tom**: Declare limites e comportamentos observáveis.  
 **Audiência**: Implementadores da API, da interface e dos testes.  
-**Resposta**: Produza esquemas e exemplos verificáveis. Preserve decimais como cadeias, calendário com lacunas, versões explícitas e validação antes da persistência. Defina ETag, troca atômica e concorrência entre abas. Registre a medição do armazenamento como pendência, sem inventar orçamento nem implementar rotas.
+**Resposta**: Produza esquemas e exemplos verificáveis. Preserve decimais como cadeias, calendário com lacunas, versões explícitas e validação antes da persistência. Defina ETag, troca atômica e concorrência entre abas. Registre o orçamento e as medições disponíveis, sem inventar evidências nem implementar rotas.
 
 ## 10. Definição dos critérios de qualidade
 
@@ -92,7 +92,7 @@
 **Estilo**: Priorize cenários críticos, evidências e verificações proporcionais ao MVP.  
 **Tom**: Diferencie definição, verificação isolada e execução da aplicação.  
 **Audiência**: Implementadores e revisores acadêmicos.  
-**Resposta**: Documente suítes, isolamento, critérios e CI; produza seleção Semgrep com revisão, hashes e licença. Exemplo: exija alerta para `dangerouslySetInnerHTML` e ausência de alerta para texto renderizado normalmente; verifique ambos. Não redistribua regras sem permissão. Atualize o README e consolide pendências de ambiente, apresentação e armazenamento, sem declarar CI operacional.
+**Resposta**: Documente suítes, isolamento, critérios e CI; produza seleção Semgrep com revisão, hashes e licença. Exemplo: exija alerta para `dangerouslySetInnerHTML` e ausência de alerta para texto renderizado normalmente; verifique ambos. Não redistribua regras sem permissão. Atualize o README e registre resultados, limites e pendências efetivamente verificadas.
 
 ## 11. Definição da apresentação e do armazenamento
 
@@ -101,7 +101,7 @@
 **Estilo**: Preserve legibilidade e acessibilidade. Use imagens decorativas locais com origem e uso autorizado, variantes de dimensões e formatos comprimidos; selecione arquivos por `picture`, `srcset` e `sizes`.  
 **Tom**: Diferencie decisões aprovadas de recursos ainda não implementados.  
 **Audiência**: Implementadores da interface, da persistência e dos testes.  
-**Resposta**: Registre suporte a Chrome, Edge, Firefox e Safari. Meça a projeção do resumo, dos oito históricos e dos envelopes e a coexistência em IndexedDB num perfil temporário do Chrome. Adote, por decisão do autor, 10.240 KiB (10 MiB) como orçamento total em todos os navegadores, sem exigir medições adicionais de ocupação nos demais. Preserve testes de limite, quota, transações e conflitos; falhas não podem apagar a consulta salva. Registre a evidência parcial sem alegar medição de toda a matriz. Atualize os documentos e o README, revise e comite as decisões.
+**Resposta**: Registre suporte a Chrome, Edge, Firefox e Safari. Meça a projeção do resumo, dos oito históricos e dos envelopes e a coexistência em IndexedDB num perfil temporário do Chrome. Adote, por decisão do autor, 10.240 KiB (10 MiB) como orçamento total em todos os navegadores, sem exigir medições adicionais de ocupação nos demais. Preserve testes de limite, quota, transações e conflitos; falhas não podem apagar a consulta salva. Registre as evidências disponíveis sem alegar medições não realizadas. Atualize os documentos e o README, revise e comite as decisões.
 
 ## 12. Elaboração do plano de implementação
 
@@ -111,3 +111,12 @@
 **Tom**: Seja conciso e preciso; diferencie planejamento de implementação concluída.  
 **Audiência**: Autor, implementadores e revisores.  
 **Resposta**: Crie o plano em disco, cobrindo contratos, domínio, esquema, publicação, API, limites, coordenação, IndexedDB, painel, imagens, HTTPS local, segurança, CI e aceitação. Formalize compilação, inicialização, segredos e confiança da autoridade local. Preserve os orçamentos de desempenho e o limite de 10 MiB. Atualize o README, confira referências e integridade, comite e apresente o plano para revisão e escolha do método antes de implementar. Publique os commits na branch existente quando solicitado.
+
+## 13. Implementação e validação da v0.1
+
+**Contexto**: Considere as especificações, o plano aprovado e a colaboração entre autor, IA e subagents.  
+**Objetivo**: Implemente contratos, domínio, banco, API, cliente web, persistência, interface, execução local, segurança e integração contínua.  
+**Estilo**: Organize o trabalho em etapas verificáveis, com mudanças pequenas, testes e revisão.  
+**Tom**: Seja objetivo, técnico e proporcional ao escopo do MVP.  
+**Audiência**: Autor, implementadores, revisores e avaliadores acadêmicos.  
+**Resposta**: Use subagents para implementar, testar, validar e corrigir as partes apropriadas, com o apoio do plugin Superpowers e das habilidades aplicáveis. Para cada tarefa, selecione o modelo LLM de menor custo e menor esforço capaz de cumprir o objetivo com qualidade suficiente e sem exigir refatoração posterior por uma escolha inadequada. Racionalize o uso de tokens, evitando contexto e iterações desnecessários sem sacrificar a validação. Integre as entregas, execute as verificações cabíveis, registre limites e mantenha a documentação alinhada ao estado efetivo do projeto.  
